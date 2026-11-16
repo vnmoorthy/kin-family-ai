@@ -93,11 +93,10 @@ What the code guarantees:
 - **The AI only sees your private memory when you're talking to it privately.** `ai.respond` adds the speaker's private memories to the prompt, and searches their private Supermemory namespace, only when the message came from 🔒 Just me. Family-thread context leaves out every private message. The prompt also tells the model never to reveal private memory and never to put it in a nudge.
 - **Private chats stay private in long-term memory.** A "remember" from a private chat is saved as private by default, and the private conversation transcript goes into the speaker's own namespace, not the family's.
 
-> **Hackathon-build caveats (things we'd fix before shipping):**
+> **Hackathon-build notes (what we'd harden before shipping):**
 > - Identity is a device session: a household id and member id stored in AsyncStorage, and "Be ‹name›" switches between them. There are no authenticated accounts yet, so Convex functions trust the `memberId` they receive. Next step: Convex Auth, with the member derived from the auth identity.
-> - Lists have no scope. If Kin creates a list item from a private chat, it lands on the family's shared lists.
-> - "Forget this" deletes the Convex row, and changing a memory's scope copies it into the new Supermemory namespace. Neither one deletes the earlier Supermemory document yet.
-> - The Whop webhook doesn't verify its signature yet.
+> - ✅ Fixed: list items created from a 🔒 private chat are private to that person (`items.privateTo`). They never reach anyone else's phone, the family thread or the AI's family-mode context.
+> - ✅ Fixed by Capy in [#1](https://github.com/vnmoorthy/kin-family-ai/pull/1): "Forget this" and scope changes now delete the old Supermemory document, and the Whop webhook verifies Standard Webhooks signatures.
 
 ## Architecture
 
@@ -191,12 +190,14 @@ All tables live in [`convex/schema.ts`](convex/schema.ts).
 
 | | How Kin uses it |
 |---|---|
-| **[Capy](https://capy.ai)** | Our AI software engineer. We built and iterated on Kin by handing Capy tasks and reviewing the PRs it opened against this repo. |
-| **[Revyl](https://revyl.ai)** | Runs Kin on cloud iOS devices with natural-language tests, like "create a family, load the sample family, send 'we're out of eggs', expect a nudge for Raj". Failures go back to Capy as the next task. |
+| **[Capy](https://capy.ai)** | Our AI software engineer, connected to this repo through its GitHub app. We hand Capy tasks and review the PRs it opens. For example, [#1 "Verify Whop webhook signatures; forget Supermemory copies on memory delete/scope change"](https://github.com/vnmoorthy/kin-family-ai/pull/1) was written by Capy, typechecked in Capy's cloud and merged. |
+| **[Revyl](https://revyl.ai)** | Builds Kin in the cloud (`expo prebuild` → `xcodebuild`, recipe in [`.revyl/config.yaml`](.revyl/config.yaml)), boots it on a cloud iPhone and checks it with plain-English assertions, e.g. *"The Kin welcome screen shows 'One shared brain for your whole family' and a 'Start a family' button"* (passed ✅, screenshot below). Proof of Changes is configured to build and exercise every PR. |
 | **[Convex](https://convex.dev)** | The whole backend. Every list, chat thread, memory, and nudge is a **live query**, so every family phone updates as soon as data changes. **Mutations** handle sends, claims, and check-offs. **Actions** call OpenAI, Supermemory, and Whop. The **scheduler** runs `ai.respond` and memory sync right after a send, so the UI never waits. **File storage** holds photo snaps. An **HTTP action** (`POST /whop`) receives Whop's webhook. |
 | **[Supermemory](https://supermemory.ai)** | Kin's long-term memory. Each family gets a shared namespace `kin_<household>_family`, and each person gets a private one, `kin_<household>_<member>`. Every fact and every conversation turn is added with `dreaming: "instant"` so Supermemory extracts memories from it, and every message runs a hybrid semantic search to recall relevant facts. Convex keeps a live mirror, so the app still works if Supermemory is slow. |
 | **[Whop](https://whop.com)** | Payments for **Kin Plus** ($4.99/mo per family). `whop.createCheckout` creates a hosted checkout configuration with the `householdId` in its metadata, and the app opens it in-app. When the payment succeeds, Whop's webhook hits `/whop`, which sets that household's `plan` to `plus`. |
 | **OpenAI** | `gpt-4.1-mini`, falling back to `gpt-4o-mini`, in JSON mode with vision. One "decide actions" prompt turns text or a photo into a reply plus structured actions. |
+
+<p align="center"><img src="docs/revyl-proof.png" alt="Kin running on a Revyl cloud iPhone" width="260" /><br/><sub>Kin on a Revyl cloud iPhone: the natural-language validation passed.</sub></p>
 | **Expo / React Native** | Expo SDK 58, expo-router, expo-image-picker for snaps, expo-haptics, expo-clipboard, and expo-web-browser for checkout. All in TypeScript. |
 
 ## Quickstart
