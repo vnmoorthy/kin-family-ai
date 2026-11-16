@@ -2,7 +2,7 @@
 
 **Event:** YC Consumer Mobile Hackathon, San Francisco · **Length:** 3:00 hard stop
 **Deck:** `deck/index.html` (press **F** for fullscreen; arrows or space to advance; press **5** to jump to the demo slide, **R** to replay its animation). Backup: `deck/Kin-pitch.pptx`.
-**Phones on stage:** Phone A = **Sarah (Mom)**, Phone B = **Mike (Dad)**, optional Phone C = **Jake (Son, 12)**. **Grandma (Grandma)** is seeded in the family.
+**Phones on stage:** Phone A = **Sarah (Mom)**, Phone B = **Mike (Dad)**, optional Phone C = **Jake (Son, 12)**. **Grandma Linda** and **Emma (8)** is seeded in the family.
 
 > Tone: talk like a parent, not a pitch. Short sentences. Let the phone buzz speak for itself.
 > Swap "Moorthy" for whoever is presenting.
@@ -58,3 +58,13 @@ Don't debug on stage. Say "Let me show you the recording of exactly that," go to
 ## Closing line (memorize it)
 
 > "Google Photos remembered your life. Kin remembers your family's."
+
+## New beats (household AI): swap in for slide 8 if you have 20 seconds
+
+| Time | Beat | SAY | DO |
+|---|---|---|---|
+| +0:00 | **Parents decide** | "Parents run the house, so Kin takes their side. Sarah set a house rule: homework before games. Watch what happens when Jake asks." | On Jake's phone (or "Be Jake" in the Family sheet): *"Can I play Fortnite now?"* Kin answers: school night, homework first, and the volcano is due Friday. |
+| +0:08 | **Kin follows up** | "If Jake ignores his chores, Kin follows up on its own, and after two reminders it tells a parent. Nobody nags; everybody follows through." | On Sarah's phone, open a task assigned to Jake → **Ask Kin to follow up**. Jake's phone gets the ⏰ banner. |
+| +0:14 | **The house talks too** | "And it's not just people. The fridge, the door camera and the robot vacuum report to Kin through one webhook, and Kin decides who handles it." | Home → **Your home** → Robo Vacuum → "Stuck under Jake's bed". The family thread shows *Robo Vacuum · smart home*, and Jake gets the nudge. |
+
+**One-liner if a judge asks about IoT:** "Any hub (Home Assistant, SmartThings, a robot SDK) posts `{code, device, event}` to Kin's `/device` endpoint. Kin treats it like a family member speaking."
