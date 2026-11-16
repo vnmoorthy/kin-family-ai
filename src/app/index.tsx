@@ -157,7 +157,7 @@ const s_ = () => StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     paddingTop: 8,
-    backgroundColor: "rgba(255,255,255,0.97)",
+    backgroundColor: C.card,
     borderTopWidth: 1,
     borderTopColor: C.line,
   },

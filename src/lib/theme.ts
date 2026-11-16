@@ -25,6 +25,20 @@ Object.assign(C, CLASSIC);
 /** Themes: monochrome Classic plus colorful, aesthetic palettes. "black" is the primary accent. */
 export const THEMES = {
   classic: { label: "Classic", ...CLASSIC },
+  ember: {
+    label: "Ember",
+    ...CLASSIC,
+    bg: "#0A0A0C",
+    card: "#16161A",
+    ink: "#F5F5F7",
+    ink2: "#C9C9D0",
+    muted: "#8E8E96",
+    faint: "#4A4A52",
+    line: "#26262C",
+    chip: "#1F1F24",
+    black: "#FF6A1A",
+    flame: "#FF6A1A",
+  },
   sunset: {
     label: "Sunset",
     ...CLASSIC,
@@ -70,6 +84,7 @@ const listeners: (() => void)[] = [];
 export function onTheme(fn: () => void) {
   listeners.push(fn);
 }
+export const isDark = () => C.bg.toLowerCase() === "#0a0a0c";
 export function applyTheme(name: ThemeName) {
   const { label, ...palette } = THEMES[name] ?? THEMES.classic;
   Object.assign(C, palette);
