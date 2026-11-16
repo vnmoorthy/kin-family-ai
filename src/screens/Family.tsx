@@ -8,7 +8,7 @@ import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, Button, Card, Press, T, tap, timeAgo } from "@/components/ui";
 import { useSession } from "@/lib/session";
-import { C, R } from "@/lib/theme";
+import { C, R, onTheme, THEMES, ThemeName } from "@/lib/theme";
 
 export default function Family({
   visible,
@@ -24,7 +24,7 @@ export default function Family({
   members: Doc<"members">[];
 }) {
   const insets = useSafeAreaInsets();
-  const { signIn, signOut } = useSession();
+  const { signIn, signOut, theme, setTheme } = useSession();
   const household = useQuery(api.households.get, { householdId });
   const seed = useMutation(api.households.seedDemo);
   const reset = useMutation(api.households.resetAll);
@@ -107,6 +107,26 @@ export default function Family({
           Sharing one phone? Tap “Be …” to switch who's using Kin.
         </T>
 
+        {/* Theme */}
+        <T style={s.section}>Theme</T>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          {(Object.keys(THEMES) as ThemeName[]).map((t) => {
+            const th = THEMES[t];
+            const on = theme === t;
+            return (
+              <Press key={t} onPress={() => (tap("success"), setTheme(t))} style={[s.swatch, { backgroundColor: th.bg, borderColor: on ? th.black : C.line }] as any}>
+                <View style={{ flexDirection: "row", gap: 4 }}>
+                  <View style={[s.dotLg, { backgroundColor: th.black }]} />
+                  <View style={[s.dotLg, { backgroundColor: th.card, borderWidth: 1, borderColor: th.line }]} />
+                  <View style={[s.dotLg, { backgroundColor: th.ink }]} />
+                </View>
+                <T style={{ fontWeight: "800", marginTop: 8, color: th.ink, fontSize: 13 }}>{th.label}</T>
+                {on ? <T style={{ fontSize: 11, color: th.black, fontWeight: "800" }}>ACTIVE</T> : null}
+              </Press>
+            );
+          })}
+        </View>
+
         {/* Plus */}
         <View style={s.plus}>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -182,15 +202,21 @@ export default function Family({
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   title: { fontSize: 34, fontWeight: "900", letterSpacing: -1 },
   close: { backgroundColor: C.card, borderRadius: R.pill, paddingHorizontal: 16, paddingVertical: 9, borderWidth: 1, borderColor: C.line },
   code: { fontSize: 44, fontWeight: "900", letterSpacing: 8, marginTop: 6 },
   smallBtn: { backgroundColor: C.chip, borderRadius: R.pill, paddingHorizontal: 22, paddingVertical: 11 },
+  swatch: { flex: 1, borderRadius: R.md, padding: 12, borderWidth: 2, alignItems: "center" },
+  dotLg: { width: 14, height: 14, borderRadius: 7 },
   section: { fontSize: 20, fontWeight: "900", marginTop: 26, marginBottom: 10, letterSpacing: -0.4 },
   member: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12 },
   switch: { backgroundColor: C.chip, borderRadius: R.pill, paddingHorizontal: 12, paddingVertical: 7 },
   plus: { backgroundColor: C.black, borderRadius: R.lg, padding: 20, marginTop: 26 },
   badge: { backgroundColor: "#2C2C34", borderRadius: R.pill, paddingHorizontal: 10, paddingVertical: 5 },
   plusBtn: { backgroundColor: C.white, borderRadius: R.pill, height: 52, alignItems: "center", justifyContent: "center", marginTop: 18 },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

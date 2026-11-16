@@ -17,7 +17,7 @@ import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, Press, T, tap } from "@/components/ui";
 import { pickAndUpload } from "@/lib/snap";
-import { C, R } from "@/lib/theme";
+import { C, R, onTheme } from "@/lib/theme";
 
 const SUGGESTIONS = [
   "We're out of eggs 🥚",
@@ -244,7 +244,7 @@ export default function Kin({
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   header: { paddingHorizontal: 16, paddingBottom: 10, backgroundColor: C.bg, borderBottomWidth: 1, borderBottomColor: C.line, gap: 12 },
   kinAvatar: { width: 42, height: 42, borderRadius: 21, backgroundColor: C.black, alignItems: "center", justifyContent: "center" },
   kinSmall: { width: 26, height: 26, borderRadius: 13, backgroundColor: C.black, alignItems: "center", justifyContent: "center" },
@@ -261,4 +261,8 @@ const s = StyleSheet.create({
   iconBtn: { width: 42, height: 42, borderRadius: 21, backgroundColor: C.chip, alignItems: "center", justifyContent: "center" },
   input: { flex: 1, minHeight: 42, maxHeight: 110, fontSize: 16, color: C.ink, paddingHorizontal: 6, paddingTop: 11, paddingBottom: 10 },
   send: { width: 42, height: 42, borderRadius: 21, backgroundColor: C.black, alignItems: "center", justifyContent: "center" },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

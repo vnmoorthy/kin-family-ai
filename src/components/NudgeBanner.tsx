@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, Press, T, tap } from "@/components/ui";
-import { C } from "@/lib/theme";
+import { C, onTheme } from "@/lib/theme";
 
 /** Live, cross-device nudge: the moment Kin assigns you something, it drops in from the top. */
 export default function NudgeBanner({ memberId, members, onOpen }: { memberId: Id<"members">; members: Doc<"members">[]; onOpen: () => void }) {
@@ -69,7 +69,7 @@ export default function NudgeBanner({ memberId, members, onOpen }: { memberId: I
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   wrap: { position: "absolute", left: 10, right: 10, zIndex: 100 },
   card: {
     flexDirection: "row",
@@ -85,4 +85,8 @@ const s = StyleSheet.create({
     elevation: 10,
   },
   emoji: { width: 46, height: 46, borderRadius: 23, backgroundColor: "#26262C", alignItems: "center", justifyContent: "center" },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

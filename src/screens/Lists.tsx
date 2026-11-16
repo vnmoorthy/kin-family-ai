@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, Card, Empty, ItemRow, Pill, Press, T, tap } from "@/components/ui";
-import { C, KIND, Kind, R } from "@/lib/theme";
+import { C, KIND, Kind, R, onTheme } from "@/lib/theme";
 
 const EMOJI_FOR: Record<Kind, string> = { grocery: "🛒", task: "✅", event: "📅", reminder: "⏰" };
 
@@ -139,7 +139,7 @@ export default function Lists({
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   title: { fontSize: 34, fontWeight: "900", letterSpacing: -1 },
   whoChip: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 12, paddingVertical: 8, borderRadius: R.pill, backgroundColor: C.card, borderWidth: 1, borderColor: C.line },
   whoOn: { backgroundColor: C.black, borderColor: C.black },
@@ -148,4 +148,8 @@ const s = StyleSheet.create({
   addBar: { flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: C.card, borderRadius: 28, padding: 6, borderWidth: 1, borderColor: C.line, shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 14, shadowOffset: { width: 0, height: 6 }, elevation: 4 },
   addInput: { flex: 1, height: 44, fontSize: 16, color: C.ink },
   addBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: C.black, alignItems: "center", justifyContent: "center" },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

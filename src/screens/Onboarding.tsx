@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 import { Avatar, Button, Card, Press, T, tap } from "@/components/ui";
 import { useSession } from "@/lib/session";
-import { C, R } from "@/lib/theme";
+import { C, R, onTheme } from "@/lib/theme";
 
 const EMOJIS = ["👩", "👨", "🧒", "👧", "👵", "👴", "🧑", "👱‍♀️", "🧔", "🐶"];
 const ROLES = ["Mom", "Dad", "Kid", "Grandparent", "Partner", "Roommate"];
@@ -202,7 +202,7 @@ export default function Onboarding() {
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   screen: { flex: 1, backgroundColor: C.bg, paddingHorizontal: 24 },
   h1: { fontSize: 64, fontWeight: "900", letterSpacing: -2.5, textAlign: "center", marginTop: 28 },
   tag: { fontSize: 22, fontWeight: "800", textAlign: "center", letterSpacing: -0.5, marginTop: 4 },
@@ -219,4 +219,8 @@ const s = StyleSheet.create({
   orbit: { width: 200, height: 200, alignSelf: "center" },
   orbitAvatar: { position: "absolute", width: 60, height: 60, borderRadius: 30, backgroundColor: C.card, alignItems: "center", justifyContent: "center", shadowColor: "#000", shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
   brain: { position: "absolute", top: 60, left: 60, width: 80, height: 80, borderRadius: 40, backgroundColor: C.black, alignItems: "center", justifyContent: "center" },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

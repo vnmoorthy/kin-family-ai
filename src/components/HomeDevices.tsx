@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Button, Card, Press, Sheet, T, tap, timeAgo } from "@/components/ui";
-import { C, R } from "@/lib/theme";
+import { C, R, onTheme } from "@/lib/theme";
 
 /** What each kind of device can report. In production these come from the hub via POST /device. */
 const EVENTS: Record<string, string[]> = {
@@ -111,7 +111,7 @@ export default function HomeDevices({ householdId }: { householdId: Id<"househol
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   head: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginTop: 24, marginBottom: 10, paddingHorizontal: 2 },
   section: { fontSize: 20, fontWeight: "900", letterSpacing: -0.5 },
   connect: { backgroundColor: C.black, borderRadius: R.pill, paddingHorizontal: 14, paddingVertical: 9 },
@@ -119,4 +119,8 @@ const s = StyleSheet.create({
   live: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "#E8F8EE", borderRadius: R.pill, paddingHorizontal: 7, paddingVertical: 3 },
   liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: C.grocery },
   event: { flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: C.chip, borderRadius: R.md, padding: 14 },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

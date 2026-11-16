@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SessionProvider } from "@/lib/session";
+import { C } from "@/lib/theme";
 
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
   unsavedChangesWarning: false,
@@ -23,7 +24,7 @@ export default function RootLayout() {
         <ConvexProvider client={convex}>
           <SessionProvider>
             <StatusBar style="dark" />
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#F5F5F7" } }} />
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: C.bg } }} />
           </SessionProvider>
         </ConvexProvider>
       </SafeAreaProvider>

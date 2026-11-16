@@ -6,7 +6,7 @@ import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import HomeDevices from "@/components/HomeDevices";
 import { Avatar, Card, Empty, ItemRow, Press, Ring, T, timeAgo } from "@/components/ui";
-import { C, KIND, R } from "@/lib/theme";
+import { C, KIND, R, onTheme } from "@/lib/theme";
 
 function greeting() {
   const h = new Date().getHours();
@@ -220,7 +220,7 @@ export default function Home({
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   header: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 16 },
   title: { fontSize: 26, fontWeight: "900", letterSpacing: -0.8 },
   streak: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: C.card, paddingHorizontal: 12, paddingVertical: 8, borderRadius: R.pill, borderWidth: 1, borderColor: C.line },
@@ -233,4 +233,8 @@ const s = StyleSheet.create({
   askRow: { flexDirection: "row", alignItems: "center", marginTop: 16, backgroundColor: "#1C1C22", borderRadius: R.pill, paddingHorizontal: 16, height: 46 },
   sectionHead: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", marginTop: 24, marginBottom: 10, paddingHorizontal: 2 },
   section: { fontSize: 20, fontWeight: "900", letterSpacing: -0.5 },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

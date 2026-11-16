@@ -15,7 +15,7 @@ import {
 import Svg, { Circle } from "react-native-svg";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
-import { C, KIND, R, shadow } from "@/lib/theme";
+import { C, KIND, R, shadow, onTheme } from "@/lib/theme";
 
 export const tap = (style: "light" | "medium" | "success" = "light") => {
   if (Platform.OS === "web") return;
@@ -358,7 +358,7 @@ export function timeAgo(ts: number) {
   return `${Math.floor(h / 24)}d`;
 }
 
-const styles = StyleSheet.create({
+const styles_ = () => StyleSheet.create({
   card: { backgroundColor: C.card, borderRadius: R.lg, padding: 18, ...shadow },
   pill: { paddingHorizontal: 16, paddingVertical: 9, borderRadius: R.pill, backgroundColor: C.card, borderWidth: 1, borderColor: C.line },
   btn: { height: 56, borderRadius: R.pill, alignItems: "center", justifyContent: "center", paddingHorizontal: 22 },
@@ -369,4 +369,8 @@ const styles = StyleSheet.create({
   sheet: { backgroundColor: C.card, borderTopLeftRadius: 30, borderTopRightRadius: 30, padding: 22, paddingBottom: 40 },
   grabber: { alignSelf: "center", width: 40, height: 5, borderRadius: 3, backgroundColor: C.line, marginBottom: 16 },
   who: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 12, paddingVertical: 8, borderRadius: R.pill, backgroundColor: C.chip },
+});
+let styles = styles_();
+onTheme(() => {
+  styles = styles_();
 });

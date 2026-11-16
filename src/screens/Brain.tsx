@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, Button, Card, Empty, Press, Sheet, T, tap, timeAgo } from "@/components/ui";
-import { C, R } from "@/lib/theme";
+import { C, R, onTheme } from "@/lib/theme";
 
 export default function Brain({ householdId, me, members }: { householdId: Id<"households">; me: Doc<"members">; members: Doc<"members">[] }) {
   const insets = useSafeAreaInsets();
@@ -149,7 +149,7 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   title: { fontSize: 34, fontWeight: "900", letterSpacing: -1 },
   stats: { flexDirection: "row", gap: 10, marginTop: 16 },
   stat: { flex: 1, backgroundColor: C.card, borderRadius: R.lg, padding: 16, borderWidth: 1, borderColor: C.line },
@@ -161,4 +161,8 @@ const s = StyleSheet.create({
   rulesBtn: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 10, backgroundColor: C.card, borderRadius: R.lg, padding: 14, borderWidth: 1, borderColor: C.line },
   mem: { backgroundColor: C.card, borderRadius: R.md, padding: 16, borderWidth: 1, borderColor: C.line },
   sync: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: R.pill, backgroundColor: C.chip },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });

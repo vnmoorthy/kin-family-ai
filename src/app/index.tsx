@@ -6,7 +6,7 @@ import { api } from "../../convex/_generated/api";
 import NudgeBanner from "@/components/NudgeBanner";
 import { Press, Sheet, T, tap } from "@/components/ui";
 import { useSession } from "@/lib/session";
-import { C } from "@/lib/theme";
+import { C, onTheme } from "@/lib/theme";
 import Brain from "@/screens/Brain";
 import Family from "@/screens/Family";
 import Home from "@/screens/Home";
@@ -147,7 +147,7 @@ function QuickTile({ emoji, label, sub, onPress }: { emoji: string; label: strin
   );
 }
 
-const s = StyleSheet.create({
+const s_ = () => StyleSheet.create({
   bar: {
     position: "absolute",
     left: 0,
@@ -178,4 +178,8 @@ const s = StyleSheet.create({
   },
   badge: { position: "absolute", top: -4, right: -10, backgroundColor: C.grocery, borderRadius: 8, minWidth: 16, height: 16, alignItems: "center", justifyContent: "center", paddingHorizontal: 3 },
   tile: { flex: 1, backgroundColor: C.chip, borderRadius: 20, padding: 14 },
+});
+let s = s_();
+onTheme(() => {
+  s = s_();
 });
