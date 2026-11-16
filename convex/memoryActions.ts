@@ -12,6 +12,7 @@
 import { v } from "convex/values";
 import { internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
+import { scope } from "./schema";
 
 const BASE = "https://api.supermemory.ai";
 
@@ -22,16 +23,16 @@ export function memberNs(householdId: string, memberId: string) {
   return `kin_${householdId}_${memberId}`;
 }
 
-async function smFetch(path: string, body: unknown, timeoutMs = 5000): Promise<any> {
+async function smFetch(path: string, body: unknown, timeoutMs = 5000, method = "POST"): Promise<any> {
   const key = process.env.SUPERMEMORY_API_KEY;
   if (!key) return null;
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     const res = await fetch(`${BASE}${path}`, {
-      method: "POST",
+      method,
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       signal: ctrl.signal,
     });
     const text = await res.text();
@@ -99,6 +100,20 @@ export const push = internalAction({
       m.scope === "family" || !m.ownerId ? familyNs(m.householdId) : memberNs(m.householdId, m.ownerId);
     const res = await smAdd(ns, m.text, `mem_${memoryId}`, { scope: m.scope, kind: "fact" });
     if (res) await ctx.runMutation(internal.memories.markSynced, { memoryId });
+  },
+});
+
+/** Remove a memory's copy from Supermemory, using the scope/owner it was stored under. */
+export const forget = internalAction({
+  args: {
+    memoryId: v.id("memories"),
+    householdId: v.id("households"),
+    ownerId: v.optional(v.id("members")),
+    scope,
+  },
+  handler: async (_ctx, { memoryId, householdId, ownerId, scope }) => {
+    const ns = scope === "family" || !ownerId ? familyNs(householdId) : memberNs(householdId, ownerId);
+    await smFetch(`/ns/${encodeURIComponent(ns)}/document/mem_${memoryId}`, undefined, 5000, "DELETE");
   },
 });
 
