@@ -103,7 +103,8 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
 #s2 .msg .to{font-size:18px;font-weight:800;padding:6px 12px;border-radius:999px;color:#fff;flex:none;width:92px;text-align:center}
 #s2 .msg p{font-size:25px;font-weight:600;line-height:1.25}
 #s2 .stamp{position:absolute;right:120px;bottom:70px;font-size:56px;font-weight:900;letter-spacing:-.03em;color:var(--orange);border:6px solid var(--orange);border-radius:24px;padding:10px 28px;transform:rotate(-6deg);background:rgba(245,245,247,.92)}
-#s2 .active .stamp{}
+#s2.active .stamp.a{animation-name:stampIn}
+@keyframes stampIn{0%{opacity:0;transform:rotate(-6deg) scale(1.6)}70%{opacity:1;transform:rotate(-6deg) scale(.95)}100%{opacity:1;transform:rotate(-6deg) scale(1)}}
 
 /* ================= S3 INSIGHT ================= */
 #s3 .flow{position:absolute;left:130px;top:380px;width:1660px;height:620px}
@@ -185,9 +186,9 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
 .box svg{width:18px;height:18px;stroke:#fff;stroke-width:3.5;fill:none;stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .5s var(--ease) .15s}
 .row .txt{transition:color .3s,opacity .3s}
 /* center brain */
-#s5 .kin{position:absolute;left:840px;top:330px;width:240px;height:240px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;z-index:2;transition:transform .5s var(--spring),box-shadow .5s}
-#s5 .kin b{font-size:60px;letter-spacing:-.05em;display:block;line-height:1}
-#s5 .kin span{font-size:18px;color:#A1A1AA;font-weight:600}
+#s5 .kinbrain{position:absolute;left:840px;top:330px;width:240px;height:240px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;z-index:2;transition:transform .5s var(--spring),box-shadow .5s}
+#s5 .kinbrain b{font-size:60px;letter-spacing:-.05em;display:block;line-height:1}
+#s5 .kinbrain span{font-size:18px;color:#A1A1AA;font-weight:600}
 #s5 .wire{position:absolute;top:448px;height:4px;border-radius:2px;background:repeating-linear-gradient(90deg,#C9C9D1 0 10px,transparent 10px 20px)}
 #s5 .w1{left:600px;width:230px}
 #s5 .w2{left:1090px;width:250px}
@@ -201,11 +202,11 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
 #s5.s1 .m1{opacity:1;transform:none}
 #s5.s1 .w1 .pkt{opacity:1;left:calc(100% - 24px)}
 #s5.s2 .w1 .pkt{opacity:0}
-#s5.s2 .kin{transform:scale(1.08);box-shadow:0 0 0 18px rgba(11,11,15,.06)}
+#s5.s2 .kinbrain{transform:scale(1.08);box-shadow:0 0 0 18px rgba(11,11,15,.06)}
 #s5.s2 .r1{opacity:1;transform:none;transition-delay:.0s}
 #s5.s2 .r2{opacity:1;transform:none;transition-delay:.35s}
 #s5.s2 .r3{opacity:1;transform:none;transition-delay:.7s}
-#s5.s3 .kin{transform:scale(1)}
+#s5.s3 .kinbrain{transform:scale(1)}
 #s5.s3 .r4{opacity:1;transform:none}
 #s5.s3 .m2{opacity:1;transform:none}
 #s5.s3 .w2 .pkt{opacity:1;left:calc(100% - 24px)}
@@ -396,7 +397,7 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
   <div class="kicker a" style="--d:.05">The insight</div>
   <h2 class="a" style="--d:.15">Everyone has their own AI.<br><span style="color:var(--muted)">No family has a shared brain.</span></h2>
   <div class="flow">
-    <svg viewBox="0 0 1660 620" class="a fade" style="--d:.9">
+    <svg width="1660" height="620" viewBox="0 0 1660 620" class="a fade" style="--d:.9">
       <path class="wire" d="M380 110 L830 300"/><path class="wire" d="M380 490 L830 300"/>
       <path class="wire" d="M1280 110 L830 300"/><path class="wire" d="M1280 490 L830 300"/>
     </svg>
@@ -433,7 +434,7 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
     </div>
     <div class="step card a" style="--d:.95">
       <div class="num" style="background:var(--blue)">3</div><h3>Decide who</h3><div class="d">Using memory, not guesswork</div>
-      <div class="items"><div class="it">🚗 Raj passes Trader Joe's → <b>eggs go to Raj</b></div><div class="it">🥜 Arjun's allergic → <b>snack must be nut-free</b></div></div>
+      <div class="items"><div class="it"><span>🚗 Raj passes Trader Joe's → <b>eggs go to Raj</b></span></div><div class="it"><span>🥜 Arjun's allergic → <b>snack must be nut-free</b></span></div></div>
       <div class="arrow"><span>›</span></div>
     </div>
     <div class="step card a" style="--d:1.2">
@@ -470,7 +471,7 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
   </div>
 
   <div class="wire w1 a fade" style="--d:.5"><div class="pkt"></div></div>
-  <div class="kin a pop" style="--d:.4"><div><b>Kin</b><span>family brain</span></div></div>
+  <div class="kinbrain a pop" style="--d:.4"><div><b>Kin</b><span>family brain</span></div></div>
   <div class="wire w2 a fade" style="--d:.5"><div class="pkt"></div></div>
   <div class="recall">
     <div class="rh hide r1">Recalling family memory</div>
@@ -568,7 +569,7 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
   <div class="kicker a" style="--d:.05">How it's built</div>
   <h2 class="a" style="--d:.15">Every family phone, live.</h2>
   <div class="arch">
-    <svg viewBox="0 0 1660 520" class="a fade" style="--d:.8">
+    <svg width="1660" height="520" viewBox="0 0 1660 520" class="a fade" style="--d:.8">
       <path class="ln" id="p1" d="M300 70 C430 70 430 250 560 250"/>
       <path class="ln" id="p2" d="M300 190 C430 190 430 250 560 250"/>
       <path class="ln" id="p3" d="M300 310 C430 310 430 250 560 250"/>
@@ -624,7 +625,7 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
     <div class="whop a fade" style="--d:1.4">Checkout + webhook via Whop</div>
   </div>
   <div class="viral">
-    <svg viewBox="0 0 890 620">
+    <svg width="890" height="620" viewBox="0 0 890 620">
       <path class="vl" style="--len:220;--ld:.9s" d="M440 300 L440 80"/>
       <path class="vl" style="--len:220;--ld:1.1s" d="M440 300 L649 232"/>
       <path class="vl" style="--len:220;--ld:1.3s" d="M440 300 L569 478"/>
@@ -632,14 +633,14 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
       <path class="vl sms" style="--len:220;--ld:1.9s" d="M440 300 L231 232"/>
       <path class="vl next" style="--len:240;--ld:2.5s" d="M569 478 C680 520 740 540 790 575"/>
     </svg>
-    <div class="nd root a pop" style="--d:.6;left:440px;top:300px"><div>👩🏽 Priya starts Kin</div></div>
-    <div class="code a pop" style="--d:.9"><div>CODE · KIN-7Q2F</div></div>
-    <div class="nd a pop" style="--d:1.1;left:440px;top:80px"><div>👨🏽 Raj</div></div>
-    <div class="nd a pop" style="--d:1.3;left:649px;top:232px"><div>👦🏽 Arjun</div></div>
-    <div class="nd a pop" style="--d:1.5;left:569px;top:478px"><div>👵🏽 Paati</div></div>
-    <div class="nd sms a pop" style="--d:1.9;left:311px;top:478px"><div>💬 Nanny · SMS</div></div>
-    <div class="nd sms a pop" style="--d:2.1;left:231px;top:232px"><div>💬 Grandpa · SMS</div></div>
-    <div class="nd fam2 a pop" style="--d:2.9;left:790px;top:575px"><div>🏠 Next family</div></div>
+    <div class="nd root" style="left:440px;top:300px"><div class="a pop" style="--d:.6">👩🏽 Priya starts Kin</div></div>
+    <div class="code"><div class="a pop" style="--d:.9">CODE · KIN-7Q2F</div></div>
+    <div class="nd" style="left:440px;top:80px"><div class="a pop" style="--d:1.1">👨🏽 Raj</div></div>
+    <div class="nd" style="left:649px;top:232px"><div class="a pop" style="--d:1.3">👦🏽 Arjun</div></div>
+    <div class="nd" style="left:569px;top:478px"><div class="a pop" style="--d:1.5">👵🏽 Paati</div></div>
+    <div class="nd sms" style="left:311px;top:478px"><div class="a pop" style="--d:1.9">💬 Nanny · SMS</div></div>
+    <div class="nd sms" style="left:231px;top:232px"><div class="a pop" style="--d:2.1">💬 Grandpa · SMS</div></div>
+    <div class="nd fam2" style="left:790px;top:575px"><div class="a pop" style="--d:2.9">🏠 Next family</div></div>
     <div class="cap a fade" style="--d:3.2"></div>
   </div>
   <div class="a fade" style="--d:3.1;position:absolute;left:900px;right:130px;top:250px;font-size:26px;font-weight:650;color:var(--muted);line-height:1.35">Every family invites <b style="color:var(--ink)">3–5 members by code</b>. Grandparents &amp; nannies join over SMS — and shared grandparents <b style="color:var(--orange)">carry Kin into the next family</b>.</div>

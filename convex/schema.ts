@@ -42,6 +42,8 @@ export default defineSchema({
     createdAt: v.number(),
     doneAt: v.optional(v.number()),
     doneById: v.optional(v.id("members")),
+    // Set when created from a 🔒 private chat: only this member ever sees the item.
+    privateTo: v.optional(v.id("members")),
   })
     .index("by_household", ["householdId"])
     .index("by_household_status", ["householdId", "status"]),

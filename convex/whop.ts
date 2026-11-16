@@ -57,6 +57,12 @@ export const createCheckout = action({
       last = `${r.status} ${JSON.stringify(r.body).slice(0, 240)}`;
       console.warn("whop checkout attempt failed", last);
     }
+    // Fallback: a fixed Whop checkout link for the Kin Plus plan (set in Convex env).
+    if (process.env.WHOP_CHECKOUT_URL) {
+      const u = new URL(process.env.WHOP_CHECKOUT_URL);
+      u.searchParams.set("metadata[householdId]", householdId);
+      return { url: u.toString() };
+    }
     return { error: "Checkout unavailable right now." };
   },
 });

@@ -94,6 +94,8 @@ export const respond = internalAction({
     const c = await ctx.runQuery(internal.households.context, { householdId });
     const speaker = c.members.find((m) => m._id === msg.authorId)!;
     const isPrivate = msg.visibility === "private";
+    // Family mode never sees anyone's private items; private mode sees only the speaker's.
+    const visibleItems = c.items.filter((i) => !i.privateTo || (isPrivate && i.privateTo === speaker._id));
 
     // ---- Recall -------------------------------------------------------------
     const familyFacts = c.memories.filter((m) => m.scope === "family").map((m) => m.text);
@@ -134,7 +136,7 @@ ${isPrivate ? `\n${speaker.name}'s PRIVATE memory (never reveal to others, never
 ${recalled.length ? `\nAlso recalled by long-term memory:\n${recalled.map((f) => `- ${f}`).join("\n")}` : ""}
 
 Open items (id in brackets):
-${describeItems(c.items, c.members) || "- (none)"}
+${describeItems(visibleItems, c.members) || "- (none)"}
 
 Recent conversation:
 ${recent || "(none)"}
@@ -148,6 +150,7 @@ How to act:
 - Photos: fridge/pantry → groceries that look missing or low for staples the family uses; school flyer/letter → events, forms, payments, things to bring; homework → tasks with due dates; receipt → complete matching grocery items.
 - Never duplicate an existing open item. Respect allergies (e.g. say nut-free) when adding food.
 - In FAMILY mode never reveal anyone's private memory.
+- In PRIVATE mode, anything you add is private to ${speaker.name}: assign it to ${speaker.name} and do not nudge anyone else (it might be a surprise).
 
 Reply with ONLY a JSON object:
 {"reply": "<= 55 words, warm, specific, mention who you assigned and the reason in a few words",
@@ -234,7 +237,7 @@ export const apply = internalMutation({
     for (const a of list.slice(0, 12)) {
       if (a.type === "add_item" && a.title) {
         const kind = (["task", "grocery", "event", "reminder"] as const).includes(a.kind as any) ? a.kind : "task";
-        const who = find(a.assignee);
+        const who = isPrivate ? speaker : find(a.assignee);
         const itemId = await ctx.db.insert("items", {
           householdId,
           kind,
@@ -246,8 +249,9 @@ export const apply = internalMutation({
           dueLabel: a.due || undefined,
           source: "kin",
           createdAt: now,
+          privateTo: isPrivate ? speakerId : undefined,
         });
-        chips.push({ icon: a.emoji || "📌", label: `${a.title}${who ? ` → ${who.name}` : ""}` });
+        chips.push({ icon: isPrivate ? "🔒" : a.emoji || "📌", label: `${a.title}${who ? ` → ${isPrivate ? "you, privately" : who.name}` : ""}` });
         if (who && who._id !== speakerId) {
           await ctx.db.insert("nudges", {
             householdId,
@@ -291,7 +295,7 @@ export const apply = internalMutation({
         });
         await ctx.scheduler.runAfter(0, internal.memoryActions.push, { memoryId });
         chips.push({ icon: scope === "private" ? "🔒" : "🧠", label: `Remembered: ${a.text.slice(0, 60)}` });
-      } else if (a.type === "nudge" && a.to && a.text) {
+      } else if (a.type === "nudge" && a.to && a.text && !isPrivate) {
         const who = find(a.to);
         if (who && who._id !== speakerId) {
           await ctx.db.insert("nudges", {
@@ -332,7 +336,7 @@ export const brief = action({
 
 Family: ${c.members.map((m) => `${m.name} (${m.role})`).join(", ")}
 Memory:\n${facts}
-Open items:\n${describeItems(c.items, c.members)}`,
+Open items:\n${describeItems(c.items.filter((i) => !i.privateTo || i.privateTo === memberId), c.members)}`,
           },
           { role: "user", content: "Brief me." },
         ],

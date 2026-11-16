@@ -2,14 +2,17 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { itemKind } from "./schema";
 
+/** Everything the family shares + my own private items. Other people's private items never leave the server. */
 export const list = query({
-  args: { householdId: v.id("households") },
-  handler: async (ctx, { householdId }) =>
-    ctx.db
+  args: { householdId: v.id("households"), memberId: v.optional(v.id("members")) },
+  handler: async (ctx, { householdId, memberId }) => {
+    const rows = await ctx.db
       .query("items")
       .withIndex("by_household", (q) => q.eq("householdId", householdId))
       .order("desc")
-      .take(300),
+      .take(300);
+    return rows.filter((i) => !i.privateTo || i.privateTo === memberId);
+  },
 });
 
 export const add = mutation({

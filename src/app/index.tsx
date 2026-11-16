@@ -31,7 +31,7 @@ function Main({ householdId, memberId, onInvalid }: { householdId: any; memberId
   const [seed, setSeed] = useState<string | undefined>();
   const [snap, setSnap] = useState<"camera" | "library" | null>(null);
   const members = useQuery(api.households.members, { householdId });
-  const items = useQuery(api.items.list, { householdId });
+  const items = useQuery(api.items.list, { householdId, memberId });
   const touch = useMutation(api.households.touch);
   const me = members?.find((m) => m._id === memberId);
 
