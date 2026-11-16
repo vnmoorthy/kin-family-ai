@@ -31,6 +31,31 @@ Tell Kin what's happening at home. It remembers, picks the right person, and nud
 <p align="center"><b>Sarah</b> (left) says <i>"we're out of eggs, and Jake needs a snack for tomorrow's field trip."</i> Kin remembers Jake's peanut allergy and that Mike passes Trader Joe's, so <b>Mike's phone</b> (right) gets a live nudge for a <b>nut-free</b> snack. Mike checks it off, and Sarah's phone shows "✅ Mike finished". Nobody had to nag.<br/>
 <b>Try it with two phones in one browser:</b> <a href="https://vnmoorthy.github.io/kin-family-ai/duo/">vnmoorthy.github.io/kin-family-ai/duo</a></p>
 
+## The household AI, in one screen
+
+| | |
+|---|---|
+| 🧠 **One private family brain** | Everyone's knowledge (what mom noticed, what dad passes on his commute, what the kid brought home) merges into one memory that is shared **only inside the household**. Each person also keeps a 🔒 private memory. |
+| 🎙️📷🏠 **Every input** | Text, voice (keyboard dictation), photos of flyers, fridges and homework, plus **connected devices**: fridge, door camera, robot vacuum, TV and washer report events to Kin by themselves. |
+| 🤖 **Autonomous coordinator** | Kin decides *who* should handle each thing, nudges their phone live, follows up on its own and closes the loop when it's done. Nobody has to call or text. |
+| 👨‍👩‍👧 **Parents decide** | Parents set **House Rules** ("homework before games", "screens off at 9") and Kin enforces them in every reply. Only a parent can override or delete what a parent assigned. If a kid ignores a task after two follow-ups, Kin escalates to a parent. |
+
+### Kin Home: connect any IoT device
+
+Any smart-home hub (Home Assistant, SmartThings, a Viam robot, a fridge camera) can report to Kin with one HTTP call:
+
+```bash
+curl -X POST https://<your-deployment>.convex.site/device \
+  -H "Content-Type: application/json" \
+  -d '{"code":"<6-letter family code>","device":"fridge","event":"Egg tray is empty"}'
+```
+
+Kin turns the event into who-does-what and nudges that person, exactly as if a family member had said it. It's tested live in [`scripts/e2e.py`](scripts/e2e.py).
+
+### Tested end to end
+
+`python3 scripts/e2e.py` runs the real stack (Convex + OpenAI + Supermemory + the device webhook + Whop) through onboarding, AI coordination, allergy-aware assignment, live nudges, house-rule enforcement, parent permissions, autopilot follow-ups, IoT events, private-mode isolation and the Supermemory sync. Revyl builds the iOS app in the cloud and checks it on a cloud iPhone with plain-English assertions.
+
 ## Why Kin
 
 Every family has a human router. Usually it's mom. She notices the eggs are gone, remembers that Jake can't have peanuts, knows Dad drives past Trader Joe's, and then texts, reminds, and re-reminds until it's done. It's invisible, it never ends, and it all lives in one person's head.
