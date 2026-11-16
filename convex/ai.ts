@@ -56,7 +56,7 @@ async function callLLM(messages: any[], json = true): Promise<string> {
         body: JSON.stringify({
           model,
           messages,
-          temperature: 0.4,
+          temperature: 0.2,
           ...(json ? { response_format: { type: "json_object" } } : {}),
         }),
         signal: ctrl.signal,
@@ -162,6 +162,7 @@ How to act:
 - Photos: fridge/pantry → groceries that look missing or low for staples the family uses; school flyer/letter → ALWAYS add the event itself (kind "event", with date/time in "due") plus forms, payments and things to bring; homework → tasks with due dates; receipt → complete matching grocery items.
 - Never duplicate an existing open item. Respect allergies (e.g. say nut-free) when adding food.
 - In FAMILY mode never reveal anyone's private memory.
+- NEVER say you added, assigned or reminded something unless that exact action is in "actions". Every grocery/task/event you mention must be an add_item.
 - In PRIVATE mode, anything you add is private to ${speaker.name}: assign it to ${speaker.name} and do not nudge anyone else (it might be a surprise).
 
 Reply with ONLY a JSON object:
@@ -178,11 +179,30 @@ Reply with ONLY a JSON object:
 
     let parsed: { reply?: string; actions?: KinAction[] } = {};
     try {
-      const raw = await callLLM([
+      const convo: any[] = [
         { role: "system", content: system },
         { role: "user", content: userContent },
-      ]);
+      ];
+      const raw = await callLLM(convo);
       parsed = JSON.parse(raw);
+      parsed.actions = parsed.actions ?? (parsed as any).Actions ?? [];
+      // Reliability: if Kin talked about doing something but returned no actions, ask once more.
+      const isQuestion = /\?\s*$/.test(msg.text || "") && !msg.imageUrl;
+      const doesSomething = (acts?: KinAction[]) =>
+        (acts ?? []).some((x) => x.type === "add_item" || x.type === "complete_item" || x.type === "nudge" || x.type === "rule");
+      if (!doesSomething(parsed.actions) && !isQuestion) {
+        const raw2 = await callLLM([
+          ...convo,
+          { role: "assistant", content: raw },
+          {
+            role: "user",
+            content:
+              "Your actions array has no add_item / complete_item / nudge. Return the JSON again with EVERY item your reply mentions as an add_item (assigned to the right person, with a nudge). If truly nothing needs doing, keep it as is.",
+          },
+        ]);
+        const p2 = JSON.parse(raw2);
+        if (doesSomething(p2.actions)) parsed = { reply: p2.reply ?? parsed.reply, actions: [...(p2.actions ?? [])] };
+      }
     } catch (e) {
       const err = String(e);
       await ctx.runMutation(internal.messages.finishKin, {
