@@ -40,8 +40,11 @@ export function Press({
   haptic?: boolean;
 }) {
   const s = useRef(new Animated.Value(1)).current;
-  const flat = StyleSheet.flatten(style as any) || {};
-  const outer = flat.flex ? { flex: flat.flex } : flat.alignSelf ? { alignSelf: flat.alignSelf } : undefined;
+  const flat = (StyleSheet.flatten(style as any) || {}) as ViewStyle;
+  // flex belongs on the outer Pressable only. Applying it to the inner view too collapses
+  // its height to 0 on iOS (found by Revyl on a cloud iPhone: blank Family/Just me toggle).
+  const { flex, ...innerFlat } = flat;
+  const outer = flex ? { flex } : flat.alignSelf ? { alignSelf: flat.alignSelf } : undefined;
   const to = (v: number) => Animated.spring(s, { toValue: v, useNativeDriver: Platform.OS !== "web", speed: 40, bounciness: 6 }).start();
   return (
     <Pressable
@@ -55,7 +58,7 @@ export function Press({
       }}
       onLongPress={onLongPress ? () => (tap("medium"), onLongPress()) : undefined}
     >
-      <Animated.View style={[{ transform: [{ scale: s }], opacity: disabled ? 0.5 : 1 }, style as any]}>{children}</Animated.View>
+      <Animated.View style={[{ transform: [{ scale: s }], opacity: disabled ? 0.5 : 1 }, innerFlat as any]}>{children}</Animated.View>
     </Pressable>
   );
 }
