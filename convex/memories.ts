@@ -38,6 +38,16 @@ export const add = mutation({
 export const setScope = mutation({
   args: { memoryId: v.id("memories"), scope },
   handler: async (ctx, { memoryId, scope }) => {
+    const m = await ctx.db.get(memoryId);
+    if (!m) return;
+    if (m.scope !== scope) {
+      await ctx.scheduler.runAfter(0, internal.memoryActions.forget, {
+        memoryId,
+        householdId: m.householdId,
+        ownerId: m.ownerId,
+        scope: m.scope,
+      });
+    }
     await ctx.db.patch(memoryId, { scope, synced: false });
     await ctx.scheduler.runAfter(0, internal.memoryActions.push, { memoryId });
   },
@@ -46,6 +56,14 @@ export const setScope = mutation({
 export const remove = mutation({
   args: { memoryId: v.id("memories") },
   handler: async (ctx, { memoryId }) => {
+    const m = await ctx.db.get(memoryId);
+    if (!m) return;
+    await ctx.scheduler.runAfter(0, internal.memoryActions.forget, {
+      memoryId,
+      householdId: m.householdId,
+      ownerId: m.ownerId,
+      scope: m.scope,
+    });
     await ctx.db.delete(memoryId);
   },
 });
