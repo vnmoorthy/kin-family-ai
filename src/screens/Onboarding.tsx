@@ -60,7 +60,7 @@ export default function Onboarding() {
           </T>
         </View>
         <View style={{ gap: 12 }}>
-          <Button label="Start a family" onPress={() => setMode("create")} />
+          <Button label="Start a Group" onPress={() => setMode("create")} />
           <Button label="Join with a code" dark={false} onPress={() => setMode("join")} />
         </View>
       </View>
@@ -96,16 +96,16 @@ export default function Onboarding() {
         <Press onPress={() => (setMode("welcome"), setErr(""))} style={s.back}>
           <T style={{ fontSize: 20, fontWeight: "700" }}>←</T>
         </Press>
-        <T style={s.h2}>{mode === "create" ? "Start your family" : "Join your family"}</T>
+        <T style={s.h2}>{mode === "create" ? "Start your group" : "Join your group"}</T>
         <T style={{ color: C.muted, marginTop: 6, marginBottom: 18, fontSize: 15 }}>
           {mode === "create"
             ? "You'll get a 6-letter code to invite everyone at home."
-            : "Ask anyone in your family for the 6-letter code in their Kin."}
+            : "Ask anyone in your group for the 6-letter code in their Kin."}
         </T>
 
         {mode === "create" ? (
           <>
-            <T style={s.label}>FAMILY NAME</T>
+            <T style={s.label}>GROUP NAME</T>
             <TextInput
               value={householdName}
               onChangeText={setHouseholdName}
@@ -169,7 +169,7 @@ export default function Onboarding() {
         {mode === "create" || found ? (
           <Button
             style={{ marginTop: 26 }}
-            label={busy ? "Setting up…" : mode === "create" ? "Create our family" : "Join family"}
+            label={busy ? "Setting up…" : mode === "create" ? "Create our group" : "Join group"}
             disabled={busy || !name.trim()}
             onPress={async () => {
               setBusy(true);
