@@ -45,3 +45,4 @@ example
 # secrets
 .env.local
 .env*.local
+dist-web/

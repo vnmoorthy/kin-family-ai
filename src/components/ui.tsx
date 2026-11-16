@@ -40,9 +40,12 @@ export function Press({
   haptic?: boolean;
 }) {
   const s = useRef(new Animated.Value(1)).current;
+  const flat = StyleSheet.flatten(style as any) || {};
+  const outer = flat.flex ? { flex: flat.flex } : flat.alignSelf ? { alignSelf: flat.alignSelf } : undefined;
   const to = (v: number) => Animated.spring(s, { toValue: v, useNativeDriver: Platform.OS !== "web", speed: 40, bounciness: 6 }).start();
   return (
     <Pressable
+      style={outer as any}
       disabled={disabled}
       onPressIn={() => to(0.96)}
       onPressOut={() => to(1)}

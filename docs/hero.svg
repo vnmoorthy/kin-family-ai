@@ -1,0 +1,313 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" font-family="-apple-system, Inter, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>Kin: one shared brain for your whole family</title>
+  <defs>
+    <radialGradient id="glowViolet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7C5CFF" stop-opacity="0.42"/>
+      <stop offset="55%" stop-color="#7C5CFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowCoral" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#FF6B4A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowGreen" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22C55E" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wordmark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#B9B9C6"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#FFFFFF" fill-opacity="0.05"/>
+    </pattern>
+    <filter id="phoneShadow" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <filter id="bannerShadow" x="-20%" y="-40%" width="140%" height="200%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <clipPath id="screen" clipPathUnits="userSpaceOnUse">
+      <rect x="7" y="7" width="200" height="448" rx="30"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="#0B0B0F"/>
+  <rect width="1280" height="640" fill="url(#dots)"/>
+  <ellipse cx="930" cy="330" rx="480" ry="330" fill="url(#glowViolet)"/>
+  <ellipse cx="170" cy="110" rx="420" ry="280" fill="url(#glowCoral)"/>
+  <ellipse cx="1200" cy="620" rx="360" ry="220" fill="url(#glowGreen)"/>
+
+  <!-- ===================== Left: brand ===================== -->
+  <g>
+    <rect x="64" y="70" width="326" height="32" rx="16" fill="#16161C" stroke="#2C2C36"/>
+    <circle cx="84" cy="86" r="4.5" fill="#22C55E"/>
+    <text x="98" y="91" font-size="13" font-weight="600" fill="#C9C9D2">Built at the YC Consumer Mobile Hackathon</text>
+
+    <text x="56" y="262" font-size="156" font-weight="800" letter-spacing="-7" fill="url(#wordmark)">Kin</text>
+
+    <text x="64" y="330" font-size="38" font-weight="800" letter-spacing="-1" fill="#FFFFFF">One shared brain</text>
+    <text x="64" y="376" font-size="38" font-weight="800" letter-spacing="-1" fill="#8E8E9C">for your whole family.</text>
+
+    <text x="64" y="422" font-size="17" fill="#A1A1AD">Tell Kin what's going on. It remembers,</text>
+    <text x="64" y="446" font-size="17" fill="#A1A1AD">picks the right person, and nudges them, live.</text>
+
+    <!-- avatar stack -->
+    <g font-size="18" text-anchor="middle">
+      <circle cx="84" cy="500" r="19" fill="#FF6B4A" stroke="#0B0B0F" stroke-width="3"/>
+      <text x="84" y="507">👩🏽</text>
+      <circle cx="112" cy="500" r="19" fill="#4A7DFF" stroke="#0B0B0F" stroke-width="3"/>
+      <text x="112" y="507">👨🏽</text>
+      <circle cx="140" cy="500" r="19" fill="#2EC27E" stroke="#0B0B0F" stroke-width="3"/>
+      <text x="140" y="507">🧒🏽</text>
+      <circle cx="168" cy="500" r="19" fill="#B15CFF" stroke="#0B0B0F" stroke-width="3"/>
+      <text x="168" y="507">👵🏽</text>
+    </g>
+    <text x="200" y="505" font-size="14" font-weight="600" fill="#C9C9D2">4 people · 1 family memory · 0 nagging</text>
+
+    <!-- built with -->
+    <text x="64" y="556" font-size="10.5" font-weight="700" letter-spacing="2" fill="#6B6B78">BUILT WITH</text>
+    <g font-size="12" font-weight="600" fill="#D4D4DC" text-anchor="middle">
+      <rect x="64" y="566" width="54" height="26" rx="13" fill="#15151B" stroke="#2A2A34"/>
+      <text x="91" y="583">Expo</text>
+      <rect x="124" y="566" width="68" height="26" rx="13" fill="#15151B" stroke="#2A2A34"/>
+      <text x="158" y="583">Convex</text>
+      <rect x="198" y="566" width="108" height="26" rx="13" fill="#15151B" stroke="#2A2A34"/>
+      <text x="252" y="583">Supermemory</text>
+      <rect x="312" y="566" width="58" height="26" rx="13" fill="#15151B" stroke="#2A2A34"/>
+      <text x="341" y="583">Whop</text>
+      <rect x="376" y="566" width="54" height="26" rx="13" fill="#15151B" stroke="#2A2A34"/>
+      <text x="403" y="583">Capy</text>
+      <rect x="436" y="566" width="58" height="26" rx="13" fill="#15151B" stroke="#2A2A34"/>
+      <text x="465" y="583">Revyl</text>
+    </g>
+  </g>
+
+  <!-- step captions -->
+  <g font-size="12" font-weight="700" fill="#8E8E9C" text-anchor="middle" letter-spacing="0.3">
+    <text x="681" y="114">1 · Priya tells Kin</text>
+    <text x="913" y="58">2 · Raj's phone buzzes</text>
+    <text x="1145" y="126">3 · The family remembers</text>
+  </g>
+
+  <!-- ===================== Phone A: Kin chat (Priya) ===================== -->
+  <g transform="translate(574,128)">
+    <g filter="url(#phoneShadow)">
+      <rect x="0" y="0" width="214" height="462" rx="36" fill="#1C1C22" stroke="#3A3A44" stroke-width="1.5"/>
+    </g>
+    <rect x="7" y="7" width="200" height="448" rx="30" fill="#F5F5F7"/>
+    <g clip-path="url(#screen)">
+      <text x="26" y="30" font-size="11" font-weight="700" fill="#0B0B0F">9:41</text>
+      <rect x="82" y="16" width="50" height="15" rx="7.5" fill="#0B0B0F"/>
+      <!-- header -->
+      <circle cx="31" cy="58" r="13" fill="#0B0B0F"/>
+      <text x="31" y="62.5" font-size="12" text-anchor="middle">🧠</text>
+      <text x="51" y="57" font-size="16" font-weight="900" fill="#0B0B0F">Kin</text>
+      <text x="51" y="70" font-size="8.5" fill="#8E8E96">Family thread · 4 people see this</text>
+      <rect x="17" y="80" width="180" height="26" rx="13" fill="#E9E9EE"/>
+      <rect x="20" y="83" width="88" height="20" rx="10" fill="#FFFFFF"/>
+      <text x="64" y="97" font-size="9.5" font-weight="800" fill="#0B0B0F" text-anchor="middle">Family</text>
+      <text x="152" y="97" font-size="9.5" font-weight="800" fill="#8E8E96" text-anchor="middle">🔒 Just me</text>
+      <line x1="7" y1="116" x2="207" y2="116" stroke="#E5E5EA"/>
+
+      <!-- Priya: eggs -->
+      <rect x="84" y="130" width="113" height="28" rx="14" fill="#0B0B0F"/>
+      <text x="94" y="148" font-size="10.5" fill="#FFFFFF">We're out of eggs 🥚</text>
+
+      <!-- Kin reply -->
+      <circle cx="22" cy="214" r="9" fill="#0B0B0F"/>
+      <text x="22" y="217.5" font-size="8.5" text-anchor="middle">🧠</text>
+      <rect x="36" y="168" width="160" height="55" rx="14" fill="#FFFFFF" stroke="#E5E5EA"/>
+      <text font-size="9.6" fill="#0B0B0F">
+        <tspan x="46" y="185">On it. Raj drives past Trader</tspan>
+        <tspan x="46" y="198">Joe's on his way home, so</tspan>
+        <tspan x="46" y="211">eggs are on him tonight.</tspan>
+      </text>
+      <g font-size="8.6" font-weight="700" fill="#3A3A42">
+        <rect x="36" y="230" width="82" height="20" rx="10" fill="#FFFFFF" stroke="#E5E5EA"/>
+        <text x="44" y="243.5">🥚 Eggs → Raj</text>
+        <rect x="123" y="230" width="76" height="20" rx="10" fill="#FFFFFF" stroke="#E5E5EA"/>
+        <text x="130" y="243.5">🔔 Nudged Raj</text>
+      </g>
+
+      <!-- Priya: snack -->
+      <rect x="80" y="266" width="117" height="28" rx="14" fill="#0B0B0F"/>
+      <text x="90" y="284" font-size="10.5" fill="#FFFFFF">Arjun needs a snack</text>
+
+      <!-- Kin reply 2 -->
+      <circle cx="22" cy="350" r="9" fill="#0B0B0F"/>
+      <text x="22" y="353.5" font-size="8.5" text-anchor="middle">🧠</text>
+      <rect x="36" y="304" width="160" height="55" rx="14" fill="#FFFFFF" stroke="#E5E5EA"/>
+      <text font-size="9.6" fill="#0B0B0F">
+        <tspan x="46" y="321">Added nut-free granola bars</tspan>
+        <tspan x="46" y="334">for Raj, since Arjun is</tspan>
+        <tspan x="46" y="347">allergic to peanuts.</tspan>
+      </text>
+      <g font-size="8.6" font-weight="700" fill="#3A3A42">
+        <rect x="36" y="366" width="128" height="20" rx="10" fill="#FFFFFF" stroke="#E5E5EA"/>
+        <text x="44" y="379.5">🍫 Nut-free bars → Raj</text>
+      </g>
+
+      <!-- input -->
+      <rect x="15" y="414" width="184" height="32" rx="16" fill="#FFFFFF" stroke="#E5E5EA"/>
+      <circle cx="31" cy="430" r="11" fill="#EDEDF0"/>
+      <text x="31" y="433.5" font-size="10" text-anchor="middle">📷</text>
+      <text x="49" y="433.5" font-size="9.5" fill="#B0B0B8">Tell the family brain…</text>
+      <circle cx="183" cy="430" r="11" fill="#0B0B0F"/>
+      <text x="183" y="434" font-size="11" font-weight="900" fill="#FFFFFF" text-anchor="middle">↑</text>
+    </g>
+  </g>
+
+  <!-- ===================== Phone C: Family Brain ===================== -->
+  <g transform="translate(1038,142)">
+    <g filter="url(#phoneShadow)">
+      <rect x="0" y="0" width="214" height="462" rx="36" fill="#1C1C22" stroke="#3A3A44" stroke-width="1.5"/>
+    </g>
+    <rect x="7" y="7" width="200" height="448" rx="30" fill="#F5F5F7"/>
+    <g clip-path="url(#screen)">
+      <text x="26" y="30" font-size="11" font-weight="700" fill="#0B0B0F">9:41</text>
+      <rect x="82" y="16" width="50" height="15" rx="7.5" fill="#0B0B0F"/>
+      <text x="19" y="62" font-size="17" font-weight="900" fill="#0B0B0F" letter-spacing="-0.4">Family Brain</text>
+      <text x="19" y="76" font-size="8.2" fill="#8E8E96">Everything Kin knows, and who can see it</text>
+      <rect x="17" y="86" width="180" height="24" rx="12" fill="#E9E9EE"/>
+      <rect x="20" y="89" width="88" height="18" rx="9" fill="#FFFFFF"/>
+      <text x="64" y="101.5" font-size="9" font-weight="800" fill="#0B0B0F" text-anchor="middle">Shared</text>
+      <text x="152" y="101.5" font-size="9" font-weight="800" fill="#8E8E96" text-anchor="middle">🔒 Only me</text>
+      <rect x="17" y="118" width="180" height="26" rx="10" fill="#EEF7F1"/>
+      <text x="27" y="134.5" font-size="8.3" font-weight="600" fill="#1F7A4A">Shared only inside your family.</text>
+
+      <g>
+        <rect x="17" y="152" width="180" height="54" rx="14" fill="#FFFFFF"/>
+        <text font-size="9.4" font-weight="700" fill="#0B0B0F">
+          <tspan x="27" y="170">Arjun is allergic to peanuts.</tspan>
+          <tspan x="27" y="182">Snacks must be nut-free.</tspan>
+        </text>
+        <text x="27" y="197" font-size="7.6" font-weight="700" fill="#16A34A">● Supermemory</text>
+        <text x="187" y="197" font-size="7.6" fill="#8E8E96" text-anchor="end">Added by Priya</text>
+
+        <rect x="17" y="212" width="180" height="54" rx="14" fill="#FFFFFF"/>
+        <text font-size="9.4" font-weight="700" fill="#0B0B0F">
+          <tspan x="27" y="230">Raj drives past Trader Joe's</tspan>
+          <tspan x="27" y="242">on his commute around 6pm.</tspan>
+        </text>
+        <text x="27" y="257" font-size="7.6" font-weight="700" fill="#16A34A">● Supermemory</text>
+        <text x="187" y="257" font-size="7.6" fill="#8E8E96" text-anchor="end">Added by Raj</text>
+
+        <rect x="17" y="272" width="180" height="54" rx="14" fill="#FFFFFF"/>
+        <text font-size="9.4" font-weight="700" fill="#0B0B0F">
+          <tspan x="27" y="290">Soccer Tue &amp; Thu at 5pm.</tspan>
+          <tspan x="27" y="302">Raj does pickup.</tspan>
+        </text>
+        <text x="27" y="317" font-size="7.6" font-weight="700" fill="#16A34A">● Supermemory</text>
+        <text x="187" y="317" font-size="7.6" fill="#8E8E96" text-anchor="end">Learned by Kin</text>
+      </g>
+
+      <!-- private -->
+      <rect x="17" y="334" width="180" height="66" rx="14" fill="#0B0B0F"/>
+      <text x="27" y="350" font-size="7.4" font-weight="800" letter-spacing="1.2" fill="#9A9AA6">🔒 ONLY RAJ</text>
+      <text font-size="9.4" font-weight="700" fill="#FFFFFF">
+        <tspan x="27" y="366">Surprise 40th for Priya,</tspan>
+        <tspan x="27" y="378">Dec 6. Book the restaurant.</tspan>
+      </text>
+      <text x="27" y="392" font-size="7.6" fill="#8E8E96">Never shown to the family</text>
+
+      <!-- tab bar -->
+      <rect x="7" y="418" width="200" height="40" fill="#FFFFFF"/>
+      <line x1="7" y1="418" x2="207" y2="418" stroke="#E5E5EA"/>
+      <g font-size="13" font-weight="800" text-anchor="middle" fill="#C4C4CC">
+        <text x="30" y="442">⌂</text>
+        <text x="68" y="442">◉</text>
+        <text x="146" y="442">☰</text>
+        <text x="184" y="442" fill="#0B0B0F">✦</text>
+      </g>
+      <circle cx="107" cy="425" r="15" fill="#0B0B0F"/>
+      <text x="107" y="431" font-size="18" font-weight="300" fill="#FFFFFF" text-anchor="middle">+</text>
+    </g>
+  </g>
+
+  <!-- ===================== Phone B: Raj's Home + nudge ===================== -->
+  <g transform="translate(806,72)">
+    <g filter="url(#phoneShadow)">
+      <rect x="0" y="0" width="214" height="462" rx="36" fill="#1C1C22" stroke="#3A3A44" stroke-width="1.5"/>
+    </g>
+    <rect x="7" y="7" width="200" height="448" rx="30" fill="#F5F5F7"/>
+    <g clip-path="url(#screen)">
+      <text x="26" y="30" font-size="11" font-weight="700" fill="#0B0B0F">9:41</text>
+      <rect x="82" y="16" width="50" height="15" rx="7.5" fill="#0B0B0F"/>
+
+      <!-- hero card -->
+      <rect x="17" y="128" width="180" height="98" rx="20" fill="#FFFFFF"/>
+      <text x="29" y="182" font-size="54" font-weight="900" letter-spacing="-2" fill="#0B0B0F">3</text>
+      <text x="30" y="198" font-size="10.5" font-weight="600" fill="#8E8E96">things on you</text>
+      <g font-size="8.6" font-weight="700" fill="#3A3A42">
+        <circle cx="33" cy="212" r="3" fill="#22C55E"/>
+        <text x="39" y="215">2 groceries</text>
+        <circle cx="90" cy="212" r="3" fill="#A855F7"/>
+        <text x="96" y="215">1 event</text>
+      </g>
+      <circle cx="160" cy="174" r="27" fill="none" stroke="#EDEDF0" stroke-width="8"/>
+      <circle cx="160" cy="174" r="27" fill="none" stroke="#0B0B0F" stroke-width="8" stroke-linecap="round" stroke-dasharray="68 200" transform="rotate(-90 160 174)"/>
+      <text x="160" y="177" font-size="16" text-anchor="middle">👨🏽</text>
+      <text x="160" y="190" font-size="8" font-weight="700" fill="#8E8E96" text-anchor="middle">40%</text>
+
+      <!-- brief -->
+      <rect x="17" y="234" width="180" height="96" rx="20" fill="#0B0B0F"/>
+      <circle cx="33" cy="251" r="9" fill="#26262C"/>
+      <text x="33" y="254.5" font-size="8.5" text-anchor="middle">🧠</text>
+      <text x="48" y="254.5" font-size="10" font-weight="800" fill="#FFFFFF">Kin</text>
+      <text x="69" y="254.5" font-size="8" fill="#9A9AA3">your brief</text>
+      <text font-size="9.8" font-weight="600" fill="#FFFFFF">
+        <tspan x="27" y="273">Evening, Raj! Eggs + milk</tspan>
+        <tspan x="27" y="286">at Trader Joe's on the way</tspan>
+        <tspan x="27" y="299">home, then soccer Thu 5pm.</tspan>
+      </text>
+      <rect x="27" y="307" width="160" height="16" rx="8" fill="#1C1C22"/>
+      <text x="36" y="318.5" font-size="7.8" fill="#B5B5BD">Tell Kin anything…</text>
+      <text x="179" y="318.5" font-size="8" font-weight="800" fill="#FFFFFF" text-anchor="end">→</text>
+
+      <!-- for you -->
+      <text x="19" y="348" font-size="13" font-weight="900" fill="#0B0B0F" letter-spacing="-0.3">For you</text>
+      <text x="195" y="348" font-size="8.5" font-weight="600" fill="#8E8E96" text-anchor="end">3 open</text>
+      <rect x="17" y="356" width="180" height="56" rx="16" fill="#FFFFFF"/>
+      <text x="27" y="374" font-size="12">🥚</text>
+      <text x="46" y="368" font-size="9.8" font-weight="700" fill="#0B0B0F">Eggs (a dozen)</text>
+      <text x="46" y="379" font-size="7.8" fill="#8E8E96">Raj · tonight</text>
+      <circle cx="184" cy="370" r="7" fill="none" stroke="#D4D4DA" stroke-width="1.5"/>
+      <line x1="27" y1="385" x2="187" y2="385" stroke="#EFEFF2"/>
+      <text x="27" y="402" font-size="12">🥛</text>
+      <text x="46" y="396" font-size="9.8" font-weight="700" fill="#0B0B0F">Milk (2 gallons)</text>
+      <text x="46" y="407" font-size="7.8" fill="#8E8E96">Raj · tonight</text>
+      <circle cx="184" cy="398" r="7" fill="none" stroke="#D4D4DA" stroke-width="1.5"/>
+
+      <!-- tab bar -->
+      <rect x="7" y="418" width="200" height="40" fill="#FFFFFF"/>
+      <line x1="7" y1="418" x2="207" y2="418" stroke="#E5E5EA"/>
+      <g font-size="13" font-weight="800" text-anchor="middle" fill="#C4C4CC">
+        <text x="30" y="442" fill="#0B0B0F">⌂</text>
+        <text x="68" y="442">◉</text>
+        <text x="146" y="442">☰</text>
+        <text x="184" y="442">✦</text>
+      </g>
+      <circle cx="107" cy="425" r="15" fill="#0B0B0F"/>
+      <text x="107" y="431" font-size="18" font-weight="300" fill="#FFFFFF" text-anchor="middle">+</text>
+    </g>
+
+    <!-- nudge banner (drops in over the top of the screen) -->
+    <g filter="url(#bannerShadow)">
+      <rect x="-22" y="40" width="258" height="82" rx="22" fill="#111114" stroke="#2C2C34"/>
+    </g>
+    <circle cx="6" cy="81" r="19" fill="#26262C"/>
+    <text x="6" y="88" font-size="19" text-anchor="middle">🥚</text>
+    <text x="34" y="59" font-size="10" font-weight="900" fill="#FFFFFF">Kin</text>
+    <text x="56" y="59" font-size="9" fill="#8E8E96">for</text>
+    <circle cx="78" cy="55.5" r="5.5" fill="#FF6B4A"/>
+    <text x="87" y="59" font-size="9" fill="#8E8E96">Priya</text>
+    <text x="224" y="59" font-size="9" fill="#8E8E96" text-anchor="end">now</text>
+    <text font-size="10.6" font-weight="600" fill="#FFFFFF">
+      <tspan x="34" y="76">Hey Raj — Priya noticed we're</tspan>
+      <tspan x="34" y="90">out of eggs. Grab a dozen at</tspan>
+      <tspan x="34" y="104">Trader Joe's on your way home?</tspan>
+    </text>
+  </g>
+</svg>

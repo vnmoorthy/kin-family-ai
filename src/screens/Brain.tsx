@@ -30,7 +30,7 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
         <View style={s.stats}>
           <Press onPress={() => setTab("family")} style={[s.stat, tab === "family" ? s.statOn : null] as any}>
             <T style={[s.statNum, tab === "family" ? { color: C.white } : null] as any}>{familyCount}</T>
-            <T style={{ fontWeight: "700", color: tab === "family" ? "#C9C9D0" : C.muted }}>👨‍👩‍👧 Shared with family</T>
+            <T style={{ fontWeight: "700", color: tab === "family" ? "#C9C9D0" : C.muted }}>🏡 Shared with family</T>
           </Press>
           <Press onPress={() => setTab("private")} style={[s.stat, tab === "private" ? s.statOn : null] as any}>
             <T style={[s.statNum, tab === "private" ? { color: C.white } : null] as any}>{mineCount}</T>
@@ -102,7 +102,7 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
             {sel.ownerId === me._id || sel.scope === "family" ? (
               <Button
                 label={sel.scope === "family" ? "Make private (only me)" : "Share with family"}
-                icon={sel.scope === "family" ? "🔒" : "👨‍👩‍👧"}
+                icon={sel.scope === "family" ? "🔒" : "🏡"}
                 onPress={async () => {
                   await setScope({ memoryId: sel._id, scope: sel.scope === "family" ? "private" : "family" });
                   tap("success");

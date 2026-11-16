@@ -132,7 +132,7 @@ export default function Kin({
           {(["family", "private"] as const).map((m) => (
             <Press key={m} onPress={() => setMode(m)} style={[s.segBtn, mode === m ? s.segOn : null] as any}>
               <T style={{ fontWeight: "800", fontSize: 14, color: mode === m ? C.ink : C.muted }}>
-                {m === "family" ? "👨‍👩‍👧 Family" : "🔒 Just me"}
+                {m === "family" ? "🏡 Family" : "🔒 Just me"}
               </T>
             </Press>
           ))}

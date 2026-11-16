@@ -1,0 +1,37 @@
+project:
+    id: a63beb53-419f-4841-9994-28a8c3b20863
+session:
+    idle_timeout_seconds: 1800
+build:
+    framework: expo
+    profiles:
+        development:
+            ios:
+                setup_commands:
+                    - npm install
+                    - if [ ! -d ios ]; then npx expo prebuild --platform ios --no-install; fi
+                build_commands:
+                    - cd ios && if [ ! -d Pods ]; then pod install; fi && WS=$(ls -d *.xcworkspace | head -n 1) && xcodebuild -workspace "$WS" -scheme "${WS%.xcworkspace}" -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' ARCHS=arm64 -derivedDataPath build
+                output_path: ios/build/Build/Products/Debug-iphonesimulator/*.app
+            android:
+                setup_commands:
+                    - npm install
+                    - if [ ! -d android ]; then npx expo prebuild --platform android --no-install; fi
+                build_commands:
+                    - cd android && ./gradlew assembleDebug -PreactNativeArchitectures=x86_64
+                output_path: android/app/build/outputs/apk/debug/app-debug.apk
+        preview:
+            ios:
+                setup_commands:
+                    - npm install
+                    - if [ ! -d ios ]; then npx expo prebuild --platform ios --no-install; fi
+                build_commands:
+                    - cd ios && if [ ! -d Pods ]; then pod install; fi && WS=$(ls -d *.xcworkspace | head -n 1) && xcodebuild -workspace "$WS" -scheme "${WS%.xcworkspace}" -configuration Release -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' ARCHS=arm64 -derivedDataPath build
+                output_path: ios/build/Build/Products/Release-iphonesimulator/*.app
+            android:
+                setup_commands:
+                    - npm install
+                    - if [ ! -d android ]; then npx expo prebuild --platform android --no-install; fi
+                build_commands:
+                    - cd android && ./gradlew assembleRelease -PreactNativeArchitectures=x86_64
+                output_path: android/app/build/outputs/apk/release/app-release.apk

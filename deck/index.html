@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kin Pitch Deck</title>
+<!-- Optional web font. Deck falls back to the system font offline. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0B0F;--bg:#F5F5F7;--card:#FFFFFF;--muted:#6B6B76;--line:#E4E4EA;
+  --green:#22C55E;--blue:#3B82F6;--purple:#A855F7;--orange:#FF6B2C;
+  --ease:cubic-bezier(.2,.8,.2,1);--spring:cubic-bezier(.2,1.3,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;cursor:default;user-select:none}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;transform-origin:center center;overflow:hidden;background:var(--bg)}
+
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;background:var(--bg);overflow:hidden;opacity:0;visibility:hidden;transform:scale(1.015);
+  transition:opacity .6s var(--ease),transform .8s var(--ease),visibility 0s linear .6s;padding:96px 130px}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.slide.dark{background:var(--ink);color:#fff}
+
+/* entrance system: add class "a" + style="--d:<seconds>" */
+.a{opacity:0}
+.active .a{animation:rise .9s var(--ease) both;animation-delay:calc(var(--d,0) * 1s)}
+.active .a.pop{animation-name:pop;animation-duration:.8s}
+.active .a.l{animation-name:fromL}
+.active .a.r{animation-name:fromR}
+.active .a.fade{animation-name:fade;animation-duration:1.2s}
+.active .a.down{animation-name:fromTop}
+@keyframes rise{from{opacity:0;transform:translateY(44px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:scale(.55)}60%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes fromL{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:none}}
+@keyframes fromR{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:none}}
+@keyframes fromTop{from{opacity:0;transform:translateY(-50px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(2.1);opacity:0}}
+@keyframes dash{to{stroke-dashoffset:-48}}
+@keyframes draw{from{stroke-dashoffset:var(--len,1000)}to{stroke-dashoffset:0}}
+@keyframes flame{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.12) rotate(3deg)}}
+
+/* ---------- type ---------- */
+.kicker{font-size:24px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.dark .kicker{color:#8E8E99}
+h1,h2,h3{font-weight:800;letter-spacing:-.045em}
+h2{font-size:80px;line-height:1.0;margin-top:18px}
+.sub{font-size:32px;line-height:1.35;color:var(--muted);font-weight:500;margin-top:24px}
+.dark .sub{color:#A1A1AA}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;font-size:22px;font-weight:600;background:var(--card);box-shadow:0 1px 0 var(--line)}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.g{background:var(--green)}.b{background:var(--blue)}.p{background:var(--purple)}.o{background:var(--orange)}
+.card{background:var(--card);border-radius:24px;box-shadow:0 1px 2px rgba(11,11,15,.04),0 12px 40px rgba(11,11,15,.06)}
+.abs{position:absolute}
+
+/* ---------- HUD ---------- */
+#hud{position:absolute;left:0;right:0;bottom:0;height:64px;z-index:50;pointer-events:none}
+#bar{position:absolute;left:0;bottom:0;height:6px;background:var(--ink);width:10%;transition:width .6s var(--ease)}
+#hud.ondark #bar{background:#fff}
+#count{position:absolute;right:48px;bottom:22px;font-size:20px;font-weight:700;letter-spacing:.08em;color:#9A9AA5;font-variant-numeric:tabular-nums}
+#brand{position:absolute;left:48px;bottom:20px;font-size:22px;font-weight:800;letter-spacing:-.02em;color:#9A9AA5}
+#hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:18px;color:#9A9AA5;transition:opacity .6s}
+#hint.gone{opacity:0}
+
+/* ---------- phone ---------- */
+.phone{position:relative;width:380px;height:780px;border-radius:62px;background:var(--ink);box-shadow:0 50px 90px rgba(11,11,15,.28),inset 0 0 0 2px #2B2B33}
+.phone .scr{position:absolute;inset:14px;border-radius:50px;overflow:hidden;background:var(--bg)}
+.phone .island{position:absolute;top:26px;left:50%;width:118px;height:34px;margin-left:-59px;background:#000;border-radius:20px;z-index:9}
+
+/* ================= S1 TITLE ================= */
+#s1 .logo{display:flex;align-items:center;gap:22px;margin-top:150px}
+#s1 .mark{width:96px;height:96px;border-radius:28px;background:#fff;display:grid;place-items:center;position:relative}
+#s1 .mark i{position:absolute;width:20px;height:20px;border-radius:50%;background:var(--ink)}
+#s1 .word{font-size:220px;font-weight:900;letter-spacing:-.07em;line-height:.85;margin-top:30px}
+#s1 .tag{font-size:64px;font-weight:700;letter-spacing:-.035em;line-height:1.08;margin-top:34px;max-width:860px}
+#s1 .tag em{font-style:normal;color:#8E8E99}
+#s1 .meta{margin-top:44px;font-size:24px;color:#8E8E99;font-weight:600}
+.orbit{position:absolute;right:170px;top:50%;width:620px;height:620px;margin-top:-330px}
+.orbit .ring{position:absolute;inset:0;border-radius:50%;border:2px dashed rgba(255,255,255,.16);animation:spin 48s linear infinite}
+.orbit .ring2{position:absolute;inset:120px;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
+.orbit .av{position:absolute;width:116px;height:116px;margin:-58px;border-radius:50%;display:grid;place-items:center;font-size:54px;background:#1A1A21;border:2px solid rgba(255,255,255,.14);animation:spin 48s linear infinite reverse}
+.orbit .av b{position:absolute;bottom:-40px;font-size:20px;font-weight:700;color:#C9C9D1;white-space:nowrap}
+.core{position:absolute;left:50%;top:50%;width:220px;height:220px;margin:-110px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:64px;font-weight:900;letter-spacing:-.05em;z-index:2}
+.core::before,.core::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #fff;animation:pulse 2.6s var(--ease) infinite}
+.core::after{animation-delay:1.3s}
+.float{position:absolute;z-index:3}
+.float .n{background:#fff;color:var(--ink);border-radius:22px;padding:16px 22px;font-size:22px;font-weight:650;display:flex;gap:12px;align-items:center;box-shadow:0 20px 50px rgba(0,0,0,.35);animation:bob 5s ease-in-out infinite;white-space:nowrap}
+
+/* ================= S2 PROBLEM ================= */
+#s2 .left{position:absolute;left:130px;top:96px;width:760px}
+#s2 .stats{display:flex;gap:56px;margin-top:70px}
+#s2 .stat b{display:block;font-size:120px;font-weight:900;letter-spacing:-.06em;line-height:1}
+#s2 .stat span{display:block;font-size:24px;color:var(--muted);font-weight:600;margin-top:6px;max-width:190px;line-height:1.25}
+#s2 .outbox{position:absolute;left:1000px;top:96px;width:790px}
+#s2 .ohead{font-size:24px;font-weight:700;color:var(--muted);margin-bottom:22px;display:flex;justify-content:space-between}
+#s2 .msg{display:flex;align-items:center;gap:22px;padding:20px 26px;margin-bottom:14px}
+#s2 .msg time{font-size:20px;color:var(--muted);font-weight:700;width:82px;flex:none;font-variant-numeric:tabular-nums}
+#s2 .msg .to{font-size:18px;font-weight:800;padding:6px 12px;border-radius:999px;color:#fff;flex:none;width:92px;text-align:center}
+#s2 .msg p{font-size:25px;font-weight:600;line-height:1.25}
+#s2 .stamp{position:absolute;right:120px;bottom:70px;font-size:56px;font-weight:900;letter-spacing:-.03em;color:var(--orange);border:6px solid var(--orange);border-radius:24px;padding:10px 28px;transform:rotate(-6deg);background:rgba(245,245,247,.92)}
+#s2 .active .stamp{}
+
+/* ================= S3 INSIGHT ================= */
+#s3 .flow{position:absolute;left:130px;top:380px;width:1660px;height:620px}
+#s3 .who{position:absolute;width:380px;padding:24px 26px}
+#s3 .who .h{display:flex;align-items:center;gap:14px;font-size:30px;font-weight:800}
+#s3 .who .h span{font-size:40px}
+#s3 .who p{font-size:22px;line-height:1.35;margin-top:10px;font-weight:550}
+#s3 .who small{display:inline-block;margin-top:12px;font-size:18px;font-weight:700;color:var(--muted);background:var(--bg);border-radius:999px;padding:6px 14px}
+#s3 svg{position:absolute;inset:0;overflow:visible}
+#s3 .wire{stroke:#C9C9D1;stroke-width:3;stroke-dasharray:10 14;fill:none;animation:dash 1.2s linear infinite}
+#s3 .brain{position:absolute;left:700px;top:170px;width:260px;height:260px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;z-index:2}
+#s3 .brain b{font-size:64px;letter-spacing:-.05em;display:block;line-height:1}
+#s3 .brain span{font-size:20px;color:#A1A1AA;font-weight:600}
+#s3 .brain::before{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--ink);animation:pulse 2.4s var(--ease) infinite}
+#s3 .chip{position:absolute;z-index:3;white-space:nowrap;background:#fff;border-radius:999px;padding:10px 18px;font-size:20px;font-weight:700;box-shadow:0 8px 24px rgba(11,11,15,.12);opacity:0;display:flex;gap:8px;align-items:center}
+#s3.active .chip{animation:flow 4.2s var(--ease) infinite;animation-delay:calc(1.4s + var(--dl))}
+@keyframes flow{
+  0%{transform:translate(-50%,-50%) translate(0,0) scale(1);opacity:0}
+  12%{opacity:1}
+  75%{opacity:1}
+  100%{transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) scale(.45);opacity:0}}
+#s3 .foot{position:absolute;left:0;right:0;bottom:-6px;text-align:center;font-size:30px;font-weight:700}
+
+/* ================= S4 SOLUTION ================= */
+#s4 .steps{position:absolute;left:130px;top:400px;width:1660px;display:flex;gap:56px}
+#s4 .step{width:373px;height:470px;padding:30px 30px;position:relative}
+#s4 .num{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:26px}
+#s4 .step h3{font-size:46px;margin-top:20px}
+#s4 .step .d{font-size:22px;color:var(--muted);font-weight:600;margin-top:6px}
+#s4 .items{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+#s4 .it{background:var(--bg);border-radius:16px;padding:12px 16px;font-size:20px;font-weight:650;display:flex;gap:10px;align-items:center;line-height:1.25}
+#s4 .arrow{position:absolute;right:-50px;top:200px;width:44px;height:44px;z-index:3;display:grid;place-items:center;color:var(--ink);font-size:34px;font-weight:900}
+#s4 .arrow span{animation:nudgeR 1.4s ease-in-out infinite}
+@keyframes nudgeR{0%,100%{transform:translateX(-4px);opacity:.4}50%{transform:translateX(6px);opacity:1}}
+#s4 .notif{background:var(--ink);color:#fff;border-radius:18px;padding:14px 16px;font-size:19px;font-weight:600;line-height:1.3}
+#s4 .notif small{display:block;font-size:14px;color:#8E8E99;font-weight:700;letter-spacing:.08em;margin-bottom:4px}
+#s4 .tagline{position:absolute;left:130px;bottom:80px;font-size:44px;font-weight:800;letter-spacing:-.03em}
+#s4 .tagline s{color:var(--muted);text-decoration-thickness:4px}
+
+/* ================= S5 DEMO ================= */
+#s5 .title{position:absolute;left:130px;top:70px;right:130px;display:flex;justify-content:space-between;align-items:flex-end}
+#s5 .title h2{font-size:64px;margin-top:10px}
+#replay{pointer-events:auto;cursor:pointer;border:0;background:#fff;border-radius:999px;padding:12px 22px;font-size:20px;font-weight:700;color:var(--ink);box-shadow:0 1px 0 var(--line);font-family:inherit}
+#s5 .ph{position:absolute;top:255px}
+#s5 .ph .lbl{position:absolute;top:-46px;left:0;right:0;text-align:center;font-size:24px;font-weight:800}
+#s5 .ph.priya{left:190px}
+#s5 .ph.raj{left:1350px}
+/* Priya chat */
+.chat .hdr{padding:76px 22px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);background:#fff}
+.chat .hdr b{font-size:22px}
+.chat .hdr span{font-size:15px;color:var(--muted);font-weight:600}
+.chat .faces{margin-left:auto;font-size:22px;letter-spacing:-6px}
+.chat .body{padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.bub{max-width:85%;border-radius:22px;padding:12px 16px;font-size:18px;font-weight:550;line-height:1.3}
+.bub.kin{background:#fff;align-self:flex-start;border-bottom-left-radius:6px}
+.bub.me{background:var(--ink);color:#fff;align-self:flex-end;border-bottom-right-radius:6px}
+.bub small{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:3px;letter-spacing:.04em}
+.hide{opacity:0;transform:translateY(18px) scale(.96);transition:opacity .45s var(--ease),transform .55s var(--spring)}
+.compose{position:absolute;left:14px;right:14px;bottom:20px;height:62px;border-radius:31px;background:#fff;display:flex;align-items:center;padding:0 10px 0 22px;font-size:19px;font-weight:550;box-shadow:0 1px 0 var(--line)}
+.compose .ph-t{color:#A1A1AA}
+.compose .send{margin-left:auto;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:22px;flex:none}
+.caret{display:inline-block;width:2px;height:22px;background:var(--ink);margin-left:2px;vertical-align:middle;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.toast{position:absolute;left:12px;right:12px;top:70px;z-index:8;border-radius:24px;background:var(--green);color:#fff;padding:16px 18px;font-size:20px;font-weight:800;display:flex;gap:10px;align-items:center;transform:translateY(-200px);transition:transform .7s var(--spring);box-shadow:0 16px 40px rgba(34,197,94,.35)}
+/* Raj lock screen */
+.lock{background:linear-gradient(165deg,#24243A 0%,#0B0B0F 70%) !important;color:#fff}
+.lock .time{text-align:center;margin-top:92px;font-size:96px;font-weight:300;letter-spacing:-.04em;line-height:1}
+.lock .date{text-align:center;font-size:20px;font-weight:600;color:#C9C9D1;margin-top:6px}
+.banner{position:absolute;left:12px;right:12px;top:250px;z-index:6;background:rgba(255,255,255,.96);color:var(--ink);border-radius:26px;padding:16px 18px;transform:translateY(-330px);opacity:0;transition:transform .8s var(--spring),opacity .3s}
+.banner .top{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.06em}
+.banner .ic{width:30px;height:30px;border-radius:9px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:900;letter-spacing:0}
+.banner p{font-size:19px;font-weight:650;line-height:1.32;margin-top:8px}
+.banner .btns{display:flex;gap:8px;margin-top:12px}
+.banner .btns span{flex:1;text-align:center;padding:10px;border-radius:14px;background:var(--bg);font-size:16px;font-weight:800;transition:background .3s,color .3s,transform .3s}
+.widget{position:absolute;left:12px;right:12px;bottom:28px;border-radius:26px;background:rgba(255,255,255,.12);padding:16px 18px;backdrop-filter:blur(10px)}
+.widget .wh{font-size:14px;font-weight:800;letter-spacing:.08em;color:#C9C9D1}
+.widget .row{display:flex;align-items:center;gap:12px;font-size:19px;font-weight:650;margin-top:12px}
+.box{width:28px;height:28px;border-radius:9px;border:2.5px solid #C9C9D1;display:grid;place-items:center;flex:none;transition:background .3s,border-color .3s}
+.box svg{width:18px;height:18px;stroke:#fff;stroke-width:3.5;fill:none;stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .5s var(--ease) .15s}
+.row .txt{transition:color .3s,opacity .3s}
+/* center brain */
+#s5 .kin{position:absolute;left:840px;top:330px;width:240px;height:240px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;text-align:center;z-index:2;transition:transform .5s var(--spring),box-shadow .5s}
+#s5 .kin b{font-size:60px;letter-spacing:-.05em;display:block;line-height:1}
+#s5 .kin span{font-size:18px;color:#A1A1AA;font-weight:600}
+#s5 .wire{position:absolute;top:448px;height:4px;border-radius:2px;background:repeating-linear-gradient(90deg,#C9C9D1 0 10px,transparent 10px 20px)}
+#s5 .w1{left:600px;width:230px}
+#s5 .w2{left:1090px;width:250px}
+#s5 .pkt{position:absolute;top:-10px;left:0;width:24px;height:24px;border-radius:50%;background:var(--green);box-shadow:0 0 0 6px rgba(34,197,94,.2);opacity:0;transition:left 1s var(--ease),opacity .2s}
+#s5 .w2 .pkt{background:var(--blue);box-shadow:0 0 0 6px rgba(59,130,246,.2)}
+#s5 .recall{position:absolute;left:740px;top:610px;width:440px;display:flex;flex-direction:column;gap:12px;align-items:center}
+#s5 .recall .rc{background:#fff;border-radius:999px;padding:11px 20px;font-size:20px;font-weight:700;display:flex;gap:10px;align-items:center;white-space:nowrap}
+#s5 .recall .rh{font-size:18px;font-weight:800;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+#s5 .recall .assign{background:var(--blue);color:#fff}
+/* demo states */
+#s5.s1 .m1{opacity:1;transform:none}
+#s5.s1 .w1 .pkt{opacity:1;left:calc(100% - 24px)}
+#s5.s2 .w1 .pkt{opacity:0}
+#s5.s2 .kin{transform:scale(1.08);box-shadow:0 0 0 18px rgba(11,11,15,.06)}
+#s5.s2 .r1{opacity:1;transform:none;transition-delay:.0s}
+#s5.s2 .r2{opacity:1;transform:none;transition-delay:.35s}
+#s5.s2 .r3{opacity:1;transform:none;transition-delay:.7s}
+#s5.s3 .kin{transform:scale(1)}
+#s5.s3 .r4{opacity:1;transform:none}
+#s5.s3 .m2{opacity:1;transform:none}
+#s5.s3 .w2 .pkt{opacity:1;left:calc(100% - 24px)}
+#s5.s4 .w2 .pkt{opacity:0}
+#s5.s4 .banner{transform:none;opacity:1}
+#s5.s4 .rajbuzz{animation:buzz .12s linear 6}
+@keyframes buzz{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-.6deg)}75%{transform:translateX(5px) rotate(.6deg)}}
+#s5.s4 .row.egg .txt{color:#fff}
+#s5.s5 .banner .btns .done{background:var(--green);color:#fff;transform:scale(1.04)}
+#s5.s5 .row.egg .box{background:var(--green);border-color:var(--green)}
+#s5.s5 .row.egg .box svg{stroke-dashoffset:0}
+#s5.s5 .row.egg .txt{text-decoration:line-through;opacity:.6}
+#s5.s6 .toast{transform:none}
+#s5.s6 .m3{opacity:1;transform:none}
+
+/* ================= S6 PRIVACY ================= */
+#s6 .cols{position:absolute;left:130px;top:390px;width:1660px;display:flex;gap:40px;align-items:stretch}
+#s6 .fam{width:640px;padding:36px}
+#s6 .me{width:520px;padding:36px;background:var(--ink);color:#fff}
+#s6 .hh{display:flex;align-items:center;gap:16px;font-size:36px;font-weight:800;letter-spacing:-.03em}
+#s6 .hh .ico{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;font-size:32px;background:var(--bg)}
+#s6 .me .hh .ico{background:#1E1E26}
+#s6 .lede{font-size:22px;color:var(--muted);font-weight:600;margin-top:10px}
+#s6 .me .lede{color:#A1A1AA}
+#s6 .chips{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+#s6 .chips span{background:var(--bg);border-radius:999px;padding:12px 18px;font-size:21px;font-weight:700;display:flex;gap:10px;align-items:center}
+#s6 .me .chips span{background:#1E1E26}
+#s6 .who{display:flex;gap:10px;margin-top:28px;font-size:20px;font-weight:700;color:var(--muted);align-items:center}
+#s6 .who em{font-style:normal;font-size:30px;letter-spacing:-4px}
+#s6 .lockwrap{position:absolute;right:34px;top:30px;width:64px;height:76px}
+#s6 .shackle{position:absolute;left:14px;top:0;width:36px;height:40px;border:7px solid #fff;border-bottom:0;border-radius:20px 20px 0 0;transform-origin:30px 40px;transform:translateY(-12px) rotate(25deg)}
+#s6.active .shackle{animation:lockit .6s var(--spring) 1.9s both}
+@keyframes lockit{to{transform:none}}
+#s6 .body{position:absolute;left:4px;bottom:0;width:56px;height:42px;border-radius:12px;background:#fff}
+#s6 .raj{width:420px;display:flex;flex-direction:column;gap:14px;justify-content:center}
+#s6 .raj .lbl{font-size:22px;font-weight:800;color:var(--muted)}
+#s6 .raj .bub{font-size:23px;max-width:100%}
+#s6 .rule{position:absolute;left:130px;bottom:84px;font-size:30px;font-weight:700}
+#s6 .rule b{color:var(--purple)}
+
+/* ================= S7 DAILY ================= */
+#s7 .loop{position:absolute;left:170px;top:360px;width:600px;height:600px}
+#s7 .circ{position:absolute;inset:60px;border-radius:50%;border:3px dashed #D4D4DB}
+#s7 .runner{position:absolute;inset:60px;animation:spin 8s linear infinite}
+#s7 .runner i{position:absolute;left:50%;top:-13px;margin-left:-13px;width:26px;height:26px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 8px rgba(255,107,44,.18)}
+#s7 .node{position:absolute;width:210px;margin-left:-105px;margin-top:-44px;height:88px;border-radius:24px;background:#fff;display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;font-weight:800;box-shadow:0 10px 30px rgba(11,11,15,.08)}
+#s7.active .node{animation:nodeOn 8s linear infinite;animation-delay:var(--nd)}
+@keyframes nodeOn{0%,18%{background:var(--ink);color:#fff;transform:scale(1.08)}26%,100%{background:#fff;color:var(--ink);transform:scale(1)}}
+#s7 .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center}
+#s7 .center .fl{font-size:84px;display:inline-block;animation:flame 1.6s ease-in-out infinite}
+#s7 .center b{display:block;font-size:150px;font-weight:900;letter-spacing:-.06em;line-height:.9}
+#s7 .center span{font-size:22px;font-weight:700;color:var(--muted)}
+#s7 .briefs{position:absolute;left:900px;top:330px;width:890px}
+#s7 .brief{padding:32px 34px}
+#s7 .brief .bt{font-size:16px;font-weight:800;letter-spacing:.12em;color:var(--muted)}
+#s7 .brief h3{font-size:42px;margin-top:6px;letter-spacing:-.035em}
+#s7 .brief .li{display:flex;align-items:center;gap:16px;font-size:24px;font-weight:650;margin-top:18px}
+#s7 .brief .li .dot{width:14px;height:14px}
+#s7 .ck{width:30px;height:30px;border-radius:10px;border:3px solid #D4D4DB;margin-left:auto;flex:none;position:relative}
+#s7.active .ck.on{animation:ckOn .4s var(--spring) both;animation-delay:var(--cd)}
+@keyframes ckOn{0%{transform:scale(.5)}100%{background:var(--green);border-color:var(--green);transform:scale(1)}}
+#s7 .ck.on::after{content:"";position:absolute;left:7px;top:2px;width:8px;height:15px;border:solid #fff;border-width:0 3.5px 3.5px 0;transform:rotate(45deg);opacity:0}
+#s7.active .ck.on::after{animation:fade .2s both;animation-delay:var(--cd)}
+#s7 .eve{margin-top:22px;padding:24px 34px;background:var(--ink);color:#fff;font-size:24px;font-weight:650;display:flex;align-items:center;gap:16px}
+#s7 .eve small{font-size:16px;letter-spacing:.12em;color:#8E8E99;font-weight:800;display:block}
+
+/* ================= S8 ARCH ================= */
+#s8 .arch{position:absolute;left:130px;top:330px;width:1660px;height:520px}
+#s8 svg{position:absolute;inset:0;overflow:visible}
+#s8 .ln{fill:none;stroke:#C9C9D1;stroke-width:3;stroke-dasharray:8 10;animation:dash 1.6s linear infinite}
+#s8 .tile{position:absolute;left:0;width:300px;height:100px;border-radius:24px;background:#fff;display:flex;align-items:center;gap:14px;padding:0 20px;font-size:22px;font-weight:750;box-shadow:0 10px 30px rgba(11,11,15,.06)}
+#s8 .tile .mini{width:34px;height:60px;border-radius:9px;background:var(--ink);position:relative;flex:none}
+#s8 .tile .mini::after{content:"";position:absolute;inset:4px;border-radius:6px;background:var(--bg)}
+#s8 .tile small{display:block;font-size:16px;color:var(--muted);font-weight:650}
+#s8 .convex{position:absolute;left:560px;top:90px;width:520px;height:320px;border-radius:28px;background:var(--ink);color:#fff;padding:34px}
+#s8 .convex h3{font-size:56px}
+#s8 .convex p{font-size:22px;color:#A1A1AA;font-weight:600;margin-top:6px}
+#s8 .convex .fns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+#s8 .convex .fns span{background:#1E1E26;border-radius:999px;padding:9px 16px;font-size:19px;font-weight:700}
+#s8 .live{position:absolute;right:26px;top:30px;display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;letter-spacing:.1em;color:var(--green)}
+#s8 .live i{width:12px;height:12px;border-radius:50%;background:var(--green);animation:pulseDot 1.2s ease-in-out infinite}
+@keyframes pulseDot{50%{opacity:.25}}
+#s8 .svc{position:absolute;left:1320px;width:340px;height:130px;border-radius:24px;background:#fff;padding:22px 24px;box-shadow:0 10px 30px rgba(11,11,15,.06)}
+#s8 .svc b{font-size:28px;letter-spacing:-.02em;display:flex;gap:10px;align-items:center}
+#s8 .svc span{display:block;font-size:19px;color:var(--muted);font-weight:600;margin-top:6px;line-height:1.3}
+#s8 .dev{position:absolute;left:130px;top:880px;width:1660px;display:flex;align-items:center;gap:22px}
+#s8 .dev .lab{font-size:20px;font-weight:800;letter-spacing:.12em;color:var(--muted);width:150px;text-transform:uppercase}
+#s8 .dev .stp{flex:1;border-radius:22px;background:#fff;padding:18px 24px;font-size:22px;font-weight:650;line-height:1.3;border:2px dashed #D4D4DB}
+#s8 .dev .stp b{font-size:24px}
+#s8 .dev .ar{font-size:30px;font-weight:900;color:var(--muted)}
+
+/* ================= S9 BUSINESS ================= */
+#s9 .price{position:absolute;left:130px;top:360px;width:700px;padding:44px 46px}
+#s9 .price .big{font-size:170px;font-weight:900;letter-spacing:-.065em;line-height:.9}
+#s9 .price .per{font-size:28px;font-weight:700;color:var(--muted);margin-top:10px}
+#s9 .price ul{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:16px}
+#s9 .price li{display:flex;gap:16px;align-items:center;font-size:26px;font-weight:650}
+#s9 .price li i{width:34px;height:34px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-size:18px;font-weight:900;flex:none}
+#s9 .whop{display:inline-flex;margin-top:30px;font-size:20px;font-weight:800;padding:10px 18px;border-radius:999px;background:var(--bg)}
+#s9 .viral{position:absolute;left:900px;top:330px;width:890px;height:620px}
+#s9 svg{position:absolute;inset:0;overflow:visible}
+#s9 .vl{fill:none;stroke:var(--ink);stroke-width:3;stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+#s9 .vl.sms{stroke:#A1A1AA;stroke-dasharray:6 10}
+#s9 .vl.next{stroke:var(--orange);stroke-width:3.5}
+#s9.active .vl{animation:draw .9s var(--ease) both;animation-delay:var(--ld)}
+#s9.active .vl.sms{animation:fade .6s both, dash 1.4s linear infinite;animation-delay:var(--ld),var(--ld)}
+#s9 .nd{position:absolute;transform:translate(-50%,-50%)}
+#s9 .nd > div{border-radius:999px;background:#fff;padding:14px 22px;font-size:23px;font-weight:800;display:flex;gap:10px;align-items:center;white-space:nowrap;box-shadow:0 10px 30px rgba(11,11,15,.08)}
+#s9 .nd.root > div{background:var(--ink);color:#fff;font-size:28px;padding:20px 30px}
+#s9 .nd.sms > div{background:transparent;border:2.5px dashed #A1A1AA;box-shadow:none;color:var(--muted)}
+#s9 .nd.fam2 > div{background:#FFF1EA;color:var(--orange);border:2.5px solid var(--orange)}
+#s9 .code{position:absolute;left:440px;top:388px;transform:translate(-50%,0)}
+#s9 .code > div{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:22px;font-weight:800;background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:8px 16px;letter-spacing:.08em}
+#s9 .cap{position:absolute;left:0;right:0;bottom:-10px;font-size:24px;font-weight:650;color:var(--muted);text-align:center;line-height:1.35}
+
+/* ================= S10 VISION ================= */
+#s10 h1{font-size:100px;line-height:.98;margin-top:20px;max-width:1500px}
+#s10 h1 em{font-style:normal;color:#8E8E99}
+#s10 .road{display:flex;gap:28px;margin-top:64px}
+#s10 .rm{flex:1;background:#17171D;border-radius:24px;padding:28px;min-height:200px}
+#s10 .rm .e{font-size:44px}
+#s10 .rm b{display:block;font-size:27px;margin-top:14px;letter-spacing:-.02em;line-height:1.2}
+#s10 .rm span{display:block;font-size:19px;color:#A1A1AA;font-weight:600;margin-top:8px;line-height:1.35}
+#s10 .bottom{position:absolute;left:130px;right:130px;bottom:96px;display:flex;justify-content:space-between;align-items:flex-end;gap:60px}
+#s10 .quote{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1.15;max-width:960px}
+#s10 .quote em{font-style:normal;color:#8E8E99}
+#s10 .thanks{text-align:right}
+#s10 .thanks .ask{font-size:24px;font-weight:700;color:#fff;background:#17171D;border-radius:18px;padding:16px 22px;display:inline-block;text-align:left;line-height:1.35}
+#s10 .thanks .ask b{color:var(--orange)}
+#s10 .thanks .gh{font-size:26px;font-weight:800;margin-top:20px;font-family:ui-monospace,"SF Mono",Menlo,monospace}
+#s10 .thanks .stack{font-size:18px;color:#8E8E99;font-weight:650;margin-top:10px}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ================= 1. TITLE ================= -->
+<section class="slide dark" id="s1">
+<!-- SPEAKER NOTES (0:00-0:12): "Hi, I'm building Kin. One shared brain for your whole family. Every family member knows different things -- Kin puts it in one place and gets it to the right person, automatically. Built today, here at YC." Let the orbit run; don't read the cards. -->
+  <div class="kicker a" style="--d:.1">YC Consumer Mobile Hackathon · San Francisco</div>
+  <div class="word a" style="--d:.25">Kin</div>
+  <div class="tag a" style="--d:.5">One shared brain for <em>your whole family.</em></div>
+  <div class="meta a" style="--d:.8">Tell it anything. It remembers, decides who should handle it, and nudges them — instantly.</div>
+
+  <div class="orbit a pop" style="--d:.4">
+    <div class="ring2"></div>
+    <div class="ring">
+      <div class="av" style="left:50%;top:0">👩🏽<b>Priya · Mom</b></div>
+      <div class="av" style="left:100%;top:50%">👨🏽<b>Raj · Dad</b></div>
+      <div class="av" style="left:50%;top:100%">👵🏽<b>Paati</b></div>
+      <div class="av" style="left:0;top:50%">👦🏽<b>Arjun · 12</b></div>
+    </div>
+    <div class="core">Kin</div>
+  </div>
+  <div class="float a r" style="--d:1.1;right:640px;top:250px"><div class="n"><i class="dot g"></i>🥚 Eggs → Raj, on his way home</div></div>
+  <div class="float a r" style="--d:1.35;right:90px;top:840px"><div class="n" style="animation-delay:-1.6s"><i class="dot b"></i>📄 Field-trip slip → Arjun</div></div>
+  <div class="float a r" style="--d:1.6;right:700px;top:800px"><div class="n" style="animation-delay:-3s"><i class="dot o"></i>🔥 Family streak · 12 days</div></div>
+</section>
+
+<!-- ================= 2. PROBLEM ================= -->
+<section class="slide" id="s2">
+<!-- SPEAKER NOTES (0:12-0:27): "Every household has a default coordinator. In mine, it's my mom -- in most homes it's Mom. She's the human router. She knows the eggs are gone, the field-trip slip is due Friday, Paati's refill is Thursday -- and she texts it back out to everyone, all day. Every single day." Pause on the stamp. -->
+  <div class="left">
+    <div class="kicker a" style="--d:.05">The problem</div>
+    <h2 class="a" style="--d:.15">Every home has a<br>human router.</h2>
+    <p class="sub a" style="--d:.3">The default parent — usually Mom — holds what everyone knows, and nags it back out, one text at a time.</p>
+    <div class="stats">
+      <div class="stat a pop" style="--d:.6"><b>4</b><span>people who each know different things</span></div>
+      <div class="stat a pop" style="--d:.8"><b>1</b><span>person routing all of it</span></div>
+      <div class="stat a pop" style="--d:1.0"><b style="color:var(--orange)">0</b><span>shared memory for the family</span></div>
+    </div>
+  </div>
+  <div class="outbox">
+    <div class="ohead a fade" style="--d:.3"><span>Priya's outbox · a normal Tuesday</span><span>📤 sent</span></div>
+    <div class="msg card a r" style="--d:.55"><time>6:45a</time><span class="to" style="background:var(--blue)">Arjun</span><p>Did you pack the <b>peanut-free</b> snack?? 🥜🚫</p></div>
+    <div class="msg card a r" style="--d:.85"><time>7:30a</time><span class="to" style="background:var(--ink)">Raj</span><p>Can you grab eggs tonight? We're out.</p></div>
+    <div class="msg card a r" style="--d:1.15"><time>12:10p</time><span class="to" style="background:#A1A1AA">Me</span><p>Field-trip slip due FRIDAY. Don't forget.</p></div>
+    <div class="msg card a r" style="--d:1.45"><time>3:20p</time><span class="to" style="background:var(--blue)">Arjun</span><p>Send me a photo of the homework sheet pls</p></div>
+    <div class="msg card a r" style="--d:1.75"><time>5:55p</time><span class="to" style="background:var(--ink)">Raj</span><p>Eggs?? You passed Trader Joe's, didn't you 😩</p></div>
+    <div class="msg card a r" style="--d:2.05"><time>9:40p</time><span class="to" style="background:var(--purple)">Paati</span><p>Amma, refill is Thursday — did you call the pharmacy?</p></div>
+  </div>
+  <div class="stamp a pop" style="--d:2.7">Every. Single. Day.</div>
+</section>
+
+<!-- ================= 3. INSIGHT ================= -->
+<section class="slide" id="s3">
+<!-- SPEAKER NOTES (0:27-0:38): "Here's the insight. Everyone in the family already has their own knowledge silo -- their own head, their own ChatGPT, a flyer crumpled in a backpack. Nobody has a FAMILY brain. Kin merges it into one memory that's shared only inside the family." -->
+  <div class="kicker a" style="--d:.05">The insight</div>
+  <h2 class="a" style="--d:.15">Everyone has their own AI.<br><span style="color:var(--muted)">No family has a shared brain.</span></h2>
+  <div class="flow">
+    <svg viewBox="0 0 1660 620" class="a fade" style="--d:.9">
+      <path class="wire" d="M380 110 L830 300"/><path class="wire" d="M380 490 L830 300"/>
+      <path class="wire" d="M1280 110 L830 300"/><path class="wire" d="M1280 490 L830 300"/>
+    </svg>
+    <div class="who card a l" style="--d:.4;left:0;top:20px"><div class="h"><span>👩🏽</span>Priya</div><p>Eggs are gone. Arjun is allergic to peanuts.</p><small>🔒 in her head</small></div>
+    <div class="who card a l" style="--d:.55;left:0;top:400px"><div class="h"><span>👨🏽</span>Raj</div><p>Drives past Trader Joe's at 6pm.</p><small>🔒 in his own AI chat</small></div>
+    <div class="who card a r" style="--d:.7;left:1280px;top:20px"><div class="h"><span>👦🏽</span>Arjun</div><p>Field-trip slip due Friday. Needs poster board.</p><small>🔒 in his backpack</small></div>
+    <div class="who card a r" style="--d:.85;left:1280px;top:400px"><div class="h"><span>👵🏽</span>Paati</div><p>Pharmacy refill on Thursday.</p><small>🔒 on a sticky note</small></div>
+    <div class="brain a pop" style="--d:1.1"><div><b>Kin</b><span>one family memory</span></div></div>
+    <div class="chip" style="left:380px;top:110px;--tx:450px;--ty:190px;--dl:0s"><i class="dot g"></i>🥚 out of eggs</div>
+    <div class="chip" style="left:380px;top:110px;--tx:450px;--ty:190px;--dl:2.1s"><i class="dot b"></i>🥜 no peanuts</div>
+    <div class="chip" style="left:380px;top:490px;--tx:450px;--ty:-190px;--dl:.7s"><i class="dot g"></i>🚗 Trader Joe's · 6pm</div>
+    <div class="chip" style="left:1280px;top:110px;--tx:-450px;--ty:190px;--dl:1.4s"><i class="dot b"></i>📄 slip due Fri</div>
+    <div class="chip" style="left:1280px;top:110px;--tx:-450px;--ty:190px;--dl:3.5s"><i class="dot b"></i>🖍️ poster board</div>
+    <div class="chip" style="left:1280px;top:490px;--tx:-450px;--ty:-190px;--dl:2.8s"><i class="dot p"></i>💊 refill Thu</div>
+    <div class="foot a" style="--d:1.6">Kin merges it — shared <u>only</u> inside the family.</div>
+  </div>
+</section>
+
+<!-- ================= 4. SOLUTION ================= -->
+<section class="slide" id="s4">
+<!-- SPEAKER NOTES (0:38-0:50): "So: you tell Kin anything -- a text, or a photo of the fridge, a school flyer, homework. Kin remembers it, decides who should handle it using what it knows about your family, and nudges that person. AI is the coordinator. Not Mom. Let me show you." Then pick up the phones. -->
+  <div class="kicker a" style="--d:.05">The solution</div>
+  <h2 class="a" style="--d:.15">Tell Kin anything.<br><span style="color:var(--muted)">It remembers, assigns, and nudges.</span></h2>
+  <div class="steps">
+    <div class="step card a" style="--d:.45">
+      <div class="num" style="background:var(--ink)">1</div><h3>Tell</h3><div class="d">Text it, or snap a photo</div>
+      <div class="items"><div class="it">💬 “we're out of eggs”</div><div class="it">📷 photo of the fridge</div><div class="it">🧾 school flyer</div><div class="it">📚 homework sheet</div></div>
+      <div class="arrow"><span>›</span></div>
+    </div>
+    <div class="step card a" style="--d:.7">
+      <div class="num" style="background:var(--purple)">2</div><h3>Remember</h3><div class="d">One family memory</div>
+      <div class="items"><div class="it"><i class="dot g"></i>Eggs: out</div><div class="it"><i class="dot b"></i>Arjun: allergic to peanuts</div><div class="it"><i class="dot p"></i>Field trip · Friday</div><div class="it"><i class="dot b"></i>Raj: Trader Joe's at 6pm</div></div>
+      <div class="arrow"><span>›</span></div>
+    </div>
+    <div class="step card a" style="--d:.95">
+      <div class="num" style="background:var(--blue)">3</div><h3>Decide who</h3><div class="d">Using memory, not guesswork</div>
+      <div class="items"><div class="it">🚗 Raj passes Trader Joe's → <b>eggs go to Raj</b></div><div class="it">🥜 Arjun's allergic → <b>snack must be nut-free</b></div></div>
+      <div class="arrow"><span>›</span></div>
+    </div>
+    <div class="step card a" style="--d:1.2">
+      <div class="num" style="background:var(--green)">4</div><h3>Nudge</h3><div class="d">Live, on the right phone</div>
+      <div class="items"><div class="notif"><small>KIN · RAJ'S PHONE</small>🥚 Hey Raj — Priya noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?</div><div class="it" style="background:#E9F9EF">✅ Raj finished Eggs</div></div>
+    </div>
+  </div>
+  <div class="tagline a" style="--d:1.7">AI is the coordinator. <s>Not Mom.</s></div>
+</section>
+
+<!-- ================= 5. DEMO MOMENT ================= -->
+<section class="slide" id="s5" data-demo="1">
+<!-- SPEAKER NOTES (0:50-1:50 LIVE DEMO; this slide is the backup / backdrop): Do it live on real phones first. If Wi-Fi or a phone fails, advance here and narrate: "Priya types 'we're out of eggs'. Kin recalls that Raj drives past Trader Joe's at six, assigns it to him, and his phone buzzes. He taps Done -- Priya gets 'Raj finished Eggs'. Nobody nagged anybody." Press R to replay the animation. -->
+  <div class="title">
+    <div><div class="kicker a" style="--d:.05">Demo moment</div><h2 class="a" style="--d:.15">“We're out of eggs.”</h2></div>
+    <button id="replay" class="a fade" style="--d:.6" title="Replay (R)">↻ Replay</button>
+  </div>
+
+  <div class="ph priya a l" style="--d:.2">
+    <div class="lbl">👩🏽 Priya's phone</div>
+    <div class="phone"><div class="island"></div>
+      <div class="scr chat">
+        <div class="toast">✅ Raj finished Eggs</div>
+        <div class="hdr"><b>Kin</b><span>· Family</span><div class="faces">👩🏽👨🏽👦🏽👵🏽</div></div>
+        <div class="body">
+          <div class="bub kin"><small>KIN · 7:02 AM</small>Morning Priya ☀️ Field-trip slip is due Friday — I've put it on Arjun's list.</div>
+          <div class="bub me hide m1">We're out of eggs 🥚</div>
+          <div class="bub kin hide m2"><small>KIN</small>Got it. Raj drives past Trader Joe's around 6 — sending it to him. 🛒</div>
+          <div class="bub kin hide m3" style="background:#E9F9EF"><small>KIN · 6:07 PM</small>Raj picked up a dozen. Nothing left on tonight's list 🎉</div>
+        </div>
+        <div class="compose"><span id="typed"></span><span class="caret"></span><span class="ph-t" id="phT">Tell Kin anything…</span><div class="send">↑</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wire w1 a fade" style="--d:.5"><div class="pkt"></div></div>
+  <div class="kin a pop" style="--d:.4"><div><b>Kin</b><span>family brain</span></div></div>
+  <div class="wire w2 a fade" style="--d:.5"><div class="pkt"></div></div>
+  <div class="recall">
+    <div class="rh hide r1">Recalling family memory</div>
+    <div class="rc hide r2"><i class="dot b"></i>🚗 Raj · passes Trader Joe's ~6pm</div>
+    <div class="rc hide r3"><i class="dot g"></i>🥚 We usually buy a dozen</div>
+    <div class="rc hide r4 assign">→ Assign to Raj · nudge now</div>
+  </div>
+
+  <div class="ph raj a r" style="--d:.3">
+    <div class="lbl">👨🏽 Raj's phone</div>
+    <div class="rajbuzz"><div class="phone"><div class="island"></div>
+      <div class="scr lock">
+        <div class="time">5:52</div><div class="date">Tuesday, on the drive home</div>
+        <div class="banner">
+          <div class="top"><span class="ic">K</span>KIN · NOW</div>
+          <p>🥚 Hey Raj — Priya noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?</p>
+          <div class="btns"><span class="done">✓ Done</span><span>Later</span></div>
+        </div>
+        <div class="widget">
+          <div class="wh">RAJ · TONIGHT</div>
+          <div class="row egg"><span class="box"><svg viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg></span><span class="txt" style="color:#8E8E99">🥚 Eggs · a dozen</span></div>
+          <div class="row"><span class="box"></span><span class="txt">📄 Sign Arjun's field-trip slip</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ================= 6. SHARED VS PRIVATE ================= -->
+<section class="slide" id="s6">
+<!-- SPEAKER NOTES (1:50-2:05): "Families also keep secrets. Every person gets a private 'Just me' memory. I told Kin about Raj's surprise party -- Kin uses it to help me, but when Raj asks what's happening Saturday, Kin will never reveal it. Shared memory is family-only. Private is private. Two separate namespaces." -->
+  <div class="kicker a" style="--d:.05">Privacy model</div>
+  <h2 class="a" style="--d:.15">Shared with your family.<br><span style="color:var(--muted)">Private to you.</span></h2>
+  <div class="cols">
+    <div class="fam card a l" style="--d:.45">
+      <div class="hh"><span class="ico">🏠</span>Family memory</div>
+      <div class="lede">Visible to everyone in the family — and no one else.</div>
+      <div class="chips">
+        <span class="a pop" style="--d:.8"><i class="dot g"></i>🥚 Out of eggs</span>
+        <span class="a pop" style="--d:.9"><i class="dot b"></i>🥜 Arjun: peanut allergy</span>
+        <span class="a pop" style="--d:1.0"><i class="dot p"></i>🚌 Field trip Friday</span>
+        <span class="a pop" style="--d:1.1"><i class="dot p"></i>💊 Paati's refill Thursday</span>
+        <span class="a pop" style="--d:1.2"><i class="dot g"></i>🛒 Raj: Trader Joe's at 6</span>
+      </div>
+      <div class="who">Shared with <em>👩🏽👨🏽👦🏽👵🏽</em></div>
+    </div>
+    <div class="me card a" style="--d:.7;position:relative">
+      <div class="lockwrap"><div class="shackle"></div><div class="body"></div></div>
+      <div class="hh"><span class="ico">🤫</span>Just me</div>
+      <div class="lede">Priya's private memory. Kin never reveals it.</div>
+      <div class="chips">
+        <span class="a pop" style="--d:1.3"><i class="dot p"></i>🎉 Surprise party for Raj · Sat 7pm</span>
+        <span class="a pop" style="--d:1.45"><i class="dot o"></i>🎁 Gift: new running shoes</span>
+      </div>
+      <div class="who" style="color:#8E8E99">Visible to <em>👩🏽</em> only</div>
+    </div>
+    <div class="raj">
+      <div class="lbl a fade" style="--d:2.1">👨🏽 Raj asks Kin…</div>
+      <div class="bub me a r" style="--d:2.3">Anything happening Saturday?</div>
+      <div class="bub kin a l" style="--d:3.0;box-shadow:0 10px 30px rgba(11,11,15,.08)"><small>KIN</small>Nothing on the family plan yet — keep the evening free 😉</div>
+    </div>
+  </div>
+  <div class="rule a" style="--d:3.4">Kin uses your private memory <b>to help you</b> — never to tell anyone else.</div>
+</section>
+
+<!-- ================= 7. DAILY LOOP ================= -->
+<section class="slide" id="s7">
+<!-- SPEAKER NOTES (2:05-2:20): "This is built to be used every day, not once a month. Everyone gets a personal brief morning and evening, shared live lists, nudges at the right moment, and every check-off keeps the family streak alive. The loop is the product." -->
+  <div class="kicker a" style="--d:.05">Why every day</div>
+  <h2 class="a" style="--d:.15">Built for every single day.</h2>
+  <div class="loop a pop" style="--d:.4">
+    <div class="circ"></div>
+    <div class="runner"><i></i></div>
+    <div class="node" style="left:300px;top:60px;--nd:0s">☀️ Brief</div>
+    <div class="node" style="left:540px;top:300px;--nd:2s">🛒 Lists</div>
+    <div class="node" style="left:300px;top:540px;--nd:4s">🔔 Nudges</div>
+    <div class="node" style="left:60px;top:300px;--nd:6s">✅ Check-off</div>
+    <div class="center"><span class="fl">🔥</span><b>12</b><span>day family streak</span></div>
+  </div>
+  <div class="briefs">
+    <div class="brief card a r" style="--d:.7">
+      <div class="bt">KIN · MORNING BRIEF · 7:00 AM</div>
+      <h3>Good morning, Raj ☀️ 3 things today</h3>
+      <div class="li"><i class="dot g"></i>🥚 Eggs — Trader Joe's is on your way home<span class="ck on" style="--cd:2.2s"></span></div>
+      <div class="li"><i class="dot b"></i>📄 Sign Arjun's field-trip slip<span class="ck on" style="--cd:2.8s"></span></div>
+      <div class="li"><i class="dot p"></i>🩺 Paati's appointment at 4 — Priya's driving<span class="ck"></span></div>
+    </div>
+    <div class="eve card a r" style="--d:1.1"><span style="font-size:40px">🌙</span><div><small>EVENING BRIEF · 8:30 PM</small>Everything got done today. Tomorrow: poster board for the science fair.</div></div>
+  </div>
+</section>
+
+<!-- ================= 8. HOW IT'S BUILT ================= -->
+<section class="slide" id="s8">
+<!-- SPEAKER NOTES (2:20-2:32): "How it's built: Expo React Native on every phone, Convex as the reactive backend -- every family phone updates live. OpenAI for reasoning and vision, Supermemory holds a family namespace and a private namespace per person, Whop runs Kin Plus checkout and webhooks. And Capy built it with us through PRs, while Revyl tested it on cloud devices with plain-English tests." -->
+  <div class="kicker a" style="--d:.05">How it's built</div>
+  <h2 class="a" style="--d:.15">Every family phone, live.</h2>
+  <div class="arch">
+    <svg viewBox="0 0 1660 520" class="a fade" style="--d:.8">
+      <path class="ln" id="p1" d="M300 70 C430 70 430 250 560 250"/>
+      <path class="ln" id="p2" d="M300 190 C430 190 430 250 560 250"/>
+      <path class="ln" id="p3" d="M300 310 C430 310 430 250 560 250"/>
+      <path class="ln" id="p4" d="M300 430 C430 430 430 250 560 250"/>
+      <path class="ln" id="p5" d="M1080 250 C1200 250 1200 85 1320 85"/>
+      <path class="ln" id="p6" d="M1080 250 L1320 250"/>
+      <path class="ln" id="p7" d="M1080 250 C1200 250 1200 415 1320 415"/>
+      <circle r="8" fill="#22C55E"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+      <circle r="8" fill="#3B82F6"><animateMotion dur="2.2s" begin="-1.1s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#p2"/></animateMotion></circle>
+      <circle r="8" fill="#3B82F6"><animateMotion dur="2.2s" begin="-0.5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#p3"/></animateMotion></circle>
+      <circle r="8" fill="#A855F7"><animateMotion dur="2.2s" begin="-1.6s" repeatCount="indefinite"><mpath href="#p4"/></animateMotion></circle>
+      <circle r="8" fill="#0B0B0F"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#p5"/></animateMotion></circle>
+      <circle r="8" fill="#0B0B0F"><animateMotion dur="1.8s" begin="-.9s" repeatCount="indefinite"><mpath href="#p6"/></animateMotion></circle>
+      <circle r="8" fill="#FF6B2C"><animateMotion dur="2.6s" begin="-1.3s" repeatCount="indefinite"><mpath href="#p7"/></animateMotion></circle>
+    </svg>
+    <div class="tile a l" style="--d:.3;top:20px"><span class="mini"></span><div>Priya<small>Expo · React Native</small></div></div>
+    <div class="tile a l" style="--d:.4;top:140px"><span class="mini"></span><div>Raj<small>Expo · React Native</small></div></div>
+    <div class="tile a l" style="--d:.5;top:260px"><span class="mini"></span><div>Arjun<small>Expo · React Native</small></div></div>
+    <div class="tile a l" style="--d:.6;top:380px"><span class="mini"></span><div>Paati<small>Expo · React Native</small></div></div>
+    <div class="convex a pop" style="--d:.55">
+      <div class="live"><i></i>LIVE</div>
+      <h3>Convex</h3><p>Reactive backend — every phone updates the instant anything changes.</p>
+      <div class="fns"><span>live queries</span><span>mutations</span><span>actions</span><span>nudges</span><span>streaks</span></div>
+    </div>
+    <div class="svc a r" style="--d:.7;top:20px"><b>OpenAI</b><span>Reasoning to assign + vision for fridge, flyer & homework snaps</span></div>
+    <div class="svc a r" style="--d:.85;top:185px"><b>Supermemory</b><span>Family + private “Just me” namespaces · semantic recall</span></div>
+    <div class="svc a r" style="--d:1.0;top:350px"><b>Whop</b><span>Kin Plus subscription checkout + webhook</span></div>
+  </div>
+  <div class="dev">
+    <div class="lab a fade" style="--d:1.2">Dev loop</div>
+    <div class="stp a" style="--d:1.3"><b>Capy</b> — AI software engineer; built Kin through PRs</div>
+    <div class="ar a fade" style="--d:1.45">→</div>
+    <div class="stp a" style="--d:1.5"><b>Revyl</b> — cloud-device tests written in plain English</div>
+    <div class="ar a fade" style="--d:1.65">→</div>
+    <div class="stp a" style="--d:1.7"><b>Ship</b> — to every family phone, same day</div>
+  </div>
+</section>
+
+<!-- ================= 9. BUSINESS & GROWTH ================= -->
+<section class="slide" id="s9">
+<!-- SPEAKER NOTES (2:32-2:45): "Business is simple: Kin Plus, $4.99 a month per family, checkout through Whop. One subscription covers the whole household. And it grows itself: every family invites three to five members by code, grandparents and nannies join over SMS -- and grandparents belong to more than one family, so they carry Kin into the next household." -->
+  <div class="kicker a" style="--d:.05">Business &amp; growth</div>
+  <h2 class="a" style="--d:.15">One price. The whole family.</h2>
+  <div class="price card a l" style="--d:.35">
+    <div class="big">$4.99</div>
+    <div class="per">per month, per family · Kin Plus</div>
+    <ul>
+      <li class="a" style="--d:.8"><i>✓</i>Unlimited members &amp; memories</li>
+      <li class="a" style="--d:.95"><i>✓</i>Photo snaps — fridge, flyers, homework</li>
+      <li class="a" style="--d:1.1"><i>✓</i>Daily briefs for everyone</li>
+      <li class="a" style="--d:1.25"><i>✓</i>Grandparents over SMS</li>
+    </ul>
+    <div class="whop a fade" style="--d:1.4">Checkout + webhook via Whop</div>
+  </div>
+  <div class="viral">
+    <svg viewBox="0 0 890 620">
+      <path class="vl" style="--len:220;--ld:.9s" d="M440 300 L440 80"/>
+      <path class="vl" style="--len:220;--ld:1.1s" d="M440 300 L649 232"/>
+      <path class="vl" style="--len:220;--ld:1.3s" d="M440 300 L569 478"/>
+      <path class="vl sms" style="--len:220;--ld:1.7s" d="M440 300 L311 478"/>
+      <path class="vl sms" style="--len:220;--ld:1.9s" d="M440 300 L231 232"/>
+      <path class="vl next" style="--len:240;--ld:2.5s" d="M569 478 C680 520 740 540 790 575"/>
+    </svg>
+    <div class="nd root a pop" style="--d:.6;left:440px;top:300px"><div>👩🏽 Priya starts Kin</div></div>
+    <div class="code a pop" style="--d:.9"><div>CODE · KIN-7Q2F</div></div>
+    <div class="nd a pop" style="--d:1.1;left:440px;top:80px"><div>👨🏽 Raj</div></div>
+    <div class="nd a pop" style="--d:1.3;left:649px;top:232px"><div>👦🏽 Arjun</div></div>
+    <div class="nd a pop" style="--d:1.5;left:569px;top:478px"><div>👵🏽 Paati</div></div>
+    <div class="nd sms a pop" style="--d:1.9;left:311px;top:478px"><div>💬 Nanny · SMS</div></div>
+    <div class="nd sms a pop" style="--d:2.1;left:231px;top:232px"><div>💬 Grandpa · SMS</div></div>
+    <div class="nd fam2 a pop" style="--d:2.9;left:790px;top:575px"><div>🏠 Next family</div></div>
+    <div class="cap a fade" style="--d:3.2"></div>
+  </div>
+  <div class="a fade" style="--d:3.1;position:absolute;left:900px;right:130px;top:250px;font-size:26px;font-weight:650;color:var(--muted);line-height:1.35">Every family invites <b style="color:var(--ink)">3–5 members by code</b>. Grandparents &amp; nannies join over SMS — and shared grandparents <b style="color:var(--orange)">carry Kin into the next family</b>.</div>
+</section>
+
+<!-- ================= 10. VISION / ASK ================= -->
+<section class="slide dark" id="s10">
+<!-- SPEAKER NOTES (2:45-3:00): "Where this goes: SMS and voice so Paati can just call Kin, calendar and school-email ingest, location-aware nudges -- 'you're near Costco, three things on the list' -- and chores and allowance for kids. Kin becomes the operating system of the home. Google Photos remembered your life. Kin remembers your family's. The ask: put Kin on your family's phones tonight. Thank you." -->
+  <div class="kicker a" style="--d:.05">Vision</div>
+  <h1 class="a" style="--d:.15">Kin becomes the<br><em>operating system of the home.</em></h1>
+  <div class="road">
+    <div class="rm a" style="--d:.5"><div class="e">📞</div><b>SMS &amp; voice for grandparents</b><span>Paati just texts or calls Kin</span></div>
+    <div class="rm a" style="--d:.65"><div class="e">📅</div><b>Calendar &amp; school email ingest</b><span>Flyers and portals become tasks</span></div>
+    <div class="rm a" style="--d:.8"><div class="e">📍</div><b>Location-aware nudges</b><span>“You're near Costco — 3 things on the list”</span></div>
+    <div class="rm a" style="--d:.95"><div class="e">⭐</div><b>Chores &amp; allowance for kids</b><span>Arjun earns for check-offs</span></div>
+  </div>
+  <div class="bottom">
+    <div class="quote a" style="--d:1.4">Google Photos remembered your life.<br><em>Kin remembers your family's.</em></div>
+    <div class="thanks a r" style="--d:1.7">
+      <div class="ask"><b>The ask:</b> put Kin on your family's phones tonight —<br>and tell us what it should take care of next.</div>
+      <div class="gh">github.com/vnmoorthy/kin-family-ai</div>
+      <div class="stack">Thank you 🙏 · Built today with Capy · Revyl · Convex · Supermemory · Whop · OpenAI · Expo</div>
+    </div>
+  </div>
+</section>
+
+<div id="hud"><div id="brand">Kin</div><div id="hint">→ / space to advance · F fullscreen</div><div id="count">01 / 10</div><div id="bar"></div></div>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage');
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var bar=document.getElementById('bar'),count=document.getElementById('count'),hud=document.getElementById('hud'),hint=document.getElementById('hint');
+  var cur=-1,timers=[];
+  function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform='scale('+s+')';}
+  addEventListener('resize',fit);fit();
+  function pad(n){return (n<10?'0':'')+n;}
+  function stopDemo(){timers.forEach(clearTimeout);timers=[];}
+  function runDemo(s){
+    stopDemo();
+    s.classList.remove('s1','s2','s3','s4','s5','s6');
+    var typed=document.getElementById('typed'),ph=document.getElementById('phT');
+    typed.textContent='';ph.style.display='';
+    var chars=Array.from("We're out of eggs 🥚"),t0=900,step=70;
+    timers.push(setTimeout(function(){ph.style.display='none';},t0-50));
+    chars.forEach(function(c,k){timers.push(setTimeout(function(){typed.textContent+=c;},t0+k*step));});
+    var T=t0+chars.length*step;
+    [[T+350,'s1'],[T+1200,'s2'],[T+2900,'s3'],[T+3900,'s4'],[T+6100,'s5'],[T+7000,'s6']].forEach(function(p){
+      timers.push(setTimeout(function(){
+        s.classList.add(p[1]);
+        if(p[1]==='s1'){typed.textContent='';ph.style.display='';}
+      },p[0]));
+    });
+  }
+  function go(n){
+    n=Math.max(0,Math.min(slides.length-1,n));
+    if(n===cur)return;
+    if(cur>=0){slides[cur].classList.remove('active');if(slides[cur].dataset.demo)stopDemo();}
+    cur=n;var s=slides[cur];
+    void s.offsetWidth;
+    s.classList.add('active');
+    bar.style.width=((cur+1)/slides.length*100)+'%';
+    count.textContent=pad(cur+1)+' / '+pad(slides.length);
+    hud.classList.toggle('ondark',s.classList.contains('dark'));
+    if(s.dataset.demo)runDemo(s);
+    if(cur>0)hint.classList.add('gone');
+    try{history.replaceState(null,'','#'+(cur+1));}catch(e){}
+  }
+  function fs(){
+    if(!document.fullscreenElement){(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen||function(){}).call(document.documentElement);}
+    else{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}
+  }
+  addEventListener('keydown',function(e){
+    var k=e.key;
+    if(k==='ArrowRight'||k==='ArrowDown'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();go(cur+1);}
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||k==='Backspace'){e.preventDefault();go(cur-1);}
+    else if(k==='Home'){go(0);}else if(k==='End'){go(slides.length-1);}
+    else if(k==='f'||k==='F'){fs();}
+    else if((k==='r'||k==='R')&&slides[cur].dataset.demo){runDemo(slides[cur]);}
+    else if(/^[1-9]$/.test(k)){go(parseInt(k,10)-1);}else if(k==='0'){go(9);}
+  });
+  document.getElementById('replay').addEventListener('click',function(e){e.stopPropagation();runDemo(slides[cur]);});
+  addEventListener('click',function(e){ if(e.clientX<innerWidth*0.18)go(cur-1);else go(cur+1);});
+  var tx=null;
+  addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));tx=null;});
+  var h=parseInt((location.hash||'').slice(1),10);
+  go(isNaN(h)?0:h-1);
+})();
+</script>
+</body>
+</html>
