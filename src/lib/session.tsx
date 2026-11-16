@@ -11,7 +11,12 @@ const Ctx = createContext<{
   signOut: () => Promise<void>;
 }>({ session: null, ready: false, signIn: async () => {}, signOut: async () => {} });
 
-const KEY = "kin.session.v1";
+// On web, ?profile=<name> keeps separate sessions per frame, so two "phones" can run side by side in one browser.
+const PROFILE =
+  typeof window !== "undefined" && (window as any).location?.search
+    ? new URLSearchParams((window as any).location.search).get("profile")
+    : null;
+const KEY = PROFILE ? `kin.session.v1.${PROFILE}` : "kin.session.v1";
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session>(null);
