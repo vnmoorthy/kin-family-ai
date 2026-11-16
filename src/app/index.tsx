@@ -16,6 +16,20 @@ import Onboarding from "@/screens/Onboarding";
 
 type Tab = "home" | "kin" | "lists" | "brain";
 
+/** If anything throws (e.g. a network blip mid-demo), show a calm retry instead of a red screen. */
+export function ErrorBoundary({ retry }: { error: Error; retry: () => Promise<void> }) {
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: C.bg, padding: 30 }}>
+      <Text style={{ fontSize: 44 }}>🧠</Text>
+      <T style={{ fontSize: 20, fontWeight: "800", marginTop: 10 }}>Kin lost its train of thought</T>
+      <T style={{ color: C.muted, marginTop: 6, textAlign: "center" }}>Usually a network blip. Your family's data is safe.</T>
+      <Press onPress={() => retry()} style={{ marginTop: 20, backgroundColor: C.black, borderRadius: 999, paddingHorizontal: 26, paddingVertical: 14 }}>
+        <T style={{ color: C.white, fontWeight: "800" }}>Try again</T>
+      </Press>
+    </View>
+  );
+}
+
 export default function Index() {
   const { session, ready, signOut } = useSession();
   if (!ready) return <View style={{ flex: 1, backgroundColor: C.bg }} />;
