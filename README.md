@@ -24,6 +24,13 @@ Tell Kin what's happening at home. It remembers, picks the right person, and nud
 
 ---
 
+## See it in action
+
+<p align="center"><img src="docs/kin-two-phone-demo.gif" alt="Priya tells Kin 'we're out of eggs and Arjun needs a snack'. Raj's phone gets a live nudge for a nut-free snack, and when he checks it off Priya's phone shows Raj finished." width="100%" /></p>
+
+<p align="center"><b>Priya</b> (left) says <i>"we're out of eggs, and Arjun needs a snack for tomorrow's field trip."</i> Kin remembers Arjun's peanut allergy and that Raj passes Trader Joe's, so <b>Raj's phone</b> (right) gets a live nudge for a <b>nut-free</b> snack. Raj checks it off, and Priya's phone shows "✅ Raj finished". Nobody had to nag.<br/>
+<b>Try it with two phones in one browser:</b> <a href="https://vnmoorthy.github.io/kin-family-ai/duo/">vnmoorthy.github.io/kin-family-ai/duo</a></p>
+
 ## Why Kin
 
 Every family has a human router. Usually it's mom. She notices the eggs are gone, remembers that Arjun can't have peanuts, knows Dad drives past Trader Joe's, and then texts, reminds, and re-reminds until it's done. It's invisible, it never ends, and it all lives in one person's head.
