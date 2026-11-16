@@ -168,16 +168,16 @@ text(s, 130, 790, 820, 120, "Tell it anything. It remembers, decides who should 
      size=18, color=SOFT)
 cx, cy, R = 1440, 520, 300
 circle(s, cx, cy, 2 * R, fill=None, line=RGBColor(0x33, 0x33, 0x3D))
-for (dx, dy, emo, name) in [(0, -1, "👩🏽", "Priya · Mom"), (1, 0, "👨🏽", "Raj · Dad"),
-                            (0, 1, "👵🏽", "Paati"), (-1, 0, "👦🏽", "Arjun · 12")]:
+for (dx, dy, emo, name) in [(0, -1, "👩", "Sarah · Mom"), (1, 0, "👨", "Mike · Dad"),
+                            (0, 1, "👵", "Grandma"), (-1, 0, "👦", "Jake · 12")]:
     ax, ay = cx + dx * R, cy + dy * R
     c = circle(s, ax, ay, 116, fill=DARKCARD, line=RGBColor(0x3A, 0x3A, 0x44))
     text(s, 0, 0, 0, 0, emo, size=28, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, shape=c)
     text(s, ax - 110, ay + 64, 220, 30, name, size=12, bold=True, color=RGBColor(0xC9, 0xC9, 0xD1), align=PP_ALIGN.CENTER)
 c = circle(s, cx, cy, 220, fill=WHITE)
 text(s, 0, 0, 0, 0, "Kin", size=34, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, shape=c)
-for (x, y, w, t) in [(860, 300, 480, "🥚 Eggs → Raj, on his way home"),
-                     (1400, 950, 390, "📄 Field-trip slip → Arjun"),
+for (x, y, w, t) in [(860, 300, 480, "🥚 Eggs → Mike, on his way home"),
+                     (1400, 950, 390, "📄 Field-trip slip → Jake"),
                      (900, 860, 400, "🔥 Family streak · 12 days")]:
     boxtext(s, x, y, w, 64, t, radius=22, pad=20, size=13, bold=True)
 add_transition(s)
@@ -185,7 +185,7 @@ add_transition(s)
 # ---------------------------------------------------------------- 2 PROBLEM
 s = new_slide(notes=(
     "0:12-0:27. Every household has a default coordinator, usually Mom. She's the human router: she knows "
-    "the eggs are gone, the slip is due Friday, Paati's refill is Thursday, and she texts it back out to "
+    "the eggs are gone, the slip is due Friday, Grandma's refill is Thursday, and she texts it back out to "
     "everyone, all day. Every single day."))
 kicker(s, "The problem")
 text(s, 130, 136, 780, 220, ["Every home has a", "human router."], size=40, bold=True)
@@ -198,12 +198,12 @@ for i, (num, lab, col) in enumerate([("4", "people who each know different thing
     text(s, x, 560, 220, 130, num, size=64, bold=True, color=col)
     text(s, x, 700, 210, 90, lab, size=14, bold=True, color=MUTED)
 text(s, 1000, 100, 790, 40, "PRIYA'S OUTBOX · A NORMAL TUESDAY", size=13, bold=True, color=MUTED)
-msgs = [("6:45a", "Arjun", BLUE, "Did you pack the peanut-free snack?? 🥜🚫"),
-        ("7:30a", "Raj", INK, "Can you grab eggs tonight? We're out."),
+msgs = [("6:45a", "Jake", BLUE, "Did you pack the peanut-free snack?? 🥜🚫"),
+        ("7:30a", "Mike", INK, "Can you grab eggs tonight? We're out."),
         ("12:10p", "Me", SOFT, "Field-trip slip due FRIDAY. Don't forget."),
-        ("3:20p", "Arjun", BLUE, "Send me a photo of the homework sheet pls"),
-        ("5:55p", "Raj", INK, "Eggs?? You passed Trader Joe's, didn't you 😩"),
-        ("9:40p", "Paati", PURPLE, "Amma, refill is Thursday — did you call the pharmacy?")]
+        ("3:20p", "Jake", BLUE, "Send me a photo of the homework sheet pls"),
+        ("5:55p", "Mike", INK, "Eggs?? You passed Trader Joe's, didn't you 😩"),
+        ("9:40p", "Grandma", PURPLE, "Amma, refill is Thursday — did you call the pharmacy?")]
 for i, (t, who, col, m) in enumerate(msgs):
     y = 150 + i * 106
     box(s, 1000, y, 790, 92, radius=22)
@@ -224,10 +224,10 @@ s = new_slide(notes=(
     "shared only inside the family."))
 kicker(s, "The insight")
 title(s, "Everyone has their own AI.", "No family has a shared brain.")
-people = [(130, 400, "👩🏽 Priya", "Eggs are gone. Arjun is allergic to peanuts.", "🔒 in her head"),
-          (130, 760, "👨🏽 Raj", "Drives past Trader Joe's at 6pm.", "🔒 in his own AI chat"),
-          (1410, 400, "👦🏽 Arjun", "Field-trip slip due Friday. Needs poster board.", "🔒 in his backpack"),
-          (1410, 760, "👵🏽 Paati", "Pharmacy refill on Thursday.", "🔒 on a sticky note")]
+people = [(130, 400, "👩 Sarah", "Eggs are gone. Jake is allergic to peanuts.", "🔒 in her head"),
+          (130, 760, "👨 Mike", "Drives past Trader Joe's at 6pm.", "🔒 in his own AI chat"),
+          (1410, 400, "👦 Jake", "Field-trip slip due Friday. Needs poster board.", "🔒 in his backpack"),
+          (1410, 760, "👵 Grandma", "Pharmacy refill on Thursday.", "🔒 on a sticky note")]
 bx, by = 960, 690
 for (x, y, n, k, sil) in people:
     ex = x + 380 if x < 900 else x
@@ -257,9 +257,9 @@ title(s, "Tell Kin anything.", "It remembers, assigns, and nudges.")
 steps = [("1", INK, "Tell", "Text it, or snap a photo",
           ["💬 “we're out of eggs”", "📷 photo of the fridge", "🧾 school flyer", "📚 homework sheet"]),
          ("2", PURPLE, "Remember", "One family memory",
-          ["Eggs: out", "Arjun: allergic to peanuts", "Field trip · Friday", "Raj: Trader Joe's at 6pm"]),
+          ["Eggs: out", "Jake: allergic to peanuts", "Field trip · Friday", "Mike: Trader Joe's at 6pm"]),
          ("3", BLUE, "Decide who", "Using family memory",
-          ["🚗 Raj passes Trader Joe's → eggs go to Raj", "🥜 Arjun's allergic → snack must be nut-free"]),
+          ["🚗 Mike passes Trader Joe's → eggs go to Mike", "🥜 Jake's allergic → snack must be nut-free"]),
          ("4", GREEN, "Nudge", "Live, on the right phone", None)]
 for i, (n, col, h, d, items) in enumerate(steps):
     x = 130 + i * 429
@@ -273,9 +273,9 @@ for i, (n, col, h, d, items) in enumerate(steps):
             boxtext(s, x + 24, 596 + j * (ih + 10), 325, ih, it, fill=BG, radius=14, pad=14, size=12, bold=True)
     else:
         boxtext(s, x + 24, 596, 325, 180, [[("KIN · RAJ'S PHONE", {"size": 9, "color": SOFT})],
-                                          "🥚 Hey Raj — Priya noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?"],
+                                          "🥚 Hey Mike — Sarah noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?"],
                 fill=INK, radius=16, pad=14, size=11, bold=True, color=WHITE, anchor=MSO_ANCHOR.TOP)
-        boxtext(s, x + 24, 790, 325, 62, "✅ Raj finished Eggs", fill=MINT, radius=14, pad=14, size=12, bold=True)
+        boxtext(s, x + 24, 790, 325, 62, "✅ Mike finished Eggs", fill=MINT, radius=14, pad=14, size=12, bold=True)
     if i < 3:
         text(s, x + 378, 610, 48, 60, "›", size=30, bold=True, color=SOFT, align=PP_ALIGN.CENTER)
 text(s, 130, 940, 1660, 60, [[("AI is the coordinator. ", {}), ("Not Mom.", {"color": MUTED})]], size=26, bold=True)
@@ -283,9 +283,9 @@ add_transition(s)
 
 # ---------------------------------------------------------------- 5 DEMO
 s = new_slide(notes=(
-    "0:50-1:50 LIVE DEMO (this slide is the backdrop / backup). Priya types 'we're out of eggs'. Kin recalls "
-    "that Raj drives past Trader Joe's at six, assigns it to him, and his phone buzzes. He taps Done -- Priya "
-    "gets 'Raj finished Eggs'. Then: snap a fridge or flyer photo; then a private 'Just me' surprise-party note."))
+    "0:50-1:50 LIVE DEMO (this slide is the backdrop / backup). Sarah types 'we're out of eggs'. Kin recalls "
+    "that Mike drives past Trader Joe's at six, assigns it to him, and his phone buzzes. He taps Done -- Sarah "
+    "gets 'Mike finished Eggs'. Then: snap a fridge or flyer photo; then a private 'Just me' surprise-party note."))
 kicker(s, "Demo moment", y=70)
 text(s, 130, 104, 1200, 90, "“We're out of eggs.”", size=34, bold=True)
 
@@ -296,15 +296,15 @@ def phone(x, y, dark_screen=False):
     box(s, x + 131, y + 26, 118, 32, fill=RGBColor(0, 0, 0), radius=16)
 
 
-text(s, 190, 222, 380, 34, "👩🏽 Priya's phone", size=14, bold=True, align=PP_ALIGN.CENTER)
+text(s, 190, 222, 380, 34, "👩 Sarah's phone", size=14, bold=True, align=PP_ALIGN.CENTER)
 phone(190, 262)
-boxtext(s, 214, 410, 280, 104, "Morning Priya ☀️ Field-trip slip is due Friday — on Arjun's list.",
+boxtext(s, 214, 410, 280, 104, "Morning Sarah ☀️ Field-trip slip is due Friday — on Jake's list.",
         radius=20, pad=14, size=11, anchor=MSO_ANCHOR.MIDDLE)
 boxtext(s, 266, 528, 278, 52, "We're out of eggs 🥚", fill=INK, radius=20, pad=12, size=11, bold=True, color=WHITE)
-boxtext(s, 214, 594, 290, 100, "Got it. Raj drives past Trader Joe's around 6 — sending it to him. 🛒",
+boxtext(s, 214, 594, 290, 100, "Got it. Mike drives past Trader Joe's around 6 — sending it to him. 🛒",
         radius=20, pad=14, size=11)
-boxtext(s, 214, 708, 290, 80, "Raj picked up a dozen. Nothing left tonight 🎉", fill=MINT, radius=20, pad=14, size=11)
-boxtext(s, 214, 320, 332, 60, "✅ Raj finished Eggs", fill=GREEN, radius=20, pad=14, size=13, bold=True, color=WHITE)
+boxtext(s, 214, 708, 290, 80, "Mike picked up a dozen. Nothing left tonight 🎉", fill=MINT, radius=20, pad=14, size=11)
+boxtext(s, 214, 320, 332, 60, "✅ Mike finished Eggs", fill=GREEN, radius=20, pad=14, size=13, bold=True, color=WHITE)
 boxtext(s, 214, 960, 332, 56, "Tell Kin anything…", radius=28, pad=18, size=12, color=SOFT)
 
 c = circle(s, 960, 450, 240, fill=INK)
@@ -313,47 +313,47 @@ text(s, 0, 0, 0, 0, [[("Kin", {"size": 30, "bold": True, "color": WHITE})], [("f
 line(s, 580, 450, 836, 450, color=GREEN, width=3)
 line(s, 1084, 450, 1340, 450, color=BLUE, width=3)
 text(s, 740, 610, 440, 30, "RECALLING FAMILY MEMORY", size=11, bold=True, color=MUTED, align=PP_ALIGN.CENTER)
-boxtext(s, 760, 652, 400, 52, "🚗 Raj · passes Trader Joe's ~6pm", radius=26, pad=14, size=12, bold=True, align=PP_ALIGN.CENTER)
+boxtext(s, 760, 652, 400, 52, "🚗 Mike · passes Trader Joe's ~6pm", radius=26, pad=14, size=12, bold=True, align=PP_ALIGN.CENTER)
 boxtext(s, 760, 716, 400, 52, "🥚 We usually buy a dozen", radius=26, pad=14, size=12, bold=True, align=PP_ALIGN.CENTER)
-boxtext(s, 760, 780, 400, 52, "→ Assign to Raj · nudge now", fill=BLUE, radius=26, pad=14, size=12, bold=True,
+boxtext(s, 760, 780, 400, 52, "→ Assign to Mike · nudge now", fill=BLUE, radius=26, pad=14, size=12, bold=True,
         color=WHITE, align=PP_ALIGN.CENTER)
 
-text(s, 1350, 222, 380, 34, "👨🏽 Raj's phone", size=14, bold=True, align=PP_ALIGN.CENTER)
+text(s, 1350, 222, 380, 34, "👨 Mike's phone", size=14, bold=True, align=PP_ALIGN.CENTER)
 phone(1350, 262, dark_screen=True)
 text(s, 1364, 350, 352, 100, "5:52", size=48, color=WHITE, align=PP_ALIGN.CENTER)
 text(s, 1364, 452, 352, 30, "Tuesday, on the drive home", size=11, bold=True, color=SOFT, align=PP_ALIGN.CENTER)
 boxtext(s, 1364, 510, 352, 230, [[("KIN · NOW", {"size": 9, "color": MUTED})],
-                                 "🥚 Hey Raj — Priya noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?"],
+                                 "🥚 Hey Mike — Sarah noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?"],
         radius=24, pad=16, size=12, bold=True, anchor=MSO_ANCHOR.TOP)
 boxtext(s, 1380, 680, 156, 44, "✓ Done", fill=GREEN, radius=14, pad=6, size=12, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 boxtext(s, 1546, 680, 156, 44, "Later", fill=BG, radius=14, pad=6, size=12, bold=True, align=PP_ALIGN.CENTER)
 boxtext(s, 1364, 880, 352, 120, [[("RAJ · TONIGHT", {"size": 9, "color": SOFT})],
                                  [("☑ 🥚 Eggs · a dozen", {"color": GREEN})],
-                                 "☐ 📄 Sign Arjun's slip"],
+                                 "☐ 📄 Sign Jake's slip"],
         fill=RGBColor(0x2C, 0x2C, 0x3A), radius=22, pad=16, size=12, bold=True, color=WHITE, anchor=MSO_ANCHOR.TOP)
 add_transition(s, "push")
 
 # ---------------------------------------------------------------- 6 PRIVACY
 s = new_slide(notes=(
-    "1:50-2:05. Families also keep secrets. Everyone gets a private 'Just me' memory. I told Kin about Raj's "
-    "surprise party -- Kin uses it to help me, but when Raj asks what's happening Saturday, Kin never reveals "
+    "1:50-2:05. Families also keep secrets. Everyone gets a private 'Just me' memory. I told Kin about Mike's "
+    "surprise party -- Kin uses it to help me, but when Mike asks what's happening Saturday, Kin never reveals "
     "it. Shared is family-only. Private is private. Two separate memory namespaces."))
 kicker(s, "Privacy model")
 title(s, "Shared with your family.", "Private to you.")
 box(s, 130, 390, 700, 470, radius=26)
 text(s, 166, 420, 560, 50, "🏠  Family memory", size=24, bold=True)
 text(s, 166, 480, 560, 40, "Visible to the family — and no one else.", size=13, bold=True, color=MUTED)
-for j, t in enumerate(["🥚 Out of eggs", "🥜 Arjun: peanut allergy", "🚌 Field trip Friday",
-                       "💊 Paati's refill Thursday", "🛒 Raj: Trader Joe's at 6"]):
+for j, t in enumerate(["🥚 Out of eggs", "🥜 Jake: peanut allergy", "🚌 Field trip Friday",
+                       "💊 Grandma's refill Thursday", "🛒 Mike: Trader Joe's at 6"]):
     boxtext(s, 166 + (j % 2) * 320, 540 + (j // 2) * 70, 308, 56, t, fill=BG, radius=28, pad=12, size=11, bold=True)
-text(s, 166, 790, 560, 40, "Shared with 👩🏽👨🏽👦🏽👵🏽", size=13, bold=True, color=MUTED)
+text(s, 166, 790, 560, 40, "Shared with 👩👨👦👵", size=13, bold=True, color=MUTED)
 box(s, 860, 390, 520, 470, fill=INK, radius=26)
 text(s, 896, 420, 440, 50, "🤫  Just me  🔒", size=24, bold=True, color=WHITE)
-text(s, 896, 480, 440, 40, "Priya's private memory. Kin never reveals it.", size=13, bold=True, color=SOFT)
-boxtext(s, 896, 540, 450, 56, "🎉 Surprise party for Raj · Sat 7pm", fill=DARKCARD, radius=28, pad=16, size=12, bold=True, color=WHITE)
+text(s, 896, 480, 440, 40, "Sarah's private memory. Kin never reveals it.", size=13, bold=True, color=SOFT)
+boxtext(s, 896, 540, 450, 56, "🎉 Surprise party for Mike · Sat 7pm", fill=DARKCARD, radius=28, pad=16, size=12, bold=True, color=WHITE)
 boxtext(s, 896, 610, 450, 56, "🎁 Gift: new running shoes", fill=DARKCARD, radius=28, pad=16, size=12, bold=True, color=WHITE)
-text(s, 896, 790, 440, 40, "Visible to 👩🏽 only", size=13, bold=True, color=SOFT)
-text(s, 1420, 470, 370, 40, "👨🏽 Raj asks Kin…", size=14, bold=True, color=MUTED)
+text(s, 896, 790, 440, 40, "Visible to 👩 only", size=13, bold=True, color=SOFT)
+text(s, 1420, 470, 370, 40, "👨 Mike asks Kin…", size=14, bold=True, color=MUTED)
 boxtext(s, 1420, 520, 370, 70, "Anything happening Saturday?", fill=INK, radius=22, pad=16, size=13, bold=True, color=WHITE)
 boxtext(s, 1420, 610, 370, 130, "Nothing on the family plan yet — keep the evening free 😉", radius=22, pad=16, size=13, bold=True)
 text(s, 130, 930, 1660, 50, [[("Kin uses your private memory ", {}), ("to help you", {"color": PURPLE}),
@@ -377,10 +377,10 @@ text(s, lx - 150, ly - 120, 300, 240, [[("🔥", {"size": 36})], [("12", {"size"
      align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 box(s, 900, 330, 890, 400, radius=26)
 text(s, 936, 360, 820, 30, "KIN · MORNING BRIEF · 7:00 AM", size=11, bold=True, color=MUTED)
-text(s, 936, 396, 820, 60, "Good morning, Raj ☀️ 3 things today", size=22, bold=True)
+text(s, 936, 396, 820, 60, "Good morning, Mike ☀️ 3 things today", size=22, bold=True)
 for j, (t, col, done) in enumerate([("🥚 Eggs — Trader Joe's is on your way home", GREEN, True),
-                                    ("📄 Sign Arjun's field-trip slip", BLUE, True),
-                                    ("🩺 Paati's appointment at 4 — Priya's driving", PURPLE, False)]):
+                                    ("📄 Sign Jake's field-trip slip", BLUE, True),
+                                    ("🩺 Grandma's appointment at 4 — Sarah's driving", PURPLE, False)]):
     y = 490 + j * 70
     circle(s, 950, y + 22, 16, fill=col)
     text(s, 976, y, 680, 44, t, size=15, bold=True, anchor=MSO_ANCHOR.MIDDLE)
@@ -400,7 +400,7 @@ s = new_slide(notes=(
 kicker(s, "How it's built")
 title(s, "Every family phone, live.")
 ox, oy = 130, 330
-for j, n in enumerate(["Priya", "Raj", "Arjun", "Paati"]):
+for j, n in enumerate(["Sarah", "Mike", "Jake", "Grandma"]):
     y = oy + 20 + j * 120
     line(s, ox + 300, y + 50, ox + 560, oy + 250)
     box(s, ox, y, 300, 100, radius=24)
@@ -452,12 +452,12 @@ text(s, 900, 250, 890, 90, [[("Every family invites ", {"color": MUTED}), ("3–
                              ("carry Kin into the next family.", {"color": ORANGE})]], size=15, bold=True)
 vx, vy = 900, 360
 cxv, cyv = vx + 440, vy + 300
-nodes = [(440, 80, "👨🏽 Raj", "solid"), (649, 232, "👦🏽 Arjun", "solid"), (569, 478, "👵🏽 Paati", "solid"),
+nodes = [(440, 80, "👨 Mike", "solid"), (649, 232, "👦 Jake", "solid"), (569, 478, "👵 Grandma", "solid"),
          (311, 478, "💬 Nanny · SMS", "sms"), (231, 232, "💬 Grandpa · SMS", "sms")]
 for (nx, ny, t, kind) in nodes:
     line(s, cxv, cyv, vx + nx, vy + ny, color=INK if kind == "solid" else SOFT, width=2.5, dash=kind != "solid")
 line(s, vx + 569, vy + 478, vx + 760, vy + 575, color=ORANGE, width=3, dash=False)
-boxtext(s, cxv - 160, cyv - 40, 320, 80, "👩🏽 Priya starts Kin", fill=INK, radius=40, pad=12, size=15, bold=True,
+boxtext(s, cxv - 160, cyv - 40, 320, 80, "👩 Sarah starts Kin", fill=INK, radius=40, pad=12, size=15, bold=True,
         color=WHITE, align=PP_ALIGN.CENTER)
 boxtext(s, cxv - 120, cyv + 56, 240, 44, "CODE · KIN-7Q2F", fill=BG, radius=12, pad=6, line=LINE, size=12, bold=True,
         align=PP_ALIGN.CENTER)
@@ -472,17 +472,17 @@ add_transition(s)
 
 # ---------------------------------------------------------------- 10 VISION
 s = new_slide(dark=True, notes=(
-    "2:45-3:00. Where this goes: SMS and voice so Paati can just call Kin, calendar and school-email ingest, "
+    "2:45-3:00. Where this goes: SMS and voice so Grandma can just call Kin, calendar and school-email ingest, "
     "location-aware nudges ('you're near Costco, three things on the list'), chores and allowance for kids. "
     "Kin becomes the operating system of the home. Google Photos remembered your life. Kin remembers your "
     "family's. The ask: put Kin on your family's phones tonight. Thank you."))
 kicker(s, "Vision", dark=True)
 text(s, 130, 136, 1660, 220, [[("Kin becomes the", {"color": WHITE})],
                               [("operating system of the home.", {"color": SOFT})]], size=50, bold=True)
-for j, (e, h, d) in enumerate([("📞", "SMS & voice for grandparents", "Paati just texts or calls Kin"),
+for j, (e, h, d) in enumerate([("📞", "SMS & voice for grandparents", "Grandma just texts or calls Kin"),
                                ("📅", "Calendar & school email ingest", "Flyers and portals become tasks"),
                                ("📍", "Location-aware nudges", "“You're near Costco — 3 things on the list”"),
-                               ("⭐", "Chores & allowance for kids", "Arjun earns for check-offs")]):
+                               ("⭐", "Chores & allowance for kids", "Jake earns for check-offs")]):
     x = 130 + j * 422
     boxtext(s, x, 420, 394, 220, [[(e, {"size": 24})], [(h, {"size": 16, "color": WHITE})],
                                   [(d, {"size": 12, "color": SOFT})]],

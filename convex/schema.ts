@@ -44,6 +44,9 @@ export default defineSchema({
     doneById: v.optional(v.id("members")),
     // Set when created from a 🔒 private chat: only this member ever sees the item.
     privateTo: v.optional(v.id("members")),
+    // Kin's autopilot: how many times it has followed up, and when.
+    nudgeCount: v.optional(v.number()),
+    lastNudgedAt: v.optional(v.number()),
   })
     .index("by_household", ["householdId"])
     .index("by_household_status", ["householdId", "status"]),
@@ -74,6 +77,8 @@ export default defineSchema({
     text: v.string(),
     source: v.union(v.literal("kin"), v.literal("manual")),
     synced: v.optional(v.boolean()),
+    // A House Rule set by a parent: a decision for the whole family that Kin enforces.
+    rule: v.optional(v.boolean()),
     createdAt: v.number(),
   }).index("by_household", ["householdId"]),
 

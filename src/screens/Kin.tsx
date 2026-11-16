@@ -21,10 +21,10 @@ import { C, R } from "@/lib/theme";
 
 const SUGGESTIONS = [
   "We're out of eggs 🥚",
-  "Arjun's science fair is Friday",
+  "Jake's science fair is Friday",
   "What's left for today?",
-  "Remind Paati about her 8pm medicine",
-  "Who's picking up Arjun Thursday?",
+  "Remind Grandma about her 8pm medicine",
+  "Who's picking up Jake Thursday?",
 ];
 
 function Thinking() {

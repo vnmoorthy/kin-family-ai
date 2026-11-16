@@ -26,14 +26,14 @@ Tell Kin what's happening at home. It remembers, picks the right person, and nud
 
 ## See it in action
 
-<p align="center"><img src="docs/kin-two-phone-demo.gif" alt="Priya tells Kin 'we're out of eggs and Arjun needs a snack'. Raj's phone gets a live nudge for a nut-free snack, and when he checks it off Priya's phone shows Raj finished." width="100%" /></p>
+<p align="center"><img src="docs/kin-two-phone-demo.gif" alt="Sarah tells Kin 'we're out of eggs and Jake needs a snack'. Mike's phone gets a live nudge for a nut-free snack, and when he checks it off Sarah's phone shows Mike finished." width="100%" /></p>
 
-<p align="center"><b>Priya</b> (left) says <i>"we're out of eggs, and Arjun needs a snack for tomorrow's field trip."</i> Kin remembers Arjun's peanut allergy and that Raj passes Trader Joe's, so <b>Raj's phone</b> (right) gets a live nudge for a <b>nut-free</b> snack. Raj checks it off, and Priya's phone shows "✅ Raj finished". Nobody had to nag.<br/>
+<p align="center"><b>Sarah</b> (left) says <i>"we're out of eggs, and Jake needs a snack for tomorrow's field trip."</i> Kin remembers Jake's peanut allergy and that Mike passes Trader Joe's, so <b>Mike's phone</b> (right) gets a live nudge for a <b>nut-free</b> snack. Mike checks it off, and Sarah's phone shows "✅ Mike finished". Nobody had to nag.<br/>
 <b>Try it with two phones in one browser:</b> <a href="https://vnmoorthy.github.io/kin-family-ai/duo/">vnmoorthy.github.io/kin-family-ai/duo</a></p>
 
 ## Why Kin
 
-Every family has a human router. Usually it's mom. She notices the eggs are gone, remembers that Arjun can't have peanuts, knows Dad drives past Trader Joe's, and then texts, reminds, and re-reminds until it's done. It's invisible, it never ends, and it all lives in one person's head.
+Every family has a human router. Usually it's mom. She notices the eggs are gone, remembers that Jake can't have peanuts, knows Dad drives past Trader Joe's, and then texts, reminds, and re-reminds until it's done. It's invisible, it never ends, and it all lives in one person's head.
 
 Group chats don't fix this. They spread the noise around and leave the thinking with the same person. Shared to-do apps don't fix it either, because someone still has to decide who does what.
 
@@ -41,16 +41,16 @@ Group chats don't fix this. They spread the noise around and leave the thinking 
 
 ## How it works, in 30 seconds
 
-> **5:42 PM.** Priya opens the fridge. No eggs. She types **"we're out of eggs 🥚"** into Kin.
+> **5:42 PM.** Sarah opens the fridge. No eggs. She types **"we're out of eggs 🥚"** into Kin.
 >
-> Kin checks the family memory: *Raj drives past Trader Joe's on his commute home around 6pm.* It adds **Eggs → Raj** to the grocery list and writes him a note.
+> Kin checks the family memory: *Mike drives past Trader Joe's on his commute home around 6pm.* It adds **Eggs → Mike** to the grocery list and writes him a note.
 >
-> **5:42 PM, same second.** Raj's phone shows a banner:
-> **🥚 "Hey Raj — Priya noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?"**
+> **5:42 PM, same second.** Mike's phone shows a banner:
+> **🥚 "Hey Mike — Sarah noticed we're out of eggs. Grab a dozen at Trader Joe's on your way home?"**
 >
-> **6:15 PM.** Raj checks it off in the store. Priya gets **"✅ Raj finished 'Eggs'"**. Nobody had to text anybody.
+> **6:15 PM.** Mike checks it off in the store. Sarah gets **"✅ Mike finished 'Eggs'"**. Nobody had to text anybody.
 
-It works for photos too. Snap the fridge and Kin lists what's low. Snap a school flyer and Kin creates the event, the permission slip, and the thing to bring, each assigned to the right person. Because it remembers that **Arjun is allergic to peanuts**, the field-trip snack it adds is nut-free.
+It works for photos too. Snap the fridge and Kin lists what's low. Snap a school flyer and Kin creates the event, the permission slip, and the thing to bring, each assigned to the right person. Because it remembers that **Jake is allergic to peanuts**, the field-trip snack it adds is nut-free.
 
 ## Features
 
@@ -64,7 +64,7 @@ It works for photos too. Snap the fridge and Kin lists what's low. Snap a school
 - ☀️ **Personal brief.** A greeting by name with your most urgent items first, plus one family heads-up, written fresh whenever you open Home.
 - 📋 **Shared lists.** Groceries, tasks, events, and reminders. Filter by person, quick-add with an assignee, toggle done.
 - 🔥 **Family streak and rings.** A big "things on you" number, a progress ring for each person, and a streak for every day someone gets something done.
-- 👨‍👩‍👧 **Join in seconds.** Start a family, share a 6-letter code, and everyone's in. You can also load a sample family (Priya, Raj, Arjun, Paati) to try it right away.
+- 👨‍👩‍👧 **Join in seconds.** Start a family, share a 6-letter code, and everyone's in. You can also load a sample family (Sarah, Mike, Jake, Grandma) to try it right away.
 - 💎 **Kin Plus.** A $4.99/mo family plan, sold through Whop's hosted checkout.
 
 ### Screens
@@ -73,7 +73,7 @@ It works for photos too. Snap the fridge and Kin lists what's low. Snap a school
 |---|---|
 | **Onboarding** | Start a family or join with a 6-letter code. Optional "Fill with a sample family". |
 | **Home** | Big "N things on you" number and progress ring, the Kin brief card, *For you*, *Family today* rings, *Recently handled*, 🔥 streak |
-| **Kin** | *Family* thread vs 🔒 *Just me*, camera and photo snap, suggestion chips, action chips under each Kin reply ("🥚 Eggs → Raj", "🔔 Nudged Raj") |
+| **Kin** | *Family* thread vs 🔒 *Just me*, camera and photo snap, suggestion chips, action chips under each Kin reply ("🥚 Eggs → Mike", "🔔 Nudged Mike") |
 | **Lists** | Groceries / Tasks / Events / Reminders, filter by person, quick add with assignee, "I've got it", pass to someone else |
 | **Family Brain** | *Shared with family* vs *Only me* memories, teach Kin, make private / share, forget, ● Supermemory sync badge |
 | **Family sheet** | Invite code (copy / share), members, "Be ‹name›" profile switch, Kin Plus via Whop, sample data / reset |
@@ -112,10 +112,10 @@ What the code guarantees:
 ```mermaid
 flowchart LR
   subgraph Phones["📱 Family phones · Expo / React Native"]
-    P1["👩🏽 Priya"]
-    P2["👨🏽 Raj"]
-    P3["🧒🏽 Arjun"]
-    P4["👵🏽 Paati"]
+    P1["👩 Sarah"]
+    P2["👨 Mike"]
+    P3["🧒 Jake"]
+    P4["👵 Grandma"]
   end
 
   subgraph Convex["⚡ Convex"]
@@ -150,17 +150,17 @@ flowchart LR
 
 ### Message lifecycle
 
-What happens between "we're out of eggs" and Raj's phone buzzing:
+What happens between "we're out of eggs" and Mike's phone buzzing:
 
 ```mermaid
 sequenceDiagram
   autonumber
-  participant P as Priya's phone
+  participant P as Sarah's phone
   participant CX as Convex DB + mutations
   participant AI as ai.respond (action)
   participant SM as Supermemory
   participant OA as OpenAI
-  participant R as Raj's phone
+  participant R as Mike's phone
 
   P->>CX: messages.send "we're out of eggs" in the family thread
   CX->>CX: insert user message + pending Kin message
@@ -170,11 +170,11 @@ sequenceDiagram
   AI->>SM: search kin_household_family (plus the private namespace in Just me mode)
   SM-->>AI: semantically recalled facts
   AI->>OA: system prompt (family, memory, items, chat) + text or photo, JSON mode
-  OA-->>AI: reply + actions, e.g. add_item Eggs for Raj with a nudge
+  OA-->>AI: reply + actions, e.g. add_item Eggs for Mike with a nudge
   AI->>CX: ai.apply: insert items, nudges, memories, schedule memoryActions.push
   AI->>CX: messages.finishKin(reply, action chips)
   CX-->>R: nudges.unseen live query and the banner drops in
-  CX-->>P: Kin's reply and chips "🥚 Eggs → Raj", "🔔 Nudged Raj"
+  CX-->>P: Kin's reply and chips "🥚 Eggs → Mike", "🔔 Nudged Mike"
   AI->>SM: add conversation transcript (dreaming instant)
 ```
 
@@ -273,17 +273,17 @@ kin/
 
 The full runbook, with fallbacks, is in **[docs/DEMO.md](docs/DEMO.md)**.
 
-1. **Priya's phone:** start "The Sharma Home" with the sample family. Show Home: "things on you", the ring, the brief, and the 🔥 streak.
-2. **Raj's phone:** join with the 6-letter code and tap **Raj**.
-3. **Priya**, in Kin: *"We're out of eggs."* → **Raj's phone buzzes** with the Trader Joe's nudge.
-4. **Raj** checks off Eggs → **Priya** gets "✅ Raj finished".
-5. **Priya** snaps a school flyer → an event, a form, and a nut-free snack, each assigned.
-6. **Raj**, in 🔒 Just me: *"Planning Priya's surprise 40th on Dec 6."* → it shows on Raj's Family Brain under *Only me* and never on Priya's phone.
+1. **Sarah's phone:** start "The Miller Home" with the sample family. Show Home: "things on you", the ring, the brief, and the 🔥 streak.
+2. **Mike's phone:** join with the 6-letter code and tap **Mike**.
+3. **Sarah**, in Kin: *"We're out of eggs."* → **Mike's phone buzzes** with the Trader Joe's nudge.
+4. **Mike** checks off Eggs → **Sarah** gets "✅ Mike finished".
+5. **Sarah** snaps a school flyer → an event, a form, and a nut-free snack, each assigned.
+6. **Mike**, in 🔒 Just me: *"Planning Sarah's surprise 40th on Dec 6."* → it shows on Mike's Family Brain under *Only me* and never on Sarah's phone.
 7. **Family sheet** → **Upgrade with Whop** → Kin Plus.
 
 ## Roadmap
 
-- 📱 **SMS for grandparents** via Keiki: Paati texts a normal number, and Kin understands and replies.
+- 📱 **SMS for grandparents** via Keiki: Grandma texts a normal number, and Kin understands and replies.
 - 📅 **Calendar and email ingest:** school emails and calendar invites become items automatically.
 - 🎙️ **Voice notes:** "Hey Kin, we need diapers" while your hands are full.
 - 📍 **Location-aware nudges:** "you're near Costco, and the family needs milk and paper towels".

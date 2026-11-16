@@ -11,14 +11,18 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
   const insets = useSafeAreaInsets();
   const memories = useQuery(api.memories.visible, { householdId, memberId: me._id });
   const add = useMutation(api.memories.add);
+  const addRule = useMutation(api.memories.addRule);
+  const [ruleErr, setRuleErr] = useState("");
+  const amParent = /mom|dad|mother|father|parent|guardian|grand/i.test(me.role);
   const setScope = useMutation(api.memories.setScope);
   const remove = useMutation(api.memories.remove);
-  const [tab, setTab] = useState<"family" | "private">("family");
+  const [tab, setTab] = useState<"family" | "private" | "rules">("family");
   const [text, setText] = useState("");
   const [sel, setSel] = useState<Doc<"memories"> | null>(null);
 
-  const list = (memories ?? []).filter((m) => m.scope === tab);
-  const familyCount = (memories ?? []).filter((m) => m.scope === "family").length;
+  const list = (memories ?? []).filter((m) => (tab === "rules" ? m.rule : !m.rule && m.scope === tab));
+  const rulesCount = (memories ?? []).filter((m) => m.rule).length;
+  const familyCount = (memories ?? []).filter((m) => m.scope === "family" && !m.rule).length;
   const mineCount = (memories ?? []).filter((m) => m.scope === "private").length;
 
   return (
@@ -38,10 +42,22 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
           </Press>
         </View>
 
-        <Card style={{ marginTop: 14, flexDirection: "row", gap: 12, alignItems: "center", backgroundColor: tab === "family" ? "#EEF7F1" : "#EEF0FF" }}>
-          <Text style={{ fontSize: 24 }}>{tab === "family" ? "🏡" : "🔐"}</Text>
+        <Press onPress={() => setTab("rules")} style={[s.rulesBtn, tab === "rules" ? s.statOn : null] as any}>
+          <Text style={{ fontSize: 22 }}>📜</Text>
+          <View style={{ flex: 1 }}>
+            <T style={{ fontWeight: "900", fontSize: 16, color: tab === "rules" ? C.white : C.ink }}>House rules · {rulesCount}</T>
+            <T style={{ fontSize: 12.5, color: tab === "rules" ? "#C9C9D0" : C.muted }}>Set by parents. Kin makes sure everyone follows them.</T>
+          </View>
+        </Press>
+
+        <Card style={{ marginTop: 14, flexDirection: "row", gap: 12, alignItems: "center", backgroundColor: tab === "family" ? "#EEF7F1" : tab === "rules" ? "#FFF6E8" : "#EEF0FF" }}>
+          <Text style={{ fontSize: 24 }}>{tab === "family" ? "🏡" : tab === "rules" ? "⚖️" : "🔐"}</Text>
           <T style={{ flex: 1, color: C.ink2, fontSize: 13.5, lineHeight: 19 }}>
-            {tab === "family"
+            {tab === "rules"
+              ? amParent
+                ? "As a parent, your rules are decisions for the whole household. Kin enforces them in every chat and nudge."
+                : "Only parents can set house rules. Kin will remind you of them."
+              : tab === "family"
               ? "Shared only inside your family. Everyone's Kin uses these to coordinate — nobody outside the family ever sees them."
               : "Your private memory. Kin uses it only when talking to you — it never shows up in the family thread or anyone's nudges."}
           </T>
@@ -51,7 +67,8 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
           <TextInput
             value={text}
             onChangeText={setText}
-            placeholder={tab === "family" ? "Teach Kin something about the family…" : "Something only you and Kin know…"}
+            placeholder={tab === "rules" ? (amParent ? "New house rule, e.g. No phones at dinner" : "Only parents can add rules") : tab === "family" ? "Teach Kin something about the family…" : "Something only you and Kin know…"}
+            editable={tab !== "rules" || amParent}
             placeholderTextColor={C.faint}
             style={s.input}
             multiline
@@ -59,9 +76,15 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
           <Press
             disabled={!text.trim()}
             onPress={async () => {
-              tap("success");
-              await add({ householdId, ownerId: me._id, text, scope: tab });
-              setText("");
+              setRuleErr("");
+              try {
+                if (tab === "rules") await addRule({ householdId, ownerId: me._id, text });
+                else await add({ householdId, ownerId: me._id, text, scope: tab });
+                tap("success");
+                setText("");
+              } catch {
+                setRuleErr("Only parents can set house rules.");
+              }
             }}
             style={[s.addBtn, !text.trim() ? { backgroundColor: C.faint } : null] as any}
           >
@@ -69,6 +92,7 @@ export default function Brain({ householdId, me, members }: { householdId: Id<"h
           </Press>
         </View>
 
+        {ruleErr ? <T style={{ color: C.danger, marginTop: 8, fontWeight: "700" }}>🔒 {ruleErr}</T> : null}
         <View style={{ marginTop: 16, gap: 10 }}>
           {memories && list.length === 0 ? (
             <Empty emoji="🧠" title="Nothing here yet" sub="Chat with Kin — it learns allergies, routines and who-does-what automatically." />
@@ -134,6 +158,7 @@ const s = StyleSheet.create({
   addBar: { flexDirection: "row", alignItems: "flex-end", gap: 8, marginTop: 14, backgroundColor: C.card, borderRadius: 24, padding: 6, borderWidth: 1, borderColor: C.line },
   input: { flex: 1, minHeight: 44, maxHeight: 120, fontSize: 15.5, color: C.ink, paddingHorizontal: 10, paddingTop: 12, paddingBottom: 10 },
   addBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: C.black, alignItems: "center", justifyContent: "center" },
+  rulesBtn: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 10, backgroundColor: C.card, borderRadius: R.lg, padding: 14, borderWidth: 1, borderColor: C.line },
   mem: { backgroundColor: C.card, borderRadius: R.md, padding: 16, borderWidth: 1, borderColor: C.line },
   sync: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: R.pill, backgroundColor: C.chip },
 });

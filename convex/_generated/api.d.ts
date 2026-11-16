@@ -9,6 +9,8 @@
  */
 
 import type * as ai from "../ai.js";
+import type * as autopilot from "../autopilot.js";
+import type * as crons from "../crons.js";
 import type * as devices from "../devices.js";
 import type * as households from "../households.js";
 import type * as http from "../http.js";
@@ -27,6 +29,8 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   ai: typeof ai;
+  autopilot: typeof autopilot;
+  crons: typeof crons;
   devices: typeof devices;
   households: typeof households;
   http: typeof http;

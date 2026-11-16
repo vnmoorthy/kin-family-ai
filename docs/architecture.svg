@@ -27,26 +27,26 @@
   <g>
     <rect x="58" y="174" width="184" height="80" rx="16" fill="#F5F5F7"/>
     <circle cx="88" cy="214" r="18" fill="#FF6B4A"/>
-    <text x="88" y="220" font-size="17" text-anchor="middle">👩🏽</text>
-    <text x="115" y="209" font-size="13" font-weight="800" fill="#0B0B0F">Priya · Mom</text>
+    <text x="88" y="220" font-size="17" text-anchor="middle">👩</text>
+    <text x="115" y="209" font-size="13" font-weight="800" fill="#0B0B0F">Sarah · Mom</text>
     <text x="115" y="226" font-size="10.5" fill="#6B6B76">“we're out of eggs”</text>
 
     <rect x="58" y="262" width="184" height="80" rx="16" fill="#F5F5F7"/>
     <circle cx="88" cy="302" r="18" fill="#4A7DFF"/>
-    <text x="88" y="308" font-size="17" text-anchor="middle">👨🏽</text>
-    <text x="115" y="297" font-size="13" font-weight="800" fill="#0B0B0F">Raj · Dad</text>
+    <text x="88" y="308" font-size="17" text-anchor="middle">👨</text>
+    <text x="115" y="297" font-size="13" font-weight="800" fill="#0B0B0F">Mike · Dad</text>
     <text x="115" y="314" font-size="10.5" fill="#6B6B76">gets the 🥚 nudge, live</text>
 
     <rect x="58" y="350" width="184" height="80" rx="16" fill="#F5F5F7"/>
     <circle cx="88" cy="390" r="18" fill="#2EC27E"/>
-    <text x="88" y="396" font-size="17" text-anchor="middle">🧒🏽</text>
-    <text x="115" y="385" font-size="13" font-weight="800" fill="#0B0B0F">Arjun · Kid</text>
+    <text x="88" y="396" font-size="17" text-anchor="middle">🧒</text>
+    <text x="115" y="385" font-size="13" font-weight="800" fill="#0B0B0F">Jake · Kid</text>
     <text x="115" y="402" font-size="10.5" fill="#6B6B76">taps “I've got it”</text>
 
     <rect x="58" y="438" width="184" height="80" rx="16" fill="#F5F5F7"/>
     <circle cx="88" cy="478" r="18" fill="#B15CFF"/>
-    <text x="88" y="484" font-size="17" text-anchor="middle">👵🏽</text>
-    <text x="115" y="473" font-size="13" font-weight="800" fill="#0B0B0F">Paati · Grandma</text>
+    <text x="88" y="484" font-size="17" text-anchor="middle">👵</text>
+    <text x="115" y="473" font-size="13" font-weight="800" fill="#0B0B0F">Grandma · Grandma</text>
     <text x="115" y="490" font-size="10.5" fill="#6B6B76">8pm medicine reminder</text>
   </g>
   <text x="150" y="540" font-size="10" fill="#8E8E96" text-anchor="middle">each with a 🔒 private thread</text>

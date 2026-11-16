@@ -9,9 +9,9 @@ import { C, R } from "@/lib/theme";
 /** What each kind of device can report. In production these come from the hub via POST /device. */
 const EVENTS: Record<string, string[]> = {
   fridge: ["Egg tray is empty", "Milk expires tomorrow", "Only 1 bottle of water left", "Fridge door left open for 5 minutes"],
-  camera: ["Package left at the front door", "Arjun just got home from school", "Someone is at the door", "Garage door left open"],
-  robot: ["Dustbin is full", "Stuck under Arjun's bed", "Finished cleaning the living room", "Found a lost earring under the sofa"],
-  tv: ["Arjun has watched 2 hours of TV today", "Movie night: family is on the couch", "Paati's show starts in 10 minutes"],
+  camera: ["Package left at the front door", "Jake just got home from school", "Someone is at the door", "Garage door left open"],
+  robot: ["Dustbin is full", "Stuck under Jake's bed", "Finished cleaning the living room", "Found a lost earring under the sofa"],
+  tv: ["Jake has watched 2 hours of TV today", "Movie night: family is on the couch", "Grandma's show starts in 10 minutes"],
   washer: ["Laundry is done, clothes are wet", "Detergent is running low", "Cycle finished 2 hours ago, clothes still inside"],
 };
 

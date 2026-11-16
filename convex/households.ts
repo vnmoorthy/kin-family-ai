@@ -78,7 +78,7 @@ export const create = mutation({
       householdId,
       role: "kin",
       visibility: "family",
-      text: `Hi ${args.name.trim()}! I'm Kin, your family's shared brain. Tell me anything going on at home — "we're out of eggs", "Arjun's science fair is Friday" — and I'll remember it, split it up and nudge the right person. Invite your family with code ${code}.`,
+      text: `Hi ${args.name.trim()}! I'm Kin, your family's shared brain. Tell me anything going on at home — "we're out of eggs", "Jake's science fair is Friday" — and I'll remember it, split it up and nudge the right person. Invite your family with code ${code}.`,
       createdAt: Date.now(),
     });
     return { householdId, memberId };
@@ -212,10 +212,11 @@ export const seedDemo = mutation({
       .withIndex("by_household", (q) => q.eq("householdId", householdId))
       .collect();
     const want = [
-      { name: "Priya", emoji: "👩🏽", role: "Mom" },
-      { name: "Raj", emoji: "👨🏽", role: "Dad" },
-      { name: "Arjun", emoji: "🧒🏽", role: "Son, 12" },
-      { name: "Paati", emoji: "👵🏽", role: "Grandma" },
+      { name: "Sarah", emoji: "👩", role: "Mom" },
+      { name: "Mike", emoji: "👨", role: "Dad" },
+      { name: "Jake", emoji: "🧒", role: "Son, 12" },
+      { name: "Emma", emoji: "👧", role: "Daughter, 8" },
+      { name: "Linda", emoji: "👵", role: "Grandma" },
     ];
     for (const w of want) {
       if (!members.find((m) => m.name.toLowerCase() === w.name.toLowerCase())) {
@@ -237,15 +238,18 @@ export const seedDemo = mutation({
     const now = Date.now();
     const day = 86_400_000;
     const facts: [string, "family" | "private", Id<"members"> | undefined][] = [
-      ["Arjun is allergic to peanuts — all snacks and lunches must be nut-free.", "family", by("Priya")],
-      ["Raj drives past Costco and Trader Joe's on his commute home around 6pm.", "family", by("Raj")],
-      ["Arjun has soccer practice Tuesdays and Thursdays at 5pm; Raj does pickup.", "family", by("Raj")],
-      ["Paati takes blood-pressure medicine at 8am and 8pm every day.", "family", by("Priya")],
-      ["Priya handles school forms and permission slips.", "family", by("Priya")],
-      ["The family likes Saturday pancake breakfast — needs eggs, milk and blueberries.", "family", by("Paati")],
-      ["Wi-Fi password is on the fridge; trash and recycling go out Wednesday night.", "family", by("Raj")],
-      ["Arjun's science fair project (volcano) is due Friday — he needs poster board.", "family", by("Arjun")],
-      ["Planning a surprise 40th birthday dinner for Priya on Dec 6.", "private", by("Raj")],
+      ["Jake is allergic to peanuts. All snacks and lunches must be nut-free.", "family", by("Sarah")],
+      ["Mike drives past Costco and Trader Joe's on his commute home around 6pm.", "family", by("Mike")],
+      ["Jake has soccer practice Tuesdays and Thursdays at 5pm; Mike does pickup.", "family", by("Mike")],
+      ["Emma has piano lessons Wednesdays at 4pm; Grandma Linda drives her.", "family", by("Linda")],
+      ["Grandma Linda takes blood-pressure medicine at 8am and 8pm every day.", "family", by("Sarah")],
+      ["Sarah handles school forms, permission slips and doctor appointments.", "family", by("Sarah")],
+      ["Saturday pancake breakfast is a family tradition: needs eggs, milk and blueberries.", "family", by("Linda")],
+      ["Trash and recycling go out Wednesday night. It's Jake's chore.", "family", by("Mike")],
+      ["Jake's science fair volcano is due Friday. He needs poster board.", "family", by("Jake")],
+      ["Emma's best friend is Lily; Lily's mom Karen does Friday carpool.", "family", by("Sarah")],
+      ["The dog, Max, gets fed at 7am and 6pm. Emma feeds him in the morning.", "family", by("Emma")],
+      ["Planning a surprise 40th birthday dinner for Sarah on Dec 6.", "private", by("Mike")],
     ];
     for (const [text, scope, ownerId] of facts) {
       await ctx.db.insert("memories", {
@@ -257,6 +261,23 @@ export const seedDemo = mutation({
         createdAt: now - Math.floor(Math.random() * 6) * day,
       });
     }
+    const houseRules: [string, string][] = [
+      ["Homework before games, YouTube or TV on school nights.", "Sarah"],
+      ["Screens off at 9 PM for the kids.", "Mike"],
+      ["Whoever uses the last of something tells Kin right away.", "Sarah"],
+      ["Everyone clears their own plate after dinner.", "Mike"],
+    ];
+    for (const [text, who] of houseRules) {
+      await ctx.db.insert("memories", {
+        householdId,
+        text,
+        scope: "family",
+        rule: true,
+        ownerId: by(who),
+        source: "manual",
+        createdAt: now - 7 * day,
+      });
+    }
     const items: {
       kind: "task" | "grocery" | "event" | "reminder";
       title: string;
@@ -266,17 +287,19 @@ export const seedDemo = mutation({
       status?: "open" | "claimed" | "done";
       ago?: number;
     }[] = [
-      { kind: "grocery", title: "Milk (2 gallons)", emoji: "🥛", who: "Raj", due: "tonight" },
-      { kind: "task", title: "Book Paati's eye checkup", emoji: "👓", who: "Priya", due: "this week" },
-      { kind: "event", title: "Parent-teacher conference", emoji: "🏫", who: "Priya", due: "Tue 3:30 PM" },
-      { kind: "grocery", title: "Blueberries", emoji: "🫐", who: "Raj", due: "before Saturday" },
-      { kind: "task", title: "Take out trash & recycling", emoji: "🗑️", who: "Arjun", due: "Wed night" },
-      { kind: "reminder", title: "Paati's 8pm BP medicine", emoji: "💊", who: "Paati", due: "8:00 PM" },
-      { kind: "event", title: "Soccer practice pickup", emoji: "⚽️", who: "Raj", due: "Thu 5:00 PM" },
-      { kind: "task", title: "Finish volcano science project", emoji: "🌋", who: "Arjun", due: "Friday" },
-      { kind: "task", title: "Sign field-trip permission slip", emoji: "✍️", who: "Priya", due: "done", status: "done", ago: 2 },
-      { kind: "task", title: "Water the plants", emoji: "🪴", who: "Paati", status: "done", ago: 1 },
-      { kind: "grocery", title: "Rice (10 lb)", emoji: "🍚", who: "Raj", status: "done", ago: 3 },
+      { kind: "grocery", title: "Milk (2 gallons)", emoji: "🥛", who: "Mike", due: "tonight" },
+      { kind: "task", title: "Book Grandma's eye checkup", emoji: "👓", who: "Sarah", due: "this week" },
+      { kind: "event", title: "Parent-teacher conference", emoji: "🏫", who: "Sarah", due: "Tue 3:30 PM" },
+      { kind: "grocery", title: "Blueberries", emoji: "🫐", who: "Mike", due: "before Saturday" },
+      { kind: "task", title: "Take out trash & recycling", emoji: "🗑️", who: "Jake", due: "Wed night" },
+      { kind: "reminder", title: "Grandma's 8pm BP medicine", emoji: "💊", who: "Linda", due: "8:00 PM" },
+      { kind: "event", title: "Soccer practice pickup", emoji: "⚽️", who: "Mike", due: "Thu 5:00 PM" },
+      { kind: "task", title: "Finish volcano science project", emoji: "🌋", who: "Jake", due: "Friday" },
+      { kind: "task", title: "Practice piano 20 minutes", emoji: "🎹", who: "Emma", due: "today" },
+      { kind: "event", title: "Piano lesson (Grandma drives)", emoji: "🎼", who: "Linda", due: "Wed 4:00 PM" },
+      { kind: "task", title: "Sign field-trip permission slip", emoji: "✍️", who: "Sarah", due: "done", status: "done", ago: 2 },
+      { kind: "task", title: "Feed Max", emoji: "🐶", who: "Emma", status: "done", ago: 1 },
+      { kind: "grocery", title: "Dog food", emoji: "🦴", who: "Mike", status: "done", ago: 3 },
     ];
     for (const it of items) {
       await ctx.db.insert("items", {
@@ -285,7 +308,7 @@ export const seedDemo = mutation({
         title: it.title,
         emoji: it.emoji,
         assigneeId: it.who ? by(it.who) : undefined,
-        createdById: by("Priya"),
+        createdById: by("Sarah"),
         status: it.status ?? "open",
         dueLabel: it.due === "done" ? undefined : it.due,
         source: "kin",
@@ -301,23 +324,32 @@ export const seedDemo = mutation({
         kind: "task",
         title: ["Unload dishwasher", "Feed the fish", "Fold laundry", "Pack lunches", "Vacuum living room", "Return library books"][d - 1],
         emoji: ["🍽️", "🐠", "🧺", "🥪", "🧹", "📚"][d - 1],
-        assigneeId: by(["Arjun", "Paati", "Priya", "Raj", "Arjun", "Priya"][d - 1]),
+        assigneeId: by(["Jake", "Emma", "Sarah", "Mike", "Jake", "Linda"][d - 1]),
         status: "done",
         source: "manual",
         createdAt: now - d * day - 3600_000,
         doneAt: now - d * day,
-        doneById: by(["Arjun", "Paati", "Priya", "Raj", "Arjun", "Priya"][d - 1]),
+        doneById: by(["Jake", "Emma", "Sarah", "Mike", "Jake", "Linda"][d - 1]),
       });
     }
     await ctx.db.insert("messages", {
       householdId,
       role: "kin",
       visibility: "family",
-      text: "Good evening, family 👋 I'm caught up: Arjun's volcano is due Friday, Paati's 8pm medicine is set, and Raj is on milk + blueberries for Saturday pancakes. Just tell me what's going on — I'll handle the who-does-what.",
+      text: "Good evening, family 👋 I'm caught up: Jake's volcano is due Friday, Grandma's 8pm medicine is set, and Mike is on milk + blueberries for Saturday pancakes. Just tell me what's going on — I'll handle the who-does-what.",
       createdAt: now - 60_000,
     });
     await ctx.db.patch(householdId, { brief: undefined });
     await insertDefaultDevices(ctx, householdId);
+    const devs = await ctx.db.query("devices").withIndex("by_household", (q) => q.eq("householdId", householdId)).collect();
+    const recentEvents: Record<string, string> = {
+      fridge: "Milk is running low",
+      camera: "Jake got home from school",
+      robot: "Finished cleaning the living room",
+    };
+    for (const d of devs) {
+      if (recentEvents[d.kind]) await ctx.db.patch(d._id, { lastEvent: recentEvents[d.kind], lastEventAt: now - 40 * 60_000 });
+    }
     await ctx.scheduler.runAfter(0, internal.memoryActions.syncAll, { householdId });
     return null;
   },

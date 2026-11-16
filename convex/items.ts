@@ -1,6 +1,18 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { itemKind } from "./schema";
+import { isParent } from "./memories";
+import { Doc } from "./_generated/dataModel";
+import { MutationCtx } from "./_generated/server";
+
+/** Parents make decisions for the family: what a parent assigned, only a parent (or its creator) can change. */
+async function assertCanChange(ctx: MutationCtx, item: Doc<"items">, actorId?: Doc<"members">["_id"]) {
+  if (!item.createdById || !actorId || item.createdById === actorId) return;
+  const [creator, actor] = await Promise.all([ctx.db.get(item.createdById), ctx.db.get(actorId)]);
+  if (creator && isParent(creator.role) && actor && !isParent(actor.role)) {
+    throw new Error(`Only a parent can change this. ${creator.name} assigned it.`);
+  }
+}
 
 /** Everything the family shares + my own private items. Other people's private items never leave the server. */
 export const list = query({
@@ -106,6 +118,7 @@ export const reassign = mutation({
   handler: async (ctx, { itemId, assigneeId, byId }) => {
     const item = await ctx.db.get(itemId);
     if (!item) return;
+    await assertCanChange(ctx, item, byId);
     await ctx.db.patch(itemId, { assigneeId, status: "open" });
     if (assigneeId !== byId) {
       const by = await ctx.db.get(byId);
@@ -124,8 +137,33 @@ export const reassign = mutation({
 });
 
 export const remove = mutation({
-  args: { itemId: v.id("items") },
-  handler: async (ctx, { itemId }) => {
+  args: { itemId: v.id("items"), memberId: v.optional(v.id("members")) },
+  handler: async (ctx, { itemId, memberId }) => {
+    const item = await ctx.db.get(itemId);
+    if (!item) return;
+    await assertCanChange(ctx, item, memberId);
     await ctx.db.delete(itemId);
+  },
+});
+
+/** A parent asks Kin to follow up right now. */
+export const followUp = mutation({
+  args: { itemId: v.id("items"), byId: v.id("members") },
+  handler: async (ctx, { itemId, byId }) => {
+    const item = await ctx.db.get(itemId);
+    if (!item || !item.assigneeId || item.status === "done") return;
+    const by = await ctx.db.get(byId);
+    const n = (item.nudgeCount ?? 0) + 1;
+    await ctx.db.patch(itemId, { nudgeCount: n, lastNudgedAt: Date.now() });
+    await ctx.db.insert("nudges", {
+      householdId: item.householdId,
+      toId: item.assigneeId,
+      fromId: byId,
+      itemId,
+      emoji: "⏰",
+      text: `${by?.name ?? "Family"} is checking in: “${item.title}” still needs doing${item.dueLabel ? ` (${item.dueLabel})` : ""}. Can you take care of it now?`,
+      seen: false,
+      createdAt: Date.now(),
+    });
   },
 });

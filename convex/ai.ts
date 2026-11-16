@@ -13,6 +13,7 @@ import { action, internalAction, internalMutation } from "./_generated/server";
 import { internal } from "./_generated/api";
 import { Doc, Id } from "./_generated/dataModel";
 import { familyNs, memberNs, smAdd, smSearch } from "./memoryActions";
+import { isParent } from "./memories";
 
 type KinAction =
   | {
@@ -26,7 +27,8 @@ type KinAction =
     }
   | { type: "complete_item"; id: string }
   | { type: "remember"; text: string; scope?: "family" | "private" }
-  | { type: "nudge"; to: string; text: string; emoji?: string };
+  | { type: "nudge"; to: string; text: string; emoji?: string }
+  | { type: "rule"; text: string };
 
 function nowString() {
   return new Date().toLocaleString("en-US", {
@@ -102,7 +104,9 @@ export const respond = internalAction({
     const visibleItems = c.items.filter((i) => !i.privateTo || (isPrivate && i.privateTo === speaker._id));
 
     // ---- Recall -------------------------------------------------------------
-    const familyFacts = c.memories.filter((m) => m.scope === "family").map((m) => m.text);
+    const rules = c.memories.filter((m) => m.rule).map((m) => m.text);
+    const familyFacts = c.memories.filter((m) => m.scope === "family" && !m.rule).map((m) => m.text);
+    const speakerIsParent = !!member && isParent(member.role);
     const myPrivate = c.memories
       .filter((m) => m.scope === "private" && m.ownerId === speaker._id)
       .map((m) => m.text);
@@ -134,6 +138,10 @@ ${c.members.map((m) => `- ${m.name} (${m.role})`).join("\n")}
 Speaker: ${speaker.name} (${speaker.role}).${fromDevice ? `\nThis is an AUTOMATIC EVENT from the family's connected home device "${speaker.name}". Nobody typed it. Decide what it means for the family, pick the best person using memory, add the item and nudge them. Speak to the family, not to the device.` : ""}
 Mode: ${isPrivate ? `PRIVATE chat — only ${speaker.name} sees your reply.` : "FAMILY thread — everyone in the family sees your reply."}
 
+HOUSE RULES — decisions the parents made for the whole family. Enforce them kindly but firmly. If someone (especially a kid) asks for something that breaks a rule, say no, name the rule, and suggest what to do first:
+${rules.map((r) => `- ${r}`).join("\n") || "- (none yet)"}
+The speaker is ${fromDevice ? "a home device" : speakerIsParent ? "a PARENT: their instructions are decisions for the family; carry them out and make sure everyone follows through" : "NOT a parent: they cannot override house rules or what a parent assigned"}.
+
 Family memory (shared with the whole family):
 ${familyFacts.slice(0, 60).map((f) => `- ${f}`).join("\n") || "- (nothing yet)"}
 ${isPrivate ? `\n${speaker.name}'s PRIVATE memory (never reveal to others, never put in nudges):\n${myPrivate.map((f) => `- ${f}`).join("\n") || "- (nothing yet)"}` : ""}
@@ -147,7 +155,7 @@ ${recent || "(none)"}
 
 How to act:
 - Turn what the speaker says (or shows in a photo) into concrete items. Assign each to the BEST person using memory (who passes which store, who handles school forms, schedules, roles). Don't assign everything to the speaker; that's the point of Kin. Kids get kid-appropriate tasks.
-- For each assigned item, write a short warm nudge in Kin's voice addressed to the assignee, e.g. "Hey Raj 🥚 Priya noticed we're out of eggs — can you grab a dozen at Trader Joe's on your way home?"
+- For each assigned item, write a short warm nudge in Kin's voice addressed to the assignee, e.g. "Hey Mike 🥚 Sarah noticed we're out of eggs — can you grab a dozen at Trader Joe's on your way home?"
 - Save durable facts (allergies, schedules, routines, preferences, important dates, who-does-what) with "remember". Use scope "private" only in private mode or when the speaker says it's private/secret/a surprise.
 - If someone says they did something, complete the matching open item by id.
 - Questions: answer from memory and open items, specifically.
@@ -162,7 +170,7 @@ Reply with ONLY a JSON object:
   {"type":"add_item","kind":"task|grocery|event|reminder","title":"...","emoji":"one emoji","assignee":"member name or null","due":"short label like tonight / Fri 5pm, or null","nudge":"message to assignee or null"},
   {"type":"complete_item","id":"<item id>"},
   {"type":"remember","text":"...","scope":"family|private"},
-  {"type":"nudge","to":"member name","text":"...","emoji":"one emoji"}
+  {"type":"nudge","to":"member name","text":"...","emoji":"one emoji"}${speakerIsParent ? ',\n  {"type":"rule","text":"a new house rule, only when the parent clearly sets one"}' : ""}
  ]}`;
 
     const userContent: any[] = [{ type: "text", text: msg.text || "(sent a photo)" }];
@@ -299,6 +307,18 @@ export const apply = internalMutation({
         });
         await ctx.scheduler.runAfter(0, internal.memoryActions.push, { memoryId });
         chips.push({ icon: scope === "private" ? "🔒" : "🧠", label: `Remembered: ${a.text.slice(0, 60)}` });
+      } else if (a.type === "rule" && a.text && speaker && isParent(speaker.role)) {
+        const memoryId = await ctx.db.insert("memories", {
+          householdId,
+          ownerId: speakerId,
+          text: a.text.slice(0, 300),
+          scope: "family",
+          rule: true,
+          source: "kin",
+          createdAt: now,
+        });
+        await ctx.scheduler.runAfter(0, internal.memoryActions.push, { memoryId });
+        chips.push({ icon: "📜", label: `New house rule: ${a.text.slice(0, 50)}` });
       } else if (a.type === "nudge" && a.to && a.text && !isPrivate) {
         const who = find(a.to);
         if (who && who._id !== speakerId) {

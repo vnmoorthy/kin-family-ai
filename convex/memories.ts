@@ -16,6 +16,30 @@ export const visible = query({
   },
 });
 
+export function isParent(role?: string) {
+  return /mom|dad|mother|father|parent|guardian|grand|paati|thatha|nani|dada/i.test(role ?? "");
+}
+
+/** House Rules: only parents can set them; Kin enforces them for the whole family. */
+export const addRule = mutation({
+  args: { householdId: v.id("households"), ownerId: v.id("members"), text: v.string() },
+  handler: async (ctx, { householdId, ownerId, text }) => {
+    const me = await ctx.db.get(ownerId);
+    if (!me || !isParent(me.role)) throw new Error("Only parents can set house rules");
+    const id = await ctx.db.insert("memories", {
+      householdId,
+      ownerId,
+      text: text.trim(),
+      scope: "family",
+      rule: true,
+      source: "manual",
+      createdAt: Date.now(),
+    });
+    await ctx.scheduler.runAfter(0, internal.memoryActions.push, { memoryId: id });
+    return id;
+  },
+});
+
 export const add = mutation({
   args: {
     householdId: v.id("households"),

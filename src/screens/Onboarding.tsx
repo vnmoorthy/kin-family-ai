@@ -7,7 +7,7 @@ import { Avatar, Button, Card, Press, T, tap } from "@/components/ui";
 import { useSession } from "@/lib/session";
 import { C, R } from "@/lib/theme";
 
-const EMOJIS = ["👩🏽", "👨🏽", "🧒🏽", "👧🏽", "👵🏽", "👴🏽", "👩🏻", "👨🏿", "🧑🏼", "🐶"];
+const EMOJIS = ["👩", "👨", "🧒", "👧", "👵", "👴", "🧑", "👱‍♀️", "🧔", "🐶"];
 const ROLES = ["Mom", "Dad", "Kid", "Grandparent", "Partner", "Roommate"];
 
 export default function Onboarding() {
@@ -32,7 +32,7 @@ export default function Onboarding() {
       <View style={[s.screen, { paddingTop: insets.top + 30, paddingBottom: insets.bottom + 24 }]}>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <View style={s.orbit}>
-            {["👩🏽", "👨🏽", "🧒🏽", "👵🏽"].map((e, i) => (
+            {["👩", "👨", "🧒", "👵"].map((e, i) => (
               <View
                 key={e}
                 style={[
@@ -70,7 +70,7 @@ export default function Onboarding() {
   const profileFields = (
     <>
       <T style={s.label}>YOUR NAME</T>
-      <TextInput value={name} onChangeText={setName} placeholder="e.g. Priya" placeholderTextColor={C.faint} style={s.input} />
+      <TextInput value={name} onChangeText={setName} placeholder="e.g. Sarah" placeholderTextColor={C.faint} style={s.input} />
       <T style={s.label}>PICK YOUR AVATAR</T>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
         {EMOJIS.map((e) => (
@@ -109,7 +109,7 @@ export default function Onboarding() {
             <TextInput
               value={householdName}
               onChangeText={setHouseholdName}
-              placeholder="e.g. The Sharma Home"
+              placeholder="e.g. The Miller Home"
               placeholderTextColor={C.faint}
               style={s.input}
             />
@@ -120,7 +120,7 @@ export default function Onboarding() {
               </View>
               <View style={{ flex: 1 }}>
                 <T style={{ fontWeight: "700" }}>Fill with a sample family</T>
-                <T style={{ color: C.muted, fontSize: 13 }}>Adds Raj, Arjun & Paati with a week of memories so you can try Kin right away.</T>
+                <T style={{ color: C.muted, fontSize: 13 }}>Adds Mike, Jake, Emma & Grandma Linda, house rules and a week of memories so you can try Kin right away.</T>
               </View>
             </Press>
           </>

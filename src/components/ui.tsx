@@ -244,7 +244,23 @@ function ItemSheet({
   const toggle = useMutation(api.items.toggleDone);
   const reassign = useMutation(api.items.reassign);
   const remove = useMutation(api.items.remove);
+  const followUp = useMutation(api.items.followUp);
+  const [err, setErr] = useState("");
   const creator = members.find((m) => m._id === item.createdById);
+  const me = members.find((m) => m._id === meId);
+  const iAmParent = /mom|dad|mother|father|parent|guardian|grand/i.test(me?.role ?? "");
+  const guard = async (fn: () => Promise<unknown>) => {
+    setErr("");
+    try {
+      await fn();
+      return true;
+    } catch (e: any) {
+      const msg = String(e?.message ?? e);
+      setErr(msg.includes("Only a parent") ? msg.slice(msg.indexOf("Only a parent")).split("\n")[0] : "Couldn't do that.");
+      tap("medium");
+      return false;
+    }
+  };
   return (
     <Sheet visible={visible} onClose={onClose}>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginBottom: 6 }}>
@@ -264,7 +280,7 @@ function ItemSheet({
         {members.map((m) => (
           <Press
             key={m._id}
-            onPress={() => reassign({ itemId: item._id, assigneeId: m._id, byId: meId })}
+            onPress={() => guard(() => reassign({ itemId: item._id, assigneeId: m._id, byId: meId }))}
             style={[styles.who, item.assigneeId === m._id ? { backgroundColor: C.black } : null] as any}
           >
             <Text style={{ fontSize: 16 }}>{m.emoji}</Text>
@@ -292,10 +308,23 @@ function ItemSheet({
             onClose();
           }}
         />
+        {iAmParent && item.status !== "done" && item.assigneeId && item.assigneeId !== meId ? (
+          <Button
+            dark={false}
+            icon="⏰"
+            label="Ask Kin to follow up"
+            onPress={async () => {
+              if (await guard(() => followUp({ itemId: item._id, byId: meId }))) {
+                tap("success");
+                onClose();
+              }
+            }}
+          />
+        ) : null}
+        {err ? <T style={{ color: C.danger, textAlign: "center", fontWeight: "700" }}>🔒 {err}</T> : null}
         <Press
-          onPress={() => {
-            remove({ itemId: item._id });
-            onClose();
+          onPress={async () => {
+            if (await guard(() => remove({ itemId: item._id, memberId: meId }))) onClose();
           }}
           style={{ alignItems: "center", padding: 10 }}
         >
