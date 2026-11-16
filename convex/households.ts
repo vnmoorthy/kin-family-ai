@@ -266,6 +266,8 @@ export const seedDemo = mutation({
       ago?: number;
     }[] = [
       { kind: "grocery", title: "Milk (2 gallons)", emoji: "🥛", who: "Raj", due: "tonight" },
+      { kind: "task", title: "Book Paati's eye checkup", emoji: "👓", who: "Priya", due: "this week" },
+      { kind: "event", title: "Parent-teacher conference", emoji: "🏫", who: "Priya", due: "Tue 3:30 PM" },
       { kind: "grocery", title: "Blueberries", emoji: "🫐", who: "Raj", due: "before Saturday" },
       { kind: "task", title: "Take out trash & recycling", emoji: "🗑️", who: "Arjun", due: "Wed night" },
       { kind: "reminder", title: "Paati's 8pm BP medicine", emoji: "💊", who: "Paati", due: "8:00 PM" },
