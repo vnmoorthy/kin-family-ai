@@ -4,6 +4,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-nat
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
+import HomeDevices from "@/components/HomeDevices";
 import { Avatar, Card, Empty, ItemRow, Press, Ring, T, timeAgo } from "@/components/ui";
 import { C, KIND, R } from "@/lib/theme";
 
@@ -149,6 +150,9 @@ export default function Home({
           <T style={{ color: C.white, fontWeight: "800" }}>→</T>
         </View>
       </Press>
+
+      {/* Connected home */}
+      <HomeDevices householdId={householdId} />
 
       {/* For you */}
       <View style={s.sectionHead}>

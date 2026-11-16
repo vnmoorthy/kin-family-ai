@@ -189,9 +189,13 @@ export default function Kin({
           }
           return (
             <View key={m._id} style={{ alignSelf: mine ? "flex-end" : "flex-start", maxWidth: "82%", flexDirection: "row", gap: 8, alignItems: "flex-end" }}>
-              {!mine ? <Avatar m={author} size={28} /> : null}
+              {!mine ? <Avatar m={author ?? (m.deviceEmoji ? { emoji: m.deviceEmoji, color: "#22C55E" } : null)} size={28} /> : null}
               <View>
-                {!mine ? <T style={{ fontSize: 12, color: C.muted, marginBottom: 3, marginLeft: 4 }}>{author?.name}</T> : null}
+                {!mine ? (
+                  <T style={{ fontSize: 12, color: C.muted, marginBottom: 3, marginLeft: 4 }}>
+                    {author?.name ?? (m.deviceLabel ? `${m.deviceLabel} · smart home` : "")}
+                  </T>
+                ) : null}
                 {m.imageUrl ? <Image source={{ uri: m.imageUrl }} style={s.photo} contentFit="cover" /> : null}
                 {m.text ? (
                   <View style={[s.userBubble, mine ? { backgroundColor: C.black } : { backgroundColor: C.card }]}>

@@ -78,4 +78,31 @@ http.route({
   }),
 });
 
+/**
+ * Kin Home webhook: any IoT hub (Home Assistant, SmartThings, a Viam robot, a fridge camera…) can report an event.
+ * POST /device  {"code":"ABC123","device":"fridge","event":"Egg tray is empty"}
+ */
+http.route({
+  path: "/device",
+  method: "POST",
+  handler: httpAction(async (ctx, req) => {
+    let body: any = {};
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(JSON.stringify({ ok: false, error: "bad json" }), { status: 400 });
+    }
+    if (!body?.code || !body?.device || !body?.event) {
+      return new Response(JSON.stringify({ ok: false, error: "need code, device, event" }), { status: 400 });
+    }
+    const r = await ctx.runMutation(internal.devices.ingest, {
+      code: String(body.code),
+      device: String(body.device),
+      event: String(body.event).slice(0, 300),
+      name: body.name ? String(body.name) : undefined,
+    });
+    return new Response(JSON.stringify(r), { status: r.ok ? 200 : 404, headers: { "Content-Type": "application/json" } });
+  }),
+});
+
 export default http;

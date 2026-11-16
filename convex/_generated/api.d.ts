@@ -9,6 +9,7 @@
  */
 
 import type * as ai from "../ai.js";
+import type * as devices from "../devices.js";
 import type * as households from "../households.js";
 import type * as http from "../http.js";
 import type * as items from "../items.js";
@@ -26,6 +27,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   ai: typeof ai;
+  devices: typeof devices;
   households: typeof households;
   http: typeof http;
   items: typeof items;

@@ -57,6 +57,9 @@ export default defineSchema({
     // For private threads: whose private thread this belongs to.
     threadOwnerId: v.optional(v.id("members")),
     imageId: v.optional(v.id("_storage")),
+    // Set when the message is an automatic event from a connected home device.
+    deviceLabel: v.optional(v.string()),
+    deviceEmoji: v.optional(v.string()),
     actions: v.optional(
       v.array(v.object({ icon: v.string(), label: v.string() })),
     ),
@@ -72,6 +75,16 @@ export default defineSchema({
     source: v.union(v.literal("kin"), v.literal("manual")),
     synced: v.optional(v.boolean()),
     createdAt: v.number(),
+  }).index("by_household", ["householdId"]),
+
+  devices: defineTable({
+    householdId: v.id("households"),
+    kind: v.string(),
+    name: v.string(),
+    emoji: v.string(),
+    room: v.string(),
+    lastEvent: v.optional(v.string()),
+    lastEventAt: v.optional(v.number()),
   }).index("by_household", ["householdId"]),
 
   nudges: defineTable({

@@ -89,10 +89,14 @@ export const respond = internalAction({
   args: { userMessageId: v.id("messages"), kinMessageId: v.id("messages") },
   handler: async (ctx, { userMessageId, kinMessageId }) => {
     const msg = await ctx.runMutation(internal.messages.getInternal, { messageId: userMessageId });
-    if (!msg || !msg.authorId) return;
+    if (!msg) return;
     const householdId = msg.householdId;
     const c = await ctx.runQuery(internal.households.context, { householdId });
-    const speaker = c.members.find((m) => m._id === msg.authorId)!;
+    const member = c.members.find((m) => m._id === msg.authorId);
+    // Messages can come from a person or from a connected home device (fridge, camera, robot, TV…).
+    const speaker: { _id: any; name: string; role: string } =
+      member ?? { _id: undefined, name: msg.deviceLabel ?? "Home device", role: "connected smart-home device" };
+    const fromDevice = !member;
     const isPrivate = msg.visibility === "private";
     // Family mode never sees anyone's private items; private mode sees only the speaker's.
     const visibleItems = c.items.filter((i) => !i.privateTo || (isPrivate && i.privateTo === speaker._id));
@@ -116,7 +120,7 @@ export const respond = internalAction({
       .filter((m) => !m.pending && m._id !== userMessageId)
       .slice(-12)
       .map((m) => {
-        const who = m.role === "kin" ? "Kin" : c.members.find((x) => x._id === m.authorId)?.name ?? "Someone";
+        const who = m.role === "kin" ? "Kin" : c.members.find((x) => x._id === m.authorId)?.name ?? m.deviceLabel ?? "Someone";
         return `${who}: ${m.text}`;
       })
       .join("\n");
@@ -127,7 +131,7 @@ Now: ${nowString()} (Pacific).
 Family members:
 ${c.members.map((m) => `- ${m.name} (${m.role})`).join("\n")}
 
-Speaker: ${speaker.name} (${speaker.role}).
+Speaker: ${speaker.name} (${speaker.role}).${fromDevice ? `\nThis is an AUTOMATIC EVENT from the family's connected home device "${speaker.name}". Nobody typed it. Decide what it means for the family, pick the best person using memory, add the item and nudge them. Speak to the family, not to the device.` : ""}
 Mode: ${isPrivate ? `PRIVATE chat — only ${speaker.name} sees your reply.` : "FAMILY thread — everyone in the family sees your reply."}
 
 Family memory (shared with the whole family):
@@ -208,7 +212,7 @@ Reply with ONLY a JSON object:
 export const apply = internalMutation({
   args: {
     householdId: v.id("households"),
-    speakerId: v.id("members"),
+    speakerId: v.optional(v.id("members")),
     isPrivate: v.boolean(),
     actions: v.string(),
   },

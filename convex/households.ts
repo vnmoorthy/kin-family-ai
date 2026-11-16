@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { mutation, query, internalQuery, MutationCtx } from "./_generated/server";
 import { Id } from "./_generated/dataModel";
 import { internal } from "./_generated/api";
+import { insertDefaultDevices } from "./devices";
 
 const COLORS = ["#FF6B4A", "#4A7DFF", "#2EC27E", "#B15CFF", "#FFB020", "#FF4F9A"];
 
@@ -316,6 +317,7 @@ export const seedDemo = mutation({
       createdAt: now - 60_000,
     });
     await ctx.db.patch(householdId, { brief: undefined });
+    await insertDefaultDevices(ctx, householdId);
     await ctx.scheduler.runAfter(0, internal.memoryActions.syncAll, { householdId });
     return null;
   },
