@@ -732,5 +732,11 @@ h2{font-size:80px;line-height:1.0;margin-top:18px}
   go(isNaN(h)?0:h-1);
 })();
 </script>
+
+<a id="kin-qr-badge" href="../try/" style="position:fixed;right:22px;bottom:22px;z-index:9999;background:#fff;border-radius:18px;padding:10px 10px 6px;box-shadow:0 12px 40px rgba(0,0,0,.25);text-decoration:none;font-family:-apple-system,Inter,Helvetica,Arial,sans-serif;text-align:center">
+  <img src="../qr/qr-join.svg" alt="Scan to try Kin" style="width:120px;height:120px;display:block"/>
+  <div style="color:#0B0B0F;font-weight:800;font-size:13px;margin-top:4px">Scan to try Kin</div>
+</a>
+<script>document.addEventListener('keydown',function(e){if(e.key==='q'||e.key==='Q'){var b=document.getElementById('kin-qr-badge');b.style.display=b.style.display==='none'?'block':'none';}});</script>
 </body>
 </html>

@@ -24,6 +24,8 @@ Tell Kin what's happening at home. It remembers, picks the right person, and nud
 
 ---
 
+<p align="center"><a href="https://vnmoorthy.github.io/kin-family-ai/"><img src="docs/qr-try-kin.png" width="150" alt="Scan to try Kin"/></a><br/><b>Scan to try Kin on your phone</b> (no install, opens in the browser) · <a href="https://vnmoorthy.github.io/kin-family-ai/try/">live-demo QR page</a></p>
+
 ## See it in action
 
 <p align="center"><img src="docs/kin-two-phone-demo.gif" alt="Sarah tells Kin 'we're out of eggs and Jake needs a snack'. Mike's phone gets a live nudge for a nut-free snack, and when he checks it off Sarah's phone shows Mike finished." width="100%" /></p>

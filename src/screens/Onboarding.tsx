@@ -13,12 +13,16 @@ const ROLES = ["Mom", "Dad", "Kid", "Grandparent", "Partner", "Roommate"];
 export default function Onboarding() {
   const insets = useSafeAreaInsets();
   const { signIn } = useSession();
-  const [mode, setMode] = useState<"welcome" | "create" | "join">("welcome");
+  const joinParam =
+    typeof window !== "undefined" && (window as any).location?.search
+      ? (new URLSearchParams((window as any).location.search).get("join") ?? "").toUpperCase().slice(0, 6)
+      : "";
+  const [mode, setMode] = useState<"welcome" | "create" | "join">(joinParam ? "join" : "welcome");
   const [householdName, setHouseholdName] = useState("");
   const [name, setName] = useState("");
   const [emoji, setEmoji] = useState(EMOJIS[0]);
   const [role, setRole] = useState("Mom");
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(joinParam);
   const [demo, setDemo] = useState(true);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
